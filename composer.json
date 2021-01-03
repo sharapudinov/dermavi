@@ -1,0 +1,74 @@
+{
+  "name": "greensight/bitrix-skeleton",
+  "description": "A project built on top of Bitrix Skeleton",
+  "license": "proprietary",
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/autoload/",
+      "System\\": "system/",
+      "Sprint\\Options\\": "app/local/modules/sprint.options/classes/Sprint/Options/"
+    }
+  },
+  "require": {
+    "wikimedia/composer-merge-plugin": "dev-master",
+    "andreyryabin/sprint.options": "dev-master",
+    "arrilot/bitrix-blade": "^0.6",
+    "arrilot/bitrix-cacher": "^2.0",
+    "arrilot/bitrix-collectors": "^0.2",
+    "arrilot/bitrix-hlblock-fields-fixer": "^0.1",
+    "arrilot/bitrix-iblock-helper": "^0.3",
+    "arrilot/bitrix-migrations": "^2.3",
+    "arrilot/bitrix-models": "^0.7.0",
+    "arrilot/bitrix-sync": "^1.1",
+    "arrilot/bitrix-systemcheck": "^0.1.2",
+    "arrilot/dotenv-php": "^2.0",
+    "arrilot/google-recaptcha": "^0.1",
+    "arrilot/logs": "^0.1",
+    "arrilot/slim-api-controller": "^0.2",
+    "slim/slim": "3.12.2",
+    "artisaninweb/laravel-soap": "0.3.0.9",
+    "elasticsearch/elasticsearch": "^7.1",
+    "illuminate/container": "^5.6",
+    "illuminate/database": "^5.6",
+    "jaybizzle/crawler-detect": "^1.2",
+    "lavary/crunz": "^1.4",
+    "mikehaertl/phpwkhtmltopdf": "^2.3",
+    "mobiledetect/mobiledetectlib": "^2.8",
+    "monolog/monolog": "^1.22",
+    "ms-natali/bitrix-debug": "^0.1.0",
+    "phpoffice/phpspreadsheet": "^1.8",
+    "sebudesign/php-ntlm-soap": "^1.0",
+    "soundasleep/html2text": "~1.1",
+    "stichoza/google-translate-php": "^4.0",
+    "symfony/console": "~3 || ~4",
+    "symfony/var-dumper": "~3 || ~4",
+    "ext-json": "*",
+    "ext-simplexml": "*",
+    "ext-dom": "*",
+    "ext-libxml": "*",
+    "ext-curl": "*",
+    "ext-memcache": "*",
+    "ext-zip": "*"
+  },
+  "require-dev": {
+    "filp/whoops": "^2.1",
+    "nunomaduro/collision": "^2.0",
+    "sensiolabs/security-checker": "^4.1"
+  },
+  "extra": {
+    "installer-paths": {
+      "app/local/modules/{$name}/": [
+        "type:bitrix-d7-module",
+        "type:bitrix-module"
+      ]
+    },
+    "merge-plugin": {
+      "require": [
+        "public/bitrix/composer-bx.json"
+      ]
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

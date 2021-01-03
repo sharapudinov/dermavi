@@ -1,0 +1,4 @@
+composer.json#!/usr/bin/env php
+<?php
+
+require "app/console.php";

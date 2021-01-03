@@ -1,0 +1,1 @@
+<?php $APPLICATION->IncludeComponent('main:header.menu', '', ['popup' => true]);

@@ -1,0 +1,1 @@
+<?php $APPLICATION->IncludeComponent('popup:share.this.product', 'constructed.jewelry', $arParams);
