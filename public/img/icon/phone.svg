@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="phone.svg"
+   id="svg4"
+   version="1.1"
+   fill="none"
+   viewBox="0 0 22 22"
+   height="22"
+   width="22">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     inkscape:current-layer="svg4"
+     inkscape:window-maximized="0"
+     inkscape:window-y="0"
+     inkscape:window-x="0"
+     inkscape:cy="11"
+     inkscape:cx="11"
+     inkscape:zoom="38.636364"
+     showgrid="false"
+     id="namedview6"
+     inkscape:window-height="480"
+     inkscape:window-width="687"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <path
+     id="path14"
+     d="M 3.109375 0.5 C 2.7623102 0.50032499 2.4190392 0.57265238 2.1015625 0.71289062 C 1.7840872 0.85312275 1.4996159 1.0581256 1.265625 1.3144531 C 1.0316269 1.5707886 0.85296891 1.8722774 0.7421875 2.2011719 C 0.63142081 2.5300722 0.58985674 2.8789398 0.62109375 3.2246094 A 0.50005 0.50005 0 0 0 0.62304688 3.2324219 C 0.95958853 6.4014909 2.0368204 9.446394 3.7695312 12.121094 C 5.3433011 14.597016 7.4421928 16.695616 9.9179688 18.269531 C 12.580566 19.99617 15.610698 21.075122 18.765625 21.417969 A 0.50005 0.50005 0 0 0 18.775391 21.417969 C 19.12222 21.449351 19.471124 21.408344 19.800781 21.296875 C 20.130764 21.185339 20.433019 21.006559 20.689453 20.771484 A 0.50005 0.50005 0 0 0 20.689453 20.769531 C 20.945966 20.534144 21.151556 20.248594 21.291016 19.929688 C 21.430579 19.610669 21.501375 19.265993 21.5 18.917969 L 21.5 15.931641 C 21.515247 15.318743 21.304624 14.721688 20.908203 14.253906 C 20.511915 13.786133 19.956756 13.480142 19.349609 13.394531 A 0.50005 0.50005 0 0 0 19.345703 13.394531 C 18.423024 13.272866 17.516548 13.04604 16.644531 12.720703 L 16.646484 12.722656 C 16.199213 12.55457 15.711681 12.517429 15.244141 12.617188 C 14.776616 12.716818 14.347625 12.949093 14.007812 13.285156 A 0.50005 0.50005 0 0 0 14.005859 13.287109 L 13.042969 14.25 C 10.868727 12.943336 9.0566291 11.131198 7.75 8.9570312 L 8.7128906 7.9941406 A 0.50005 0.50005 0 0 0 8.7148438 7.9921875 C 9.0509057 7.6523508 9.2831313 7.2232798 9.3828125 6.7558594 C 9.4825046 6.2884339 9.4455197 5.8008849 9.2773438 5.3535156 L 9.2792969 5.3554688 C 8.9539303 4.4835191 8.7271683 3.5769761 8.6054688 2.6542969 A 0.50005 0.50005 0 0 0 8.6054688 2.6503906 C 8.5205868 2.0498187 8.2196381 1.5009538 7.7597656 1.1054688 C 7.2998984 0.70998819 6.711984 0.49402745 6.1054688 0.5 L 3.109375 0.5 z M 3.109375 1.5 L 6.109375 1.5 A 0.50005 0.50005 0 0 0 6.1152344 1.5 C 6.4793391 1.4964145 6.8313491 1.6258618 7.1074219 1.8632812 C 7.3834894 2.1006962 7.5642763 2.4304676 7.6152344 2.7910156 L 7.6152344 2.7851562 C 7.7467948 3.782597 7.9900634 4.7624678 8.3417969 5.7050781 C 8.4427209 5.9735489 8.4641248 6.2663605 8.4042969 6.546875 C 8.3444781 6.8273746 8.2055843 7.0851192 8.0039062 7.2890625 L 6.7363281 8.5566406 A 0.50005 0.50005 0 0 0 6.65625 9.1582031 C 8.1242792 11.739908 10.26194 13.877631 12.84375 15.345703 A 0.50005 0.50005 0 0 0 13.443359 15.263672 L 14.710938 13.996094 L 14.712891 13.994141 C 14.916571 13.793431 15.17353 13.655285 15.453125 13.595703 C 15.733585 13.535862 16.026393 13.557289 16.294922 13.658203 C 17.237505 14.009867 18.217323 14.255184 19.214844 14.386719 C 19.577544 14.438973 19.907593 14.620713 20.144531 14.900391 C 20.38251 15.181209 20.509153 15.540301 20.5 15.908203 A 0.50005 0.50005 0 0 0 20.5 15.919922 L 20.5 18.919922 A 0.50005 0.50005 0 0 0 20.5 18.921875 C 20.500825 19.130851 20.458637 19.338116 20.375 19.529297 C 20.291259 19.72079 20.167559 19.89199 20.013672 20.033203 C 19.859506 20.174528 19.678286 20.282746 19.480469 20.349609 C 19.282526 20.416541 19.073205 20.440693 18.865234 20.421875 C 15.86866 20.094963 12.992026 19.069779 10.462891 17.429688 A 0.50005 0.50005 0 0 0 10.458984 17.427734 C 8.1047535 15.931798 6.1073064 13.936287 4.6113281 11.582031 A 0.50005 0.50005 0 0 0 4.609375 11.578125 C 2.9623934 9.0357612 1.9373758 6.1411319 1.6171875 3.1289062 C 1.6171199 3.1282706 1.617255 3.1275888 1.6171875 3.1269531 C 1.5997564 2.9221111 1.623815 2.7163841 1.6894531 2.5214844 C 1.7559317 2.3241188 1.8635044 2.1420858 2.0039062 1.9882812 C 2.1443154 1.8344687 2.3153547 1.7130541 2.5058594 1.6289062 C 2.6957549 1.5450242 2.9017771 1.5004611 3.109375 1.5 z "
+     style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1" />
+</svg>

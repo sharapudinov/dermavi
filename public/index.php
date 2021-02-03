@@ -3,9 +3,382 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 $USER->Authorize(1);
 ?>
-<?if (IsModuleInstalled("advertising")):?>
+<div class="main-slide-side ">
+    <div class="slider-side">
+        <div class="slider-side__wrapper js-main-slide-side">
+            <div class="slider-side-item js-main-slide-side-item">
+                <div class="slider-side__wrap">
+                    <div class="slider-side__wrap-left">
+                        <div class="slider-side__content-wrap ">
+                            <div class="slider-side__content ">
+                                <div class="slider-side__sticker">НОВИНКИ</div>
+                                <div class="slider-side__title">уникальный</div>
+                                <div class="slider-side__title2">premium уход</div>
+                                <div class="slider-side__text">Классический реализм, в том числе, трансформирует
+                                    фактографический принцип артистизма. Метафора, как бы это ни казалось
+                                    парадоксальным, свободна.
+                                </div>
+                                <a href="#" class="slider-side__btn">
+                                    <div class="btn btn-normal btn-black">Смотреть</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-side__wrap-right">
+                        <div class="slider-side__images-wrap js-main-slide-side-images">
+                            <div data-id="0" class="slider-side__images active js-main-slide-side-image-item">
+                                <div class="slider-side__images-wrap">
+                                    <div class="slider-side__img-wrap"><img src="img/slider_img.jpg" alt=""
+                                                                            class="slider-side__img"></div>
+                                    <div class="slider-side__img-wrap2"><img src="img/slider_img1.jpg" alt=""
+                                                                             class="slider-side__img2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-side-item js-main-slide-side-item">
+                <div class="slider-side__wrap">
+                    <div class="slider-side__wrap-left">
+                        <div class="slider-side__content-wrap">
+                            <div class="slider-side__content ">
+                                <div class="slider-side__sticker">НОВИНКИ</div>
+                                <div class="slider-side__title">уникальный</div>
+                                <div class="slider-side__title2">premium уход</div>
+                                <div class="slider-side__text">Классический реализм, в том числе, трансформирует
+                                    фактографический принцип артистизма. Метафора, как бы это ни казалось
+                                    парадоксальным, свободна.
+                                </div>
+                                <a href="#" class="slider-side__btn">
+                                    <div class="btn btn-normal btn-black">Смотреть</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-side__wrap-right">
+                        <div class="slider-side__images-wrap js-main-slide-side-images">
+                            <div data-id="1" class="slider-side__images js-main-slide-side-image-item">
+                                <div class="slider-side__images-wrap">
+                                    <div class="slider-side__img-wrap"><img src="img/slider_main.jpg" alt=""
+                                                                            class="slider-side__img"></div>
+                                    <div class="slider-side__img-wrap2"><img src="img/slider_img1.jpg" alt=""
+                                                                             class="slider-side__img2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-side-item js-main-slide-side-item">
+                <div class="slider-side__wrap">
+                    <div class="slider-side__wrap-left">
+                        <div class="slider-side__content-wrap">
+                            <div class="slider-side__content ">
+                                <div class="slider-side__sticker">НОВИНКИ</div>
+                                <div class="slider-side__title">уникальный</div>
+                                <div class="slider-side__title2">premium уход</div>
+                                <div class="slider-side__text">Классический реализм, в том числе, трансформирует
+                                    фактографический принцип артистизма. Метафора, как бы это ни казалось
+                                    парадоксальным, свободна.
+                                </div>
+                                <a href="#" class="slider-side__btn">
+                                    <div class="btn btn-normal btn-black">Смотреть</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-side__wrap-right">
+                        <div class="slider-side__images-wrap js-main-slide-side-images">
+                            <div data-id="2" class="slider-side__images js-main-slide-side-image-item">
+                                <div class="slider-side__images-wrap">
+                                    <div class="slider-side__img-wrap"><img src="img/slider_img.jpg" alt=""
+                                                                            class="slider-side__img"></div>
+                                    <div class="slider-side__img-wrap2"><img src="img/slider_img1.jpg" alt=""
+                                                                             class="slider-side__img2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slider-side__nav">
+            <button class="slider-side__prev js-slider-side__prev btn"><i class="icon icon-arrow_left"></i></button>
+            <div class="slider-side__count">
+                <div class="slider-side__count-current js-slider-side__count">1</div>
+                <div class="slider-side__count-all js-slider-side__count-all">8</div>
+            </div>
+            <button class="slider-side__next js-slider-side__next btn"><i class="icon icon-arrow_right"></i></button>
+        </div>
+    </div>
+</div>
+
+<div class="actual">
+    <div class="actual__wrap">
+        <!--<div class="actual__left">-->
+        <!--</div>-->
+        <div class="actual__center">
+            <div class="actual__title">сейчас актуально</div>
+            <div class="actual__list">
+                <a href="#" class="actual__item">
+                    <div class="actual__left-img-wrap"><img src="img/actual.jpg" alt="" class="actual__left-img"></div>
+                    <span>очищение</span>
+                    <div class="actual__right-img-wrap"><img src="img/actual2.jpg" alt="" class="actual__right-img">
+                    </div>
+                </a>
+                <a href="#" class="actual__item active">
+                    <div class="actual__left-img-wrap"><img src="img/actual.jpg" alt="" class="actual__left-img"></div>
+                    <span>детокс</span>
+                    <div class="actual__right-img-wrap"><img src="img/actual2.jpg" alt="" class="actual__right-img">
+                    </div>
+                </a>
+                <a href="#" class="actual__item">
+                    <div class="actual__left-img-wrap"><img src="img/actual.jpg" alt="" class="actual__left-img"></div>
+                    <span>увлажнение</span>
+                    <div class="actual__right-img-wrap"><img src="img/actual2.jpg" alt="" class="actual__right-img">
+                    </div>
+                </a>
+                <a href="#" class="actual__item">
+                    <div class="actual__left-img-wrap"><img src="img/actual.jpg" alt="" class="actual__left-img"></div>
+                    <span>пилинг</span>
+                    <div class="actual__right-img-wrap"><img src="img/actual2.jpg" alt="" class="actual__right-img">
+                    </div>
+                </a>
+                <a href="#" class="actual__item">
+                    <div class="actual__left-img-wrap"><img src="img/actual.jpg" alt="" class="actual__left-img"></div>
+                    <span>шампуни</span>
+                    <div class="actual__right-img-wrap"><img src="img/actual2.jpg" alt="" class="actual__right-img">
+                    </div>
+                </a>
+            </div>
+            <a href="" class="actual__btn">
+                <div class="btn  btn-normal btn-small-padding btn-gold">Смотреть все <i
+                            class="icon icon-arrow_right"></i></div>
+            </a>
+        </div>
+        <!--<div class="actual__right">-->
+        <!---->
+        <!--</div>-->
+    </div>
+</div>
+
+<div class="slider-main">
+    <div class="slider-main__top">
+        <div class="slider-main__title"><b><i>Must have</i></b><br> <b>сезона</b></div>
+        <div class="slider-main__menu">
+            <a href="#" class="slider-main__menu-item active">все</a>
+            <a href="#" class="slider-main__menu-item">очищение</a>
+            <a href="#" class="slider-main__menu-item">увлажнение</a>
+            <a href="#" class="slider-main__menu-item">питание</a>
+            <a href="#" class="slider-main__menu-item">пилинг</a>
+        </div>
+        <div class="slider-main__nav">
+            <button class="slider-main__prev btn js-slider-main__prev"><i class="icon icon-arrow_left"></i></button>
+            <div class="slider-main__count">
+                <div class="slider-main__count-current js-slider-main__count">2</div>
+                <div class="slider-main__count-all js-slider-main__count-all">/6</div>
+            </div>
+            <button class="slider-main__next btn js-slider-main__next"><i class="icon icon-arrow_right"></i></button>
+        </div>
+    </div>
+    <div class="slider-main__wrap js-slider-main">
+        <a href="#" class="slider-main__item one js-slider-main__item">
+            <div class="slider-main__img-wrap one">
+                <img src="img/slider_main.jpg" alt="" class="slider-main__img">
+            </div>
+            <div class="slider-main__item-stickers">
+                <div class="slider-main__item-sticker sticker-hit">HIT</div>
+            </div>
+            <div class="slider-main__item-title">Hyalogy Remover for point make-up</div>
+            <div class="slider-main__item-price">8 900 ₽</div>
+        </a>
+        <a href="#" class="slider-main__item two js-slider-main__item">
+            <div class="slider-main__img-wrap two">
+                <img src="img/slider_main2.jpg" alt="" class="slider-main__img">
+            </div>
+            <div class="slider-main__item-stickers">
+                <div class="slider-main__item-sticker sticker-hit">HIT</div>
+            </div>
+            <div class="slider-main__item-title">Hyalogy Remover for point make-up</div>
+            <div class="slider-main__item-price">8 900 ₽</div>
+        </a>
+        <a href="#" class="slider-main__item tree js-slider-main__item">
+            <div class="slider-main__img-wrap tree">
+                <img src="img/slider_main3.jpg" alt="" class="slider-main__img">
+            </div>
+            <div class="slider-main__item-stickers">
+                <div class="slider-main__item-sticker">
+                    <div class="sticker-hit">HIT</div>
+                </div>
+                <div class="slider-main__item-sticker">
+                    <div class="sticker-new">new</div>
+                </div>
+            </div>
+            <div class="slider-main__item-title">Hyalogy Remover for point make-up</div>
+            <div class="slider-main__item-price">8 900 ₽</div>
+        </a>
+        <a href="#" class="slider-main__item one js-slider-main__item">
+            <div class="slider-main__img-wrap one">
+                <img src="img/slider_main3.jpg" alt="" class="slider-main__img">
+            </div>
+            <div class="slider-main__item-stickers">
+                <div class="slider-main__item-sticker">
+                    <div class="sticker-hit">HIT</div>
+                </div>
+                <div class="slider-main__item-sticker">
+                    <div class="sticker-new">new</div>
+                </div>
+            </div>
+            <div class="slider-main__item-title">Hyalogy Remover for point make-up</div>
+            <div class="slider-main__item-price">8 900 ₽</div>
+        </a>
+        <a href="#" class="slider-main__item two js-slider-main__item">
+            <div class="slider-main__img-wrap two">
+                <img src="img/slider_main3.jpg" alt="" class="slider-main__img">
+            </div>
+            <div class="slider-main__item-stickers">
+                <div class="slider-main__item-sticker">
+                    <div class="sticker-hit">HIT</div>
+                </div>
+                <div class="slider-main__item-sticker">
+                    <div class="sticker-new">new</div>
+                </div>
+            </div>
+            <div class="slider-main__item-title">Hyalogy Remover for point make-up</div>
+            <div class="slider-main__item-price">8 900 ₽</div>
+        </a>
+        <a href="#" class="slider-main__item tree js-slider-main__item">
+            <div class="slider-main__img-wrap tree">
+                <img src="img/slider_main3.jpg" alt="" class="slider-main__img">
+            </div>
+            <div class="slider-main__item-stickers">
+                <div class="slider-main__item-sticker">
+                    <div class="sticker-hit">HIT</div>
+                </div>
+                <div class="slider-main__item-sticker">
+                    <div class="sticker-new">new</div>
+                </div>
+            </div>
+            <div class="slider-main__item-title">Hyalogy Remover for point make-up</div>
+            <div class="slider-main__item-price">8 900 ₽</div>
+        </a>
+    </div>
+</div>
+
+<div class="main-new">
+    <div class="main-new__bgr">
+        <div class="main-new__bgr-img-wrap"><img src="img/main_new.jpg" alt="" class="main-new__bgr-img"></div>
+    </div>
+    <div class="main-new__content">
+        <div class="main-new__title1">что нового</div>
+        <div class="main-new__title2">технология</div>
+        <div class="main-new__title3">lux hydrapower</div>
+        <div class="main-new__text">Классический реализм, в том числе, трансформирует фактографический принцип
+            артистизма.
+        </div>
+        <a href="#" class="main-new__btn">
+            <button class="btn btn-gold btn-normal btn-small-padding">Подробнее <i class="icon icon-arrow_right"></i>
+            </button>
+        </a>
+    </div>
+    <div class="main-new__images">
+        <div class="main-new__images-item">
+            <div class="main-new__img-wrap"><img src="img/new1.jpg" alt="" class="main-new__img"></div>
+        </div>
+        <div class="main-new__images-item">
+            <div class="main-new__img-wrap"><img src="img/new2.jpg" alt="" class="main-new__img"></div>
+        </div>
+        <div class="main-new__images-item">
+            <div class="main-new__img-wrap"><img src="img/new3.jpg" alt="" class="main-new__img"></div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="main-season">
+    <div class="main-season__top">
+        <div class="main-season__title"><i>ПОдборки</i><br>сезона</div>
+        <div class="main-season__count">/20</div>
+    </div>
+    <div class="main-season_content">
+        <div class="main-season__item">
+            <a href="#" class="main-season__item-img-wrap"><img src="img/season.jpg" alt=""
+                                                                class="main-season__item-img"></a>
+            <a href="#" class="main-season__item-title">Новинки в мире ухода</a>
+            <div class="main-season__item-text">Классический реализм, в том числе, трансформирует фактографический
+                принцип артистизма.
+            </div>
+            <a href="#" class="main-season__item-btn btn btn-white btn-normal btn-small-padding">Подробнее <i
+                        class="icon icon-arrow_right"></i></a>
+        </div>
+        <div class="main-season__item">
+            <a href="#" class="main-season__item-img-wrap"><img src="img/season2.jpg" alt=""
+                                                                class="main-season__item-img"></a>
+            <a href="#" class="main-season__item-title">Новинки в мире ухода</a>
+            <div class="main-season__item-text">Классический реализм, в том числе, трансформирует фактографический
+                принцип артистизма.
+            </div>
+            <a href="#" class="main-season__item-btn btn btn-white btn-normal btn-small-padding">Подробнее <i
+                        class="icon icon-arrow_right"></i></a>
+        </div>
+        <div class="main-season__item">
+            <a href="#" class="main-season__item-img-wrap"><img src="img/season3.jpg" alt=""
+                                                                class="main-season__item-img"></a>
+            <a href="#" class="main-season__item-title">Новинки в мире ухода</a>
+            <div class="main-season__item-text">Классический реализм, в том числе, трансформирует фактографический
+                принцип артистизма.
+            </div>
+            <a href="#" class="main-season__item-btn btn btn-white btn-normal btn-small-padding">Подробнее <i
+                        class="icon icon-arrow_right"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="main-inst ">
+    <div class="main-inst__wrap">
+        <div class="main-inst__text">follow us</div>
+        <div class="main-inst__title">instagram</div>
+        <div class="main-inst__btn">
+            <div class="btn btn-normal btn-black">Перейти<i class="icon icon-arrow_right"></i></div>
+        </div>
+    </div>
+    <div class="main-inst__img-wrap1"><img src="img/inst.jpg" alt="" class="main-inst__img1"></div>
+    <div class="main-inst__img-wrap2"><img src="img/inst2.jpg" alt="" class="main-inst__img2"></div>
+    <div class="main-inst__img-wrap3"><img src="img/inst3.jpg" alt="" class="main-inst__img3"></div>
+    <div class="main-inst__img-wrap4"><img src="img/inst4.jpg" alt="" class="main-inst__img4"></div>
+    <div class="main-inst__img-wrap5"><img src="img/inst5.jpg" alt="" class="main-inst__img5"></div>
+    <div class="main-inst__img-wrap6"><img src="img/inst6.jpg" alt="" class="main-inst__img6"></div>
+</div>
+
+<div class="main-contact">
+    <div class="main-contact__bgr">
+        <div class="main-contact__bgr-img-wrap"><img src="img/contact.jpg" alt="" class="main-contact__bgr-img"></div>
+    </div>
+    <div class="main-contact__content">
+        <div class="main-contact__title1">у вас возникли вопросы?</div>
+        <div class="main-contact__title2">свяжитесь с нами</div>
+        <div class="main-contact__text">Получите консультацию, ответы на возникшие вопросы, узнавайте о новинка и
+            специальных ценах подписавшись на нашу рассылку клуба
+        </div>
+        <div class="main-contact__buttons">
+            <a href="#" class="main-contact__btn btn btn-white btn-normal btn-small-padding"><i
+                        class="icon icon-phone_fill"></i><span>Позвонить</span></a>
+            <a href="#" class="main-contact__btn btn btn-white btn-normal btn-small-padding"><i
+                        class="icon icon-telegram"></i><span>Telegram</span></a>
+            <a href="#" class="main-contact__btn btn btn-white btn-normal btn-small-padding"><i
+                        class="icon icon-whatsapp"></i><span>WhatsApp</span></a>
+        </div>
+    </div>
+</div>
+
+
+
+<?/*if (IsModuleInstalled("advertising")):*/?><!--
 	<div class="mb-5">
-		<?$APPLICATION->IncludeComponent(
+		<?/*$APPLICATION->IncludeComponent(
 			"bitrix:advertising.banner",
 			"bootstrap_v4",
 			array(
@@ -26,16 +399,16 @@ $USER->Authorize(1);
 				"CACHE_TIME" => "36000000",
 			),
 			false
-		);?>
+		);*/?>
 	</div>
-<?endif?>
+<?/*endif*/?>
 
-<?
+<?/*
 global $trendFilter;
 $trendFilter = array('PROPERTY_TREND' => '4');
-?>
+*/?>
 <h2>Тренды сезона</h2>
-<?$APPLICATION->IncludeComponent(
+--><?/*$APPLICATION->IncludeComponent(
 	"bitrix:catalog.section",
 	"bootstrap_v4",
 	array(
@@ -159,5 +532,5 @@ $trendFilter = array('PROPERTY_TREND' => '4');
 		"COMPATIBLE_MODE" => "N",
 	),
 	false
-);?>
+);*/?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

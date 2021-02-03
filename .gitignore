@@ -102,3 +102,4 @@ public/robots_new.txt
 
 #ALRSUP-1681
 yandex_*.html
+/app/local/modules/seocontext.locations/

@@ -6,20 +6,23 @@
  */
 
 $app = new Slim\App([
-    'settings' => [
-        'displayErrorDetails' => !in_production(),
-    ],
-]);
+                        'settings' => [
+                            'displayErrorDetails' => !in_production(),
+                        ],
+                    ]);
 
 // Группа роутов для аякс запросов из Битрикса.
 $app->group('/internal', function () {
     $this->any('/component/{name}[/{template}]', 'App\Api\Internal\ComponentController:show');
 
     //Обратная связь
-    $this->post('/main/callback/', 'App\bitrixr:addRequest');
+    $this->post('/main/callback/', 'App\Api\Internal\Main\CallbackController:addRequest');
 
     //Форма обратной связи из хедера
     $this->post('/main/callbackform/', 'App\Api\Internal\Main\FormCallBackController:addRequest');
+
+    //Форма быстрый заказ
+    $this->post('/main/quick-order/', 'App\Api\Internal\Main\QuickOrderFormController:addRequest');
 
     //Веб-формы
     $this->group('/web-form', function () {
@@ -74,34 +77,11 @@ $app->group('/internal', function () {
 
     $this->post('/user/profile/send-to-crm', 'App\Api\Internal\User\ProfileController:sendProfileToReview');
 
-    //Бриллиант
-    $this->post('/main/sale/diamond/search/{packetId}', 'App\Api\Internal\Sale\DiamondController:searchDiamond');
-    $this->post('/main/share/share-this-diamond/', 'App\Api\Internal\Main\ShareController:shareDiamond');
-    $this->post('/main/share/share-this-jewelry/', 'App\Api\Internal\Main\ShareController:shareJewelry');
-    $this->post('/main/share/share-this-constructed-jewelry/', 'App\Api\Internal\Main\ShareController:shareConstructedJewelry');
-    $this->post('/main/share/share-this-frame/', 'App\Api\Internal\Main\ShareController:shareFrame');
-    $this->get('/main/viewing/request/', 'App\Api\Internal\Main\ViewingController:requestViewing');
-    $this->post('/sale/filter/from-diamond-detail/', 'App\Api\Internal\Sale\FilterController:searchFromDiamondDetail');
 
     //Корзина
     $this->post('/sale/cart/add/', 'App\Api\Internal\Sale\CartController:setToCart');
     $this->post('/sale/cart/remove/', 'App\Api\Internal\Sale\CartController:removeFromCart');
-    $this->post(
-        '/sale/cart/add-diamond-message/{orderItemId}/',
-        'App\Api\Internal\Sale\CartController:addDiamondMessage'
-    );
-    $this->post(
-        '/sale/cart/remove-diamond-message/{cartItemId}/',
-        'App\Api\Internal\Sale\CartController:removeDiamondMessage'
-    );
-    $this->post(
-        '/sale/cart/add-engraving/{orderItemId}/{diamondId}/',
-        'App\Api\Internal\Sale\CartController:addEngraving'
-    );
-    $this->post(
-        '/sale/cart/add-gia-certificate/{orderItemId}/{diamondId}/',
-        'App\Api\Internal\Sale\CartController:addGiaCertificate'
-    );
+
     $this->post(
         '/sale/cart/remove-paid-service/{orderItemId}/',
         'App\Api\Internal\Sale\CartController:removePaidService'
@@ -143,85 +123,6 @@ $app->group('/internal', function () {
 
     $this->post('/sale/order/create/', 'App\Api\Internal\Sale\OrderController:createOrder');
 
-    //Трейсинг
-    $this->any(
-        '/tracing/diamond-story/specific/',
-        'App\Api\Internal\Tracing\TracingController:exploreSpecificDiamondStory'
-    );
-    $this->any(
-        '/tracing/diamond-story/random/',
-        'App\Api\Internal\Tracing\TracingController:exploreRandomDiamondStory'
-    );
-
-    // Посмотреть справочник в КАДАС-е
-    $this->get('/cadas/test/dicts/', '\App\Api\Internal\Cadas\CadasController:showDict');
-
-    //Аукционы
-    $this->post('/auctions/search/{lotId}/', '\App\Api\Internal\Auction\AuctionController:findLot');
-    $this->get(
-        '/auctions/search-in-auction/{auctionId}/{lotId}/',
-        '\App\Api\Internal\Auction\AuctionController:findInSpecificAuction'
-    );
-    $this->post('/auction/accept-bet/', '\App\Api\Internal\Auction\AuctionController:acceptBet');
-    $this->post('/auction/accept-multiple-bets/', '\App\Api\Internal\Auction\AuctionController:acceptMultipleBets');
-    $this->post('/auction/remove-bet/', '\App\Api\Internal\Auction\AuctionController:removeBet');
-    $this->get('/auction/request-notify/', '\App\Api\Internal\Auction\AuctionController:requestNotify');
-
-
-    $this->post(
-        '/auction/admin/attach-products-to-lot/',
-        '\App\Api\Internal\Auction\AuctionAdministrationController:attachProductsToLot'
-    );
-    $this->post(
-        '/auction/admin/attach-products-to-lot-by-csv/',
-        '\App\Api\Internal\Auction\AuctionAdministrationController:attachProductsToLotByCsv'
-    );
-    $this->post(
-        '/auction/admin/set-request-viewing-time-slots/{auctionId}',
-        '\App\Api\Internal\Auction\AuctionAdministrationController:setRequestViewingTimeSlots'
-    );
-    $this->post(
-        '/auction/admin/create-auction-by-csv/',
-        '\App\Api\Internal\Auction\AuctionAdministrationController:createAuctionByCsv'
-    );
-    $this->post(
-        '/auction/admin/attach-users-to-notificate/',
-        '\App\Api\Internal\Auction\AuctionAdministrationController:attachUsersToNotificate'
-    );
-
-    //Аукционы PB
-    $this->post('/auctions_pb/search/{lotId}/', '\App\Api\Internal\Auction\AuctionPBController:findLot');
-    $this->get(
-        '/auctions_pb/search-in-auction/{auctionId}/{lotId}/',
-        '\App\Api\Internal\Auction\AuctionPBController:findInSpecificAuction'
-    );
-    $this->post('/auction_pb/accept-bet/', '\App\Api\Internal\Auction\AuctionPBController:acceptBet');
-    $this->post('/auction_pb/accept-multiple-bets/', '\App\Api\Internal\Auction\AuctionPBController:acceptMultipleBets');
-    //$this->post('/auction_pb/remove-bet/', '\App\Api\Internal\Auction\AuctionPBController:removeBet');
-    $this->get('/auction_pb/request-notify/', '\App\Api\Internal\Auction\AuctionPBController:requestNotify');
-
-    $this->post(
-        '/auction_pb/admin/attach-products-to-lot/',
-        '\App\Api\Internal\Auction\AuctionPBAdministrationController:attachProductsToLot'
-    );
-    $this->post(
-        '/auction_pb/admin/attach-products-to-lot-by-csv/',
-        '\App\Api\Internal\Auction\AuctionPBAdministrationController:attachProductsToLotByCsv'
-    );
-    $this->post(
-        '/auction_pb/admin/set-request-viewing-time-slots/{auctionId}',
-        '\App\Api\Internal\Auction\AuctionPBAdministrationController:setRequestViewingTimeSlots'
-    );
-    $this->post(
-        '/auction_pb/admin/create-auction-by-csv/',
-        '\App\Api\Internal\Auction\AuctionPBAdministrationController:createAuctionByCsv'
-    );
-    $this->post(
-        '/auction_pb/admin/attach-users-to-notificate/',
-        '\App\Api\Internal\Auction\AuctionPBAdministrationController:attachUsersToNotificate'
-    );
-
-    $this->get('/main/offices/get-list', 'App\Api\Internal\Main\ContactController:officesGetList');
 
     //Список желаний/ избранное
     $this->post('/catalog/wishlist/add/', 'App\Api\Internal\Catalog\WishlistController:add');
@@ -240,107 +141,8 @@ $app->group('/internal', function () {
 
     //PDF
     $this->post('/main/pdf/product-card-pdf/', 'App\Api\Internal\Main\PdfController:generateProductCardPdf');
-    $this->post(
-        '/main/pdf/alrosa-product-certificate-pdf/',
-        'App\Api\Internal\Main\PdfController:generateAlrosaCertificatePdf'
-    );
-    $this->post('/main/pdf/personal-client-form/', 'App\Api\Internal\Main\PdfController:generatePersonalFormPdf');
-    $this->post('/main/pdf/auction-info/', '\App\Api\Internal\Main\PdfController:generateAuctionInfoPdf');
-    $this->post(
-        '/jewelry/constructor/individual-order',
-        '\App\Api\Internal\Forms\JewelryConstructorIndividualOrderController:add'
-    );
 
-    // Конструктор ЮБИ
-    $this->group('/jewelry-constructor', function () {
-        $this->get(
-            '/frame-diamonds-combination',
-            '\App\Api\Internal\Catalog\JewelryConstructorController:getAutoCombinationForFrame'
-        );
-
-        $this->post(
-            '/ready-product',
-            '\App\Api\Internal\Catalog\JewelryConstructorController:createReadyProductInDatabase'
-        );
-
-        $this->group('/constructing-item', function () {
-            $this->get('', '\App\Api\Internal\Catalog\JewelryConstructorController:hasConstructingItem');
-            $this->post('', '\App\Api\Internal\Catalog\JewelryConstructorController:rememberConstructorProductStateForUser');
-            $this->delete('', '\App\Api\Internal\Catalog\JewelryConstructorController:deleteConstructingItem');
-        });
-    });
-});//->add(new \App\Api\Internal\SiteMiddleware());
-
-// Заготовка под внешнее API
-$app->group('/v1', function () {
-    $this->put('/users/crm/crm-id/', '\App\Api\V1\CRM\UserController:updateUserCrmId')
-        ->add(new \App\Api\V1\RequestMiddleware());
-
-    $this->group('/auctions', function () {
-        $this->get('/log-rebidding-email-action', '\App\Api\V1\Auctions\EmailController:logRebiddingEmailAction');
-    });
-
-    $this->any('/payture/notification/refund', 'App\Api\External\Payture\NotificationController:refund');
-
-    $this->group('/admin', function () {
-        $this->post('/articles', '\App\Api\V1\ArticlesController:add');
-        $this->post('/articles/update', '\App\Api\V1\ArticlesController:update');
-
-        $this->group('/auction', function () {
-            // Обработчик отправки формы со страницы админки: "Аукционы - Импорт бриллиантов по их номеру (для аукционов)"
-            $this->post(
-                '/get-diamonds-by-number',
-                '\\App\\Api\\Internal\\Auction\\AuctionAdministrationController:getAuctionDiamondsByNumber'
-            );
-            // Обновление камней контрактов
-            $this->get(
-                '/update-diamonds/',
-                '\App\Api\Internal\Auction\AuctionAdministrationController:updateDiamonds'
-            );
-            $this->get(
-                '/show-sale-diamonds/',
-                '\App\Api\Internal\Auction\AuctionAdministrationController:showSaleDiamonds'
-            );
-
-            $this->post(
-                '/update-stock-diamonds',
-                '\App\Api\Internal\Auction\AuctionAdministrationController:updateStockDiamonds'
-            );
-        });
-
-        $this->post(
-            '/diamonds/multiple-images-attach',
-            '\App\Api\V1\Diamonds\DiamondsController:multipleImagesUpdate'
-        );
-        $this->post('/diamonds/samples-attach', '\App\Api\V1\Diamonds\DiamondsController:samplesUpdate');
-
-        // @todo ALRSUP-738: страница убрана
-        // Обработчик отправки формы со страницы админки: "Бриллианты - Импорт бриллиантов по их номеру"
-        $this->post(
-            '/diamonds/get-diamonds-by-number',
-            '\\App\\Api\\Internal\\Cadas\\CadasController:getDiamondsByNumber'
-        );
-
-        $this->group('/jewelry', function () {
-            $this->post('/types-attach', '\App\Api\V1\Jewelry\JewelryTypeController:attachJewelryToType');
-            $this->post('/types-detach', '\App\Api\V1\Jewelry\JewelryTypeController:detachJewelryFromType');
-
-            $this->post('/recommendation/set-view', '\App\Api\V1\Jewelry\JewelryController:setView');
-            $this->post('/recommendation/remove-view', '\App\Api\V1\Jewelry\JewelryController:removeView');
-
-            $this->post('/generator/run', '\App\Api\V1\Jewelry\JewelryController:runGenerator');
-        });
-
-        //Возвраты платежей
-        $this->any(
-            '/sale/payment/items/{orderId:[\d]+}',
-            'App\Api\Internal\Sale\RefundController:getItems'
-        );
-        $this->any(
-            '/sale/payment/refund/{orderId:[\d]+}',
-            'App\Api\Internal\Sale\RefundController:refund'
-        );
-    });
 });
+
 
 return $app;

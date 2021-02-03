@@ -20,11 +20,11 @@ use Monolog\Registry;
 //$logger->pushHandler(new StreamHandler(logs_path('common.log')));
 //Registry::addLogger($logger, 'common');
 //
-////api logger
-//$logger = new Logger(\App\Api\BaseController::LOGGER_NAME);
-//$logger->pushHandler(new StreamHandler(logs_path('api.log')));
-//Registry::addLogger($logger, 'api');
-//
+//api logger
+$logger = new Logger(\App\Api\BaseController::LOGGER_NAME);
+$logger->pushHandler(new StreamHandler(logs_path('api.log')));
+Registry::addLogger($logger, 'api');
+
 //// base command logger
 //$logger = new Logger(BaseCommand::LOGGER_NAME);
 //$logger->pushHandler(new StreamHandler(logs_path(sprintf('%s.log', BaseCommand::LOGGER_NAME))));
@@ -116,12 +116,12 @@ use Monolog\Registry;
 //$logger->pushHandler(new StreamHandler(logs_path('jewel_blanks_import.log')));
 //Registry::addLogger($logger, 'jewel_blanks_import');
 //
-///** Api/Internal loggers */
-//// Логгер для сбора информации App\Api\Internal\User\AuthController
-//$logger = new Logger('internal_user_auth_info');
-//$logger->pushHandler(new StreamHandler(logs_path('/api/internal/auth/info.log')));
-//Registry::addLogger($logger, 'internal_user_auth_info');
-//
+/** Api/Internal loggers */
+// Логгер для сбора информации App\Api\Internal\User\AuthController
+$logger = new Logger('internal_user_auth_info');
+$logger->pushHandler(new StreamHandler(logs_path('/api/internal/auth/info.log')));
+Registry::addLogger($logger, 'internal_user_auth_info');
+
 //// Логгер для сбора ошибок App\Api\Internal\User\AuthController
 //$logger = new Logger('internal_user_auth_error');
 //$logger->pushHandler(new StreamHandler(logs_path('/api/internal/auth/error.log')));
