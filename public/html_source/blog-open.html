@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dermavi</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/src/css/lightgallery.css" integrity="sha256-AialuX525zvNaRQ5Rh3Io/x2ttqoIHzjJy1KPvYUoQE=" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="/fonts/dermavi/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+
+    <link rel="stylesheet" type="text/css" href="js/slick/slick/slick.css"/>
+
+</head>
+<body>
+    <header class="header">
+        <div class="header-wrap padding-80">
+            <div class="header-top-wrap">
+                <div class="header-top ">
+                    <div class="header-top__left">
+                        <div class="header__menu js-menu-open header-link mini">
+                            <i class="icon icon-menu"></i>
+                        </div>
+                        <a href="#" class="header__phone header-link">
+                            <i class="icon icon-phone"></i>
+                            <span>+7 (932) 232 55 55</span>
+                        </a>
+                        <div class="select-city js-select-wrap">
+                            <div class="select-city-wrap">
+                                <div class="select-city__label">
+                                    <i class="icon icon-loc"></i>
+                                    <span>Ваш город:</span>
+                                </div>
+                                <div class="select-city__value-wrap js-open-wrap">
+                                    <div class="select-city__value js-select js-open">Махачкала<span class="icon icon-arrow_down"></span></div>
+                                    <div class="select-city-drop js-drop">
+                                        <div class="drop-city__content">
+                                            <div data-value="1" data-name="Махачкала" class="drop-city__link js-select-item">Махачкала</div>
+                                            <div data-value="2" data-name="Каспийск" class="drop-city__link js-select-item selected">Каспийск</div>
+                                            <div data-value="3" data-name="Буйнакск" class="drop-city__link js-select-item">Буйнакск</div>
+                                            <input type="hidden" name="drop-city__link-input" value="1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="header-top__center">
+                        <a href="/" class="header__logo"><img src="img/logo.svg" alt="" class="header__logo-img"></a>
+                    </div>
+                    <div class="header-top__right">
+                        <a href="#" class="header__search header-link">
+                            <i class="icon icon-search"></i>
+                        </a>
+                        <div class="header-profile__wrap js-open-wrap">
+                            <div class="header__profile header-link js-open">
+                                <i class="icon icon-profile"></i>
+                                <span>User5656</span>
+                                <i class="icon icon-arrow_down"></i>
+                            </div>
+                            <div class="profile-drop js-drop">
+                                <a href="#" class="profile-drop__item">Мои данные</a>
+                                <a href="#" class="profile-drop__item">Бонусный счёт</a>
+                                <a href="#" class="profile-drop__item">Мои заказы</a>
+                                <a href="#" class="profile-drop__item exit">Выход</a>
+                            </div>
+                        </div>
+                        <a href="#" class="header__favorite header-link">
+                            <i class="icon icon-heart"></i>
+                            <span>Избранное</span>
+                        </a>
+                        <a href="#" class="header__cart header-link">
+                            <i class="icon icon-cart"></i>
+                            <span>Корзина (0)</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="header-nav-wrap">
+                <div class="header-nav">
+                    <div class="header-nav__item-wrap">
+                        <a href="#" class="header-nav__item">Каталог</a>
+                    </div>
+                    <div class="header-nav__item-wrap">
+                        <a href="#" class="header-nav__item">Бренды</a>
+                    </div>
+                    <div class="header-nav__item-wrap">
+                        <a href="#" class="header-nav__item">Новинки</a>
+                    </div>
+                    <div class="header-nav__item-wrap">
+                        <a href="#" class="header-nav__item">Для лица</a>
+                        <div class="header-drop">
+                            <div class="header-drop__content">
+                                <div class="header-drop__list-wrap">
+                                    <div class="header-drop__list-title">Категории</div>
+                                    <div class="header-drop__list-cats">
+                                        <a href="#" class="header-drop__item">Антивозрастные средства</a>
+                                        <a href="#" class="header-drop__item">Маски</a>
+                                        <a href="#" class="header-drop__item">Ночной уход</a>
+                                        <a href="#" class="header-drop__item">Отшелушивание</a>
+                                        <a href="#" class="header-drop__item">Очищение</a>
+                                        <a href="#" class="header-drop__item">Уход за губами</a>
+                                        <a href="#" class="header-drop__item">Уход за кожей вокруг глаз</a>
+                                        <a href="#" class="header-drop__item">Патчи</a>
+                                        <a href="#" class="header-drop__item">Увлажнение/питание</a>
+                                        <a href="#" class="header-drop__item">Уход за проблемной кожей</a>
+                                        <a href="#" class="header-drop__item">Сыворотки</a>
+                                        <a href="#" class="header-drop__item">Тонизирование</a>
+                                    </div>
+                                </div>
+                                <div class="header-drop__list-wrap">
+                                    <div class="header-drop__list-title">Бренды</div>
+                                    <div class="header-drop__list">
+                                        <a href="#" class="header-drop__item">Babor</a>
+                                        <a href="#" class="header-drop__item">Clarins</a>
+                                        <a href="#" class="header-drop__item">Davines</a>
+                                        <a href="#" class="header-drop__item">Estée Lauder</a>
+                                        <a href="#" class="header-drop__item">Foreo</a>
+                                        <a href="#" class="header-drop__item">Kiehl's</a>
+                                        <a href="#" class="header-drop__item">La Prairie</a>
+                                        <a href="#" class="header-drop__item">Sensai</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="header-drop__best">
+                                <div class="header-drop__best-title">бестселлеры</div>
+                                <div class="header-best__list">
+                                    <a href="#" class="header-best__item">
+                                        <div class="header-best__item-img-wrap"><img src="img/best.jpg" alt="" class="header-best__item-img"></div>
+                                        <div class="header-best__item-wrap">
+                                            <div class="header-best__item-top">
+                                                <div class="header-best__item-title">La Mer</div>
+                                                <div class="header-best__item-stickers">
+                                                    <div class="header-best__item-sticker"><div class="sticker-hit">hit</div></div>
+                                                    <div class="header-best__item-sticker"><div class="sticker-new">new</div></div>
+                                                </div>
+                                            </div>
+                                            <div class="header-best__item-text">Лифтинг сыворотка Essense of bees </div>
+                                            <div class="header-best__item-price">1 890 ₽</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="header-best__item">
+                                        <div class="header-best__item-img-wrap"><img src="img/best2.jpg" alt="" class="header-best__item-img"></div>
+                                        <div class="header-best__item-wrap">
+                                            <div class="header-best__item-top">
+                                                <div class="header-best__item-title">sisley</div>
+                                                <div class="header-best__item-stickers">
+                                                </div>
+                                            </div>
+                                            <div class="header-best__item-text">Крем для кожи вокруг глаз</div>
+                                            <div class="header-best__item-price">44 223 ₽</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="header-best__item">
+                                        <div class="header-best__item-img-wrap"><img src="img/best3.jpg" alt="" class="header-best__item-img"></div>
+                                        <div class="header-best__item-wrap">
+                                            <div class="header-best__item-top">
+                                                <div class="header-best__item-title">La prairie</div>
+                                                <div class="header-best__item-stickers">
+                                                    <div class="header-best__item-sticker"><div class="sticker-hit">hit</div></div>
+                                                </div>
+                                            </div>
+                                            <div class="header-best__item-text">Лифтинг сыворотка Essense of bees </div>
+                                            <div class="header-best__item-price">1 890 ₽</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-nav__item-wrap">
+                        <a href="#" class="header-nav__item">Для волос</a>
+                        <div class="header-drop">
+                            <div class="header-drop__content">
+                                <div class="header-drop__list-wrap">
+                                    <div class="header-drop__list-title">Категории</div>
+                                    <div class="header-drop__list-cats">
+                                        <a href="#" class="header-drop__item">Антивозрастные средства</a>
+                                        <a href="#" class="header-drop__item">Маски</a>
+                                        <a href="#" class="header-drop__item">Отшелушивание</a>
+                                        <a href="#" class="header-drop__item">Очищение</a>
+                                        <a href="#" class="header-drop__item">Уход за губами</a>
+                                        <a href="#" class="header-drop__item">Патчи</a>
+                                        <a href="#" class="header-drop__item">Увлажнение/питание</a>
+                                        <a href="#" class="header-drop__item">Сыворотки</a>
+                                        <a href="#" class="header-drop__item">Тонизирование</a>
+                                    </div>
+                                </div>
+                                <div class="header-drop__list-wrap">
+                                    <div class="header-drop__list-title">Бренды</div>
+                                    <div class="header-drop__list">
+                                        <a href="#" class="header-drop__item">Babor</a>
+                                        <a href="#" class="header-drop__item">Clarins</a>
+                                        <a href="#" class="header-drop__item">Estée Lauder</a>
+                                        <a href="#" class="header-drop__item">Foreo</a>
+                                        <a href="#" class="header-drop__item">La Prairie</a>
+                                        <a href="#" class="header-drop__item">Sensai</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="header-drop__best">
+                                <div class="header-drop__best-title">бестселлеры</div>
+                                <div class="header-best__list">
+                                    <a href="#" class="header-best__item">
+                                        <div class="header-best__item-img-wrap"><img src="img/best.jpg" alt="" class="header-best__item-img"></div>
+                                        <div class="header-best__item-wrap">
+                                            <div class="header-best__item-top">
+                                                <div class="header-best__item-title">La Mer</div>
+                                                <div class="header-best__item-stickers">
+                                                    <div class="header-best__item-sticker"><div class="sticker-hit">hit</div></div>
+                                                    <div class="header-best__item-sticker"><div class="sticker-new">new</div></div>
+                                                </div>
+                                            </div>
+                                            <div class="header-best__item-text">Лифтинг сыворотка Essense of bees </div>
+                                            <div class="header-best__item-price">1 890 ₽</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="header-best__item">
+                                        <div class="header-best__item-img-wrap"><img src="img/best3.jpg" alt="" class="header-best__item-img"></div>
+                                        <div class="header-best__item-wrap">
+                                            <div class="header-best__item-top">
+                                                <div class="header-best__item-title">La prairie</div>
+                                                <div class="header-best__item-stickers">
+                                                    <div class="header-best__item-sticker"><div class="sticker-hit">hit</div></div>
+                                                </div>
+                                            </div>
+                                            <div class="header-best__item-text">Лифтинг сыворотка Essense of bees </div>
+                                            <div class="header-best__item-price">1 890 ₽</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="header-best__item">
+                                        <div class="header-best__item-img-wrap"><img src="img/best2.jpg" alt="" class="header-best__item-img"></div>
+                                        <div class="header-best__item-wrap">
+                                            <div class="header-best__item-top">
+                                                <div class="header-best__item-title">sisley</div>
+                                                <div class="header-best__item-stickers">
+                                                </div>
+                                            </div>
+                                            <div class="header-best__item-text">Крем для кожи вокруг глаз</div>
+                                            <div class="header-best__item-price">44 223 ₽</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-nav__item-wrap">
+                        <a href="#" class="header-nav__item">Для тела</a>
+                    </div>
+                    <div class="header-nav__item-wrap">
+                        <a href="#" class="header-nav__item">Тренды</a>
+                    </div>
+                    <div class="header-nav__item-wrap">
+                        <a href="#" class="header-nav__item">Наборы</a>
+                    </div>
+                </div>
+                <div class="header-nav__search">
+                    <input type="search" placeholder="Поиск по каталогу" class="input input-normal input-pl-50 input-full_width input-border">
+                    <button class="form__btn form__btn-search" type="submit"><div class="form__icon"><i class="icon icon-search"></i></div></button>
+                </div>
+                <a href="#" class="header-nav__search-mini">
+                    <i class="icon icon-search"></i>
+                    <div class="header-nav__search-mini__label">Поиск</div>
+                    <!--<input type="search" placeholder="Поиск" class="input input-normal input-full_width input-no_border">-->
+                    <!--<button class="form__btn form__btn-search" type="submit"><div class="form__icon"><i class="icon icon-search"></i></div></button>-->
+                </a>
+            </div>
+        </div>
+
+
+
+    </header>
+
+    <div class="content">
+
+        <div class="blog-open">
+            <div class="blog-open__top">
+                <div class="blog-open__top-wrap">
+                    <a href="#" class="blog-open__back"><i class="icon icon-arrow_left"></i>Вернуться в блог</a>
+                    <div class="blog-open__title">
+                        <b><i>технология</i></b> <br>
+                        <b>lux hudrapower</b>
+                    </div>
+                    <div class="blog-open__top-bottom">
+                        <div class="blog-open__date">10 октября 2020</div>
+                        <div class="blog-open__views"><i class="icon icon-eye"></i>21 922</div>
+                    </div>
+                </div>
+                <div class="blog-open__top-img-wrap"><img src="img/banner.jpg" alt="" class="blog-open__top-img"></div>
+            </div>
+            <div class="blog-open__content">
+                <div class="blog-open__content__title">Новинки в мире ухода</div>
+                <div class="blog-open__content-text-wrap">
+                    <!--<div class="blog-open__content-text">-->
+
+                    Закон внешнего мира осознаёт позитивизм. Ложная цитата монотонно нивелирует культовый образ. Механизм эвокации выбирает напряженный даосизм. Познание текста, по определению, диссонирует онтологический архетип. Типическое, так или иначе, имеет бессознательный принцип восприятия.
+                    <br>
+                    <br>
+
+                    Художественное переживание диссонирует конкретный конфликт. Единственной космической субстанцией Гумбольдт считал материю, наделенную внутренней активностью, несмотря на это здравый смысл трансформирует фактографический дедуктивный метод. Стилистическая игра доступна. После того как тема сформулирована, нередуцируемость содержания осмысленно начинает язык образов.
+                    <br>
+                    <br>
+
+                    Заимствование изящно заполняет катарсис. Механизм эвокации неизменяем. Отношение к современности, не учитывая количества слогов, стоящих между ударениями, нивелирует интеллигибельный катарсис. Как было показано выше, метафора имитирует комплекс априорной бисексуальности. Катарсис традиционен.
+                    <!--</div>-->
+                    <!--<div class="blog-open__content-text">-->
+                    Закон исключённого третьего, как следует из вышесказанного, заполняет естественный гравитационный парадокс.
+                    <br>
+                    <br>
+
+                    Интеллект создает принцип восприятия. Суждение реально заполняет бабувизм. Бхутавада, как принято считать, порождает и обеспечивает катарсис, учитывая опасность, которую представляли собой писания Дюринга для не окрепшего еще немецкого рабочего движения. Гений реально понимает под собой примитивный бабувизм. Гетерономная этика рефлектирует мир, однако Зигварт считал критерием истинности необходимость и общезначимость, для которых нет никакой опоры в объективном мире.
+                    <br>
+                    <br>
+                    <a href="#" class="blog-open__link">Показать список <i class="icon icon-arrow_right"></i></a>
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="slider-main bgr-gray padding-80">
+            <div class="slider-main__top">
+                <div class="slider-main__title">Вам может быть <i><b>интересно</b></i></div>
+                <div class="slider-main__nav">
+                    <button class="slider-main__prev btn js-slider-main__prev"><i class="icon icon-arrow_left"></i></button>
+                    <div class="slider-main__count">
+                        <div class="slider-main__count-current js-slider-main__count">1</div>
+                        <div class="slider-main__count-all js-slider-main__count-all">8</div>
+                    </div>
+                    <button class="slider-main__next btn js-slider-main__next"><i class="icon icon-arrow_right"></i></button>
+                </div>
+            </div>
+            <div class="main-season_content-slider js-slider-main">
+                <div class="slider-main__item one js-slider-main__item">
+                    <div class="main-season__item-img-wrap"><img src="img/season.jpg" alt="" class="main-season__item-img"></div>
+                    <div class="main-season__item-title">Новинки в мире ухода</div>
+                    <div class="main-season__item-text">Классический реализм, в том числе, трансформирует фактографический принцип артистизма.</div>
+                    <a href="#" class="main-season__item-btn"><div class="btn btn-white btn-normal btn-small-padding">Подробнее <i class="icon icon-arrow_right"></i></div></a>
+                </div>
+                <div class="slider-main__item two js-slider-main__item">
+                    <div class="main-season__item-img-wrap"><img src="img/season2.jpg" alt="" class="main-season__item-img"></div>
+                    <div class="main-season__item-title">Новинки в мире ухода</div>
+                    <div class="main-season__item-text">Классический реализм, в том числе, трансформирует фактографический принцип артистизма.</div>
+                    <a href="#" class="main-season__item-btn"><div class="btn btn-white btn-normal btn-small-padding">Подробнее <i class="icon icon-arrow_right"></i></div></a>
+                </div>
+                <div class="slider-main__item tree js-slider-main__item">
+                    <div class="main-season__item-img-wrap"><img src="img/season3.jpg" alt="" class="main-season__item-img"></div>
+                    <div class="main-season__item-title">Новинки в мире ухода</div>
+                    <div class="main-season__item-text">Классический реализм, в том числе, трансформирует фактографический принцип артистизма.</div>
+                    <a href="#" class="main-season__item-btn"><div class="btn btn-white btn-normal btn-small-padding">Подробнее <i class="icon icon-arrow_right"></i></div></a>
+                </div>
+                <div class="slider-main__item one js-slider-main__item">
+                    <div class="main-season__item-img-wrap"><img src="img/season.jpg" alt="" class="main-season__item-img"></div>
+                    <div class="main-season__item-title">Новинки в мире ухода</div>
+                    <div class="main-season__item-text">Классический реализм, в том числе, трансформирует фактографический принцип артистизма.</div>
+                    <a href="#" class="main-season__item-btn"><div class="btn btn-white btn-normal btn-small-padding">Подробнее <i class="icon icon-arrow_right"></i></div></a>
+                </div>
+                <div class="slider-main__item two js-slider-main__item">
+                    <div class="main-season__item-img-wrap"><img src="img/season2.jpg" alt="" class="main-season__item-img"></div>
+                    <div class="main-season__item-title">Новинки в мире ухода</div>
+                    <div class="main-season__item-text">Классический реализм, в том числе, трансформирует фактографический принцип артистизма.</div>
+                    <a href="#" class="main-season__item-btn"><div class="btn btn-white btn-normal btn-small-padding">Подробнее <i class="icon icon-arrow_right"></i></div></a>
+                </div>
+                <div class="slider-main__item tree js-slider-main__item">
+                    <div class="main-season__item-img-wrap"><img src="img/season3.jpg" alt="" class="main-season__item-img"></div>
+                    <div class="main-season__item-title">Новинки в мире ухода</div>
+                    <div class="main-season__item-text">Классический реализм, в том числе, трансформирует фактографический принцип артистизма.</div>
+                    <a href="#" class="main-season__item-btn"><div class="btn btn-white btn-normal btn-small-padding">Подробнее <i class="icon icon-arrow_right"></i></div></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer__logo-wrap">
+            <a href="/" class="footer__logo"><img src="img/logo_footer.svg" alt="" class="footer__logo-img"></a>
+            <a href="#" class="footer__copy">DERMAVI © Copyright 2020</a>
+        </div>
+        <div class="footer__content">
+            <div class="footer__menu-wrap">
+                <div class="footer__menu js-open-wrap">
+                    <div class="footer__menu-title js-open">Главное меню <i class="icon icon-arrow_down"></i></div>
+                    <div class="footer__menu-list js-drop">
+                        <a href="#" class="footer__menu-item footer-link">О магазине</a>
+                        <a href="#" class="footer__menu-item footer-link">Оптала и доставка</a>
+                        <a href="#" class="footer__menu-item footer-link">Публичная оферта</a>
+                        <a href="#" class="footer__menu-item footer-link">Партнерам</a>
+                        <a href="#" class="footer__menu-item footer-link">Напишите нам</a>
+                        <a href="#" class="footer__menu-item footer-link">Нужна помощь</a>
+                        <a href="#" class="footer__menu-item footer-link">Контакты</a>
+                    </div>
+                </div>
+                <div class="footer__menu js-open-wrap">
+                    <div class="footer__menu-title js-open">Справка <i class="icon icon-arrow_down"></i></div>
+                    <div class="footer__menu-list js-drop">
+                        <a href="#" class="footer__menu-item footer-link">Личный кабинет</a>
+                        <a href="#" class="footer__menu-item footer-link">История заказов</a>
+                        <a href="#" class="footer__menu-item footer-link">Возврат заказа</a>
+                        <a href="#" class="footer__menu-item footer-link">Клиентам</a>
+                        <a href="#" class="footer__menu-item footer-link">Вакансии</a>
+                        <a href="#" class="footer__menu-item footer-link">Регистрация/Вход</a>
+                        <a href="#" class="footer__menu-item footer-link">Информация</a>
+                    </div>
+                </div>
+                <div class="footer__menu js-open-wrap">
+                    <div class="footer__menu-title js-open">Каталог <i class="icon icon-arrow_down"></i></div>
+                    <div class="footer__menu-list js-drop">
+                        <a href="#" class="footer__menu-item footer-link">Для лица</a>
+                        <a href="#" class="footer__menu-item footer-link">Для тела</a>
+                        <a href="#" class="footer__menu-item footer-link">Для волос</a>
+                        <a href="#" class="footer__menu-item footer-link">Для мужчин</a>
+                        <a href="#" class="footer__menu-item footer-link">Для ногтей</a>
+                        <a href="#" class="footer__menu-item footer-link">Beauty-гаджеты</a>
+                        <a href="#" class="footer__menu-item footer-link">Organic</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__contact">
+                <div class="footer__menu-title">Контакты</div>
+                <div class="footer__contact-list">
+                    <a href="#" class="footer__menu-social footer-link"><i class="icon icon-phone"></i>+7 (932) 232 55 55</a>
+                    <a href="#" class="footer__menu-social footer-link"><i class="icon icon-mail"></i>info@dermavi.com</a>
+                    <a href="#" class="footer__menu-social footer-link"><i class="icon icon-instagram"></i>dermavi_cosm</a>
+                    <a href="#" class="footer__menu-social lang  mt100">
+                        <i class="icon icon-globe"></i>
+                        <div class="lang-item footer-link">EN</div>
+                        <div class="lang-item footer-link active">RUS</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="drop-menu padding-80 js-drop-menu">
+        <div class="header-top">
+            <div class="header-top__left">
+                <div class="drop-menu__close js-drop-menu-close"><i class="icon icon-close"></i></div>
+            </div>
+            <div class="header-top__center">
+                <a href="/" class="header__logo"><img src="img/logo.svg" alt="" class="header__logo-img"></a>
+            </div>
+            <div class="header-top__right">
+                <a href="#" class="header__cart header-link">
+                    <i class="icon icon-cart"></i>
+                    <span>Корзина (0)</span>
+                </a>
+            </div>
+        </div>
+        <div class="drop-menu__wrapper">
+            <div class="drop-menu__links">
+                <div class="drop-menu__link"><i class="icon icon-profile"></i>Аккаунт</div>
+                <div class="drop-menu__link"><i class="icon icon-heart"></i>Избранное</div>
+                <div class="drop-menu__link"><i class="icon icon-phone"></i>Контакты</div>
+                <div class="drop-menu__link"><i class="icon icon-loc"></i>Ваш город</div>
+            </div>
+            <div class="drop-menu__search">
+                <input type="search" placeholder="Что вы ищете?" class="input input-normal input-pl-50 input-full_width input-border">
+                <button class="form__btn form__btn-search" type="submit"><div class="form__icon"><i class="icon icon-search"></i></div></button>
+            </div>
+            <div class="drop-menu__wrap">
+
+                <div class="drop-menu__list">
+                    <div class="drop-menu__item">
+                        <div class="drop-menu__item-title js-menu-item-open">
+                            Каталог товаров
+                            <i class="icon icon-arrow_down"></i>
+                        </div>
+                        <div class="drop-menu__item-list js-item-list">
+                            <div class="drop-menu__item-list__back js-drop-item-close"><i class="icon icon-arrow_left"></i>Вернуться назад</div>
+                            <div class="drop-menu__item-list__title">Каталог товаров</div>
+                            <div class="drop-menu__item-list-wrap">
+                                <a href="#" class="drop-menu__item-list__item">Антивозрастные средства</a>
+                                <a href="#" class="drop-menu__item-list__item">Маски</a>
+                                <a href="#" class="drop-menu__item-list__item">Ночной уход</a>
+                                <a href="#" class="drop-menu__item-list__item">Отшелушивание</a>
+                                <a href="#" class="drop-menu__item-list__item">Очищение</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за губами</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за кожей вокруг глаз</a>
+                                <a href="#" class="drop-menu__item-list__item">Патчи</a>
+                                <a href="#" class="drop-menu__item-list__item">Увлажнение/питание</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за проблемной кожей</a>
+                                <a href="#" class="drop-menu__item-list__item">Сыворотки</a>
+                                <a href="#" class="drop-menu__item-list__item">Тонизирование</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="drop-menu__item">
+                        <div class="drop-menu__item-title js-menu-item-open">
+                            Продукция для лица
+                            <i class="icon icon-arrow_down"></i>
+                        </div>
+                        <div class="drop-menu__item-list js-item-list">
+                            <div class="drop-menu__item-list__back js-drop-item-close"><i class="icon icon-arrow_left"></i>Вернуться назад</div>
+                            <div class="drop-menu__item-list__title">Продукция для лица</div>
+                            <div class="drop-menu__item-list-wrap">
+                                <a href="#" class="drop-menu__item-list__item">Антивозрастные средства</a>
+                                <a href="#" class="drop-menu__item-list__item">Маски</a>
+                                <a href="#" class="drop-menu__item-list__item">Ночной уход</a>
+                                <a href="#" class="drop-menu__item-list__item">Отшелушивание</a>
+                                <a href="#" class="drop-menu__item-list__item">Очищение</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за губами</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за кожей вокруг глаз</a>
+                                <a href="#" class="drop-menu__item-list__item">Патчи</a>
+                                <a href="#" class="drop-menu__item-list__item">Увлажнение/питание</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за проблемной кожей</a>
+                                <a href="#" class="drop-menu__item-list__item">Сыворотки</a>
+                                <a href="#" class="drop-menu__item-list__item">Тонизирование</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="drop-menu__item">
+                        <div class="drop-menu__item-title js-menu-item-open">
+                            Список брендов
+                            <i class="icon icon-arrow_down"></i>
+                        </div>
+                        <div class="drop-menu__item-list js-item-list">
+                            <div class="drop-menu__item-list__back js-drop-item-close"><i class="icon icon-arrow_left"></i>Вернуться назад</div>
+                            <div class="drop-menu__item-list__title">Список брендов</div>
+                            <div class="drop-menu__item-list-wrap">
+                                <a href="#" class="drop-menu__item-list__item">Антивозрастные средства</a>
+                                <a href="#" class="drop-menu__item-list__item">Маски</a>
+                                <a href="#" class="drop-menu__item-list__item">Ночной уход</a>
+                                <a href="#" class="drop-menu__item-list__item">Отшелушивание</a>
+                                <a href="#" class="drop-menu__item-list__item">Очищение</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за губами</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за кожей вокруг глаз</a>
+                                <a href="#" class="drop-menu__item-list__item">Патчи</a>
+                                <a href="#" class="drop-menu__item-list__item">Увлажнение/питание</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за проблемной кожей</a>
+                                <a href="#" class="drop-menu__item-list__item">Сыворотки</a>
+                                <a href="#" class="drop-menu__item-list__item">Тонизирование</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="drop-menu__item">
+                        <div class="drop-menu__item-title js-menu-item-open">
+                            Новинки
+                            <i class="icon icon-arrow_down"></i>
+                        </div>
+                        <div class="drop-menu__item-list js-item-list">
+                            <div class="drop-menu__item-list__back js-drop-item-close"><i class="icon icon-arrow_left"></i>Вернуться назад</div>
+                            <div class="drop-menu__item-list__title">Новинки</div>
+                            <div class="drop-menu__item-list-wrap">
+                                <a href="#" class="drop-menu__item-list__item">Антивозрастные средства</a>
+                                <a href="#" class="drop-menu__item-list__item">Маски</a>
+                                <a href="#" class="drop-menu__item-list__item">Ночной уход</a>
+                                <a href="#" class="drop-menu__item-list__item">Отшелушивание</a>
+                                <a href="#" class="drop-menu__item-list__item">Очищение</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за губами</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за кожей вокруг глаз</a>
+                                <a href="#" class="drop-menu__item-list__item">Патчи</a>
+                                <a href="#" class="drop-menu__item-list__item">Увлажнение/питание</a>
+                                <a href="#" class="drop-menu__item-list__item">Уход за проблемной кожей</a>
+                                <a href="#" class="drop-menu__item-list__item">Сыворотки</a>
+                                <a href="#" class="drop-menu__item-list__item">Тонизирование</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+<script         src="https://code.jquery.com/jquery-3.4.1.min.js"         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="         crossorigin="anonymous"></script>  <script src="js/slick/slick/slick.min.js" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/combine/npm/lightgallery,npm/lg-autoplay,npm/lg-fullscreen,npm/lg-hash,npm/lg-pager,npm/lg-share,npm/lg-thumbnail,npm/lg-video,npm/lg-zoom" type="text/javascript"></script>  <script src="js/main.js" type="text/javascript"></script>
+</html>

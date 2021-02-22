@@ -63,7 +63,8 @@ abstract class BaseController extends ApiController
      */
     protected function errorAlreadyExists(): ResponseInterface
     {
-        return $this->respondWithError(null, 409);
+
+        return $this->respondWithError("Логин занят другим пользователем", 409);
     }
 
     /**

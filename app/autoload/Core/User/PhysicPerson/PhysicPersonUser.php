@@ -132,47 +132,11 @@ class PhysicPersonUser implements UserInterface
         $user = null;
 
         try {
-            /** @var PassportData $passport - Модель паспортных данных */
-            $passport = PassportData::create([
-                'UF_TYPE' => (new IdentityDocumentType())
-                    ->setCountryId((int) $notFormedData['sign_up_country'])
-                    ->getIdentityDocumentTypeByCountry()
-                    ->getId(),
-                'UF_REG_COUNTRY' => $notFormedData['sign_up_country']
-            ]);
-
-            $appeal = '';
-            if ($notFormedData['sign_up_appeal']) {
-                $appeal = GenderHelper::getSalutationByRegFormInfo($notFormedData['sign_up_appeal'])->getId();
-            }
-
-            $user = User::create(array_merge($formedData, [
-                'UF_APPEAL' => $appeal,
-                'UF_USER_NAME_RU' => ucfirst($notFormedData['sign_up_name']),
-                'UF_USER_NAME_EN' => ucfirst($notFormedData['sign_up_name']),
-                'UF_USER_NAME_CN' => ucfirst($notFormedData['sign_up_name']),
-                'UF_USER_SURNAME_RU' => ucfirst($notFormedData['sign_up_surname']),
-                'UF_USER_SURNAME_EN' => ucfirst($notFormedData['sign_up_surname']),
-                'UF_USER_SURNAME_CN' => ucfirst($notFormedData['sign_up_surname']),
-                'UF_PURCHASE_UP_100' => true,
-                'UF_PASSPORT_ID' => $passport->getId(),
-                'UF_USER_MIDDLE_NAME' => ucfirst($notFormedData['sign_up_patronym']),
-                'UF_CLIENT_PB' => $notFormedData['sign_up_clientPB'],
-                'UF_BANK' => ucfirst($notFormedData['sign_up_bank']),
-            ]));
-
-            AddressModel::create([
-                'UF_USER_ID' => $user->getId(),
-                'UF_COUNTRY' => $notFormedData['sign_up_country'],
-                'UF_TYPE_ID' => AddressType::getPhysicAddressType()->getId()
-            ]);
-
-            /** @var string $claimId - Идентификатор пользователя в crm */
-            $user->update(['UF_CRM_ID' => (new CrmPhysicPerson)->setUser($user)->createPerson()]);
+            $user = User::create($formedData);
         } catch (Throwable $exception) {
             logger(UserCore::LOGGER_NAME_AUTH_ERROR)
                 ->error(
-                    'Не удалось зарегистрировать пользователя '.$notFormedData['sign_up_email']
+                    'Не удалось зарегистрировать пользователя '.$notFormedData['signup_email']
                     .'. Причина: '.$exception->getMessage()
                 );
         } finally {

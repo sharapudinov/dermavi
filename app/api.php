@@ -36,9 +36,9 @@ $app->group('/internal', function () {
         '/user/subscription/add/news/',
         'App\Api\Internal\User\SubscriptionController:addUserToMarketingSubscription'
     );
-    $this->get('/user/auth/signup/', 'App\Api\Internal\User\AuthController:signUp');
-    $this->get('/user/auth/signin/', 'App\Api\Internal\User\AuthController:signIn');
-    $this->get('/user/auth/send-restore-link/', 'App\Api\Internal\User\AuthController:sendRestoreLink');
+    $this->post('/user/auth/signup/', 'App\Api\Internal\User\AuthController:signUp');
+    $this->post('/user/auth/signin/', 'App\Api\Internal\User\AuthController:signIn');
+    $this->post('/user/auth/send-restore-link/', 'App\Api\Internal\User\AuthController:sendRestoreLink');
     $this->get('/user/auth/set-new-password/', 'App\Api\Internal\User\AuthController:setNewPassword');
     $this->post('/user/auth/change-password/', 'App\Api\Internal\User\AuthController:changePassword');
     $this->post('/user/auth/logout/', 'App\Api\Internal\User\AuthController:logout');

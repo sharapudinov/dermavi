@@ -1,7 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
-$USER->Authorize(1);
 ?>
 <div class="main-slide-side ">
     <div class="slider-side">

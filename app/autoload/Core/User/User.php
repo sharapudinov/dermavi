@@ -3,6 +3,7 @@
 namespace App\Core\User;
 
 use App\Core\BitrixEvent\EventMessage;
+use App\Core\Sale\PersonType;
 use App\Core\User\LegalPerson\LegalPersonUser;
 use App\Core\User\PhysicPerson\PhysicPersonUser;
 use App\Core\User\Subscriptions\Subscription;
@@ -153,11 +154,19 @@ final class User
 
         /** @var string $userLanguage - Язык пользователя */
         $userLanguage = UserHelper::getUserLanguage($user);
-        CEvent::SendImmediate('IMPORT_USER_FROM_CRM', SiteHelper::getSiteIdByLanguageId($userLanguage), [
-            'EMAIL_TO' => $user->getEmail(),
-            'PASSWORD' => $user->getNotHashedPassword(),
-            'SITE_URL' => get_external_url(true, false)
-        ], 'Y', '', [], $userLanguage);
+        CEvent::SendImmediate(
+            'IMPORT_USER_FROM_CRM',
+            SiteHelper::getSiteIdByLanguageId($userLanguage),
+            [
+                'EMAIL_TO' => $user->getEmail(),
+                'PASSWORD' => $user->getNotHashedPassword(),
+                'SITE_URL' => get_external_url(true, false)
+            ],
+            'Y',
+            '',
+            [],
+            $userLanguage
+        );
     }
 
     /**
@@ -179,8 +188,9 @@ final class User
      * @param string $personType
      * @return User
      */
-    public function defineUserPersonType(string $personType): self
+    public function defineUserPersonType($personType = PersonType::PHYSICAL_ENTITY): self
     {
+        $personType = $personType ?? PersonType::PHYSICAL_ENTITY;
         if (in_array($personType, $this->personTypePhysical)) {
             $this->personType = new PhysicPersonUser;
         } elseif (in_array($personType, $this->personTypeLegal)) {
@@ -204,64 +214,39 @@ final class User
 
         /** @var array $userData - Массив даных, общий для всех видов пользователей */
         $userData = [
-            'LOGIN' => $signUpData['sign_up_email'],
-            'EMAIL' => $signUpData['sign_up_email'],
-            'PASSWORD' => $signUpData['sign_up_password'],
-            'UF_COUNTRY' => $signUpData['sign_up_country'],
-            'PERSONAL_PHONE' => $signUpData['sign_up_phone']
+            'LOGIN'    => $signUpData['signup_email'],
+            'EMAIL'    => $signUpData['signup_email'],
+            'PASSWORD' => $signUpData['signup_password'],
+            'NAME'     => $signUpData['signup_username'],
         ];
-
-        /** @var array $entity - Поле "Тип пользователя" */
-        $entity = CUserTypeEntity::GetList([], ['ENTITY_ID' => 'USER', 'FIELD_NAME' => 'UF_USER_ENTITY_TYPE'])->Fetch();
-        $userData['UF_USER_ENTITY_TYPE'] = CUserFieldEnum::GetList([], [
-            'USER_FIELD_ID' => $entity['ID'], 'XML_ID' => $this->personType->getPersonTypeCode()
-        ])->Fetch()['ID'];
-
-        $signUpData['sign_up_clientPB'] = $this->isClientPB($signUpData['sign_up_clientPB']);
 
         if ($user = $this->personType->signUpUser($userData, $signUpData)) {
             static::authUserById($user->getId());
 
-            $userLanguageInfo = $user->country
-                ? $user->country->getCountryLanguageInfo()
-                : [
+            $userLanguageInfo = [
                     'site_id'     => 's1',
-                    'language_id' => 'en'
+                    'language_id' => 'ru'
                 ];
 
             LanguageHelper::setLanguageUserId($userLanguageInfo['language_id']);
 
             /** @var \App\Core\BitrixEvent\Entity\EventMessage $eventMessage - Почтовое событие */
             $eventMessage = EventMessage::getEventMessagesByCode(
-                'SIGN_UP_USER',
+                'NEW_USER',
                 LanguageHelper::getLanguageVersion()
             )->first();
-            CEvent::SendImmediate($eventMessage->getEventName(), SiteHelper::getSiteIdByCurrentLanguage(), [
-                'EMAIL' => $signUpData['sign_up_email'],
-                'PASSWORD' => $signUpData['sign_up_password'],
-            ], 'Y', $eventMessage->getMessageId(), [], LanguageHelper::getLanguageVersion());
-
-            if ($signUpData['auctionId']) {
-                try {
-
-
-                    CEvent::SendImmediate(
-                        'AUCTION_USER_SIGNUP',
-                        $userLanguageInfo['site_id'],
-                        [
-                            'USER_ID'  => $user->getId(),
-                            'EMAIL_TO' => $user->getEmail(),
-                            'ACTION_ID' => (int)$signUpData['auctionId'],
-                        ],
-                        'Y',
-                        '',
-                        [],
-                        $userLanguageInfo['language_id']
-                    );
-                } catch (\Throwable $e) {
-                    logger('common')->error($e->getMessage(), $e->getTrace());
-                }
-            }
+            CEvent::SendImmediate(
+                $eventMessage->getEventName(),
+                SiteHelper::getSiteIdByCurrentLanguage(),
+                [
+                    'EMAIL'    => $signUpData['sign_up_email'],
+                    'PASSWORD' => $signUpData['sign_up_password'],
+                ],
+                'Y',
+                $eventMessage->getMessageId(),
+                [],
+                LanguageHelper::getLanguageVersion()
+            );
 
             /** @var Subscription $subscriptionObject Экземпляр класса для работы с подпиской пользователя */
             $subscriptionObject = new Subscription();
@@ -358,10 +343,10 @@ final class User
                     $item = ElementTable::getList(
                         [
                             'filter' => [
-                                '=IBLOCK.CODE' => 'jewelry_sale_access',
+                                '=IBLOCK.CODE'           => 'jewelry_sale_access',
                                 '=IBLOCK.IBLOCK_TYPE_ID' => 'client',
-                                '=ACTIVE' => 'Y',
-                                '=CODE' => $userEmail,
+                                '=ACTIVE'                => 'Y',
+                                '=CODE'                  => $userEmail,
                             ],
                             'select' => [
                                 'ID',
@@ -373,7 +358,7 @@ final class User
                                 'cache_joins' => true,
                             ],
                             */
-                            'limit' => 1,
+                            'limit'  => 1,
                         ]
                     )->fetch();
                 } catch (\Exception $exception) {

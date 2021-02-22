@@ -51,7 +51,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet">
     <?php
-    Asset::getInstance()->addJs("https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js")?>
+    \Bitrix\Main\UI\Extension::load("ui.vue");
+//    Asset::getInstance()->addJs("https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js")?>
    <?php
    Asset::getInstance()->addJs("https://code.jquery.com/jquery-3.4.1.min.js")?>
     <script src="<?= frontend()->js('slick/slick/slick.js'); ?>"></script>

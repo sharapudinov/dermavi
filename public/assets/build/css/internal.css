@@ -6059,7 +6059,9 @@ h1:not([class]) {
 }
 @media (max-width: 1300px) {
     .login__content.registr {
+        /*
         padding: 100px 0;
+        */
         width: 470px;
         margin-left: 40px;
     }
@@ -11251,4 +11253,17 @@ html.loaded:before {
         margin-bottom: 25px;
     }
 }
+
+.error {
+    color: red;
+}
+.label-login .errors {
+    color: red!important;
+}
+.errors {
+    margin-top: 5px;
+    color: red!important;
+}
+
+
 

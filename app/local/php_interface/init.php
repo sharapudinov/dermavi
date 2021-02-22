@@ -17,6 +17,8 @@ Arrilot\BitrixHLBlockFieldsFixer\ServiceProvider::register();
 Arrilot\BitrixModels\ServiceProvider::registerEloquent();
 MsNatali\BitrixDebug\DebugVar::register();
 
+define('VUEJS_DEBUG', true);
+
 require "error_reporting.php";
 require "constants.php";
 require "container.php";
