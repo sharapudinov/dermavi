@@ -10,3 +10,4 @@ class EmptyOrderCreateException extends \Exception
 {
     protected $message = 'Your cart is empty!';
 }
+

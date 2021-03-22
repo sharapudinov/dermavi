@@ -1,0 +1,103 @@
+@php
+    /** Шаблон чекаута */
+    /** @var \App\Models\User $user Модель пользователя */
+@endphp
+
+<div class="order-title head-1 padding-80">Оформление заказа</div>
+<div id="order-make">
+    <div class="order-wrap padding-80">
+        <div class="order-wrap__left">
+            <div class="ordering">
+                <bx-order-make-tabs v-on:personal="personal"
+                                    v-on:delivery="delivery"
+                                    v-on:payment="payment"
+                                    :parent_state="state"></bx-order-make-tabs>
+                <form v-on:submit.prevent="submit"
+                      action="/api/internal/order/create/">
+                    <bx-order-personal-data-tab v-show="state=='personal'"
+                                                v-on:delivery="delivery"
+                                                ref="personal"
+                                                initial_name="{{$user->getName()}}"
+                                                surname="{{$user->getSurname()}}"
+                                                patronymic="{{$user->getMiddleName()}}"
+                                                email="{{$user->getEmail()}}"
+                                                phone="{{$user->getPhone()}}"></bx-order-personal-data-tab>
+                    <bx-order-delivery-data-tab v-show="state=='delivery'"
+                                                v-on:payment="payment"
+                                                v-on:personal="personal"
+                                                ref="delivery"
+                                                ip="{{$ip}}"
+                                                initial_postal_code="{{$user->getRegion()}}"
+                                                initial_region="{{$user->getRegion()}}"
+                                                initial_city="{{$user->getCity()}}"
+                                                street="{{$user->getStreet()}}"
+                                                serialized_delivery_service_list='@json($deliveryServices)'></bx-order-delivery-data-tab>
+                    <bx-order-payment-data-tab v-show="state=='payment'"
+                                               v-on:delivery="delivery"
+                                               ref="payment"
+                                               amount_to_pay="{{$cartPriceFloat}}"
+                                               serialized_pay_system_list='@json($paySystems)'></bx-order-payment-data-tab>
+                </form>
+                <div id="success"
+                     v-if="state=='success'"
+                     class="cart-empty">
+                    <div class="cart-empty__img-wrap">
+                        <img src="img/cart_done.svg"
+                             alt=""
+                             class="cart-empty__img"></div>
+                    <div class="cart-empty__title">
+                        <i><b>заказ №{{'{{order_number}'.'}'}}</b></i><br>успешно оформлен
+                    </div>
+                    <div class="cart-empty__text">Ваш заказ №{{'{{order_number}'.'}'}} успешно оформлен и находится в обработке. <br>
+                        Наш менеджер свяжется с вами в ближайшее время для уточнения деталей. <br>
+                        Ещё одна третья текстовая строка.
+                    </div>
+                    <a href="#"
+                       class="cart-empty__btn">
+                        <div class="btn btn-small btn-black ">Продолжить покупки</div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <div id="order-summary" class="order-wrap__right">
+            <div class="cart-total">
+                <div class="cart-total__title">Ваш заказ</div>
+                <div class="cart-total__raw">
+                    <div class="cart-total__raw-label">Позиций в заказе</div>
+                    <div class="cart-total__raw-value">{{count($basketItems)}}</div>
+                </div>
+                <div class="cart-total__raw">
+                    <div class="cart-total__raw-label">Сумма заказа</div>
+                    <div class="cart-total__raw-value">{{$cartItemsCost}} ₽</div>
+                </div>
+                <div v-if="{{$discount>0?'true':'false'}}"
+                     class="cart-total__raw">
+                    <div class="cart-total__raw-label">Общая скидка</div>
+                    <div class="cart-total__raw-value">{{$discount}} ₽</div>
+                </div>
+                <div class="cart-total__raw">
+                    <div class="cart-total__raw-label">Доставка</div>
+                    <div class="cart-total__raw-value">{{$servicesPrice}} ₽</div>
+                </div>
+                <div v-if="{{$promocode_discount>0?'true':'false'}}"
+                     class="cart-total__raw">
+                    <div class="cart-total__raw-label">Скидка по промокоду</div>
+                    <div class="cart-total__raw-value">{{$promocode_discount}} ₽</div>
+                </div>
+                <div class="cart-total__promo-input">
+                    <input type="text" class="input input-normal input-full_width input-border input-bgr_grey"
+                           placeholder="Введите промокод">
+                    <button class="form__btn cart-total__search " type="submit">
+                        <div class="form__icon"><i class="icon icon-arrow_right-long"></i></div>
+                    </button>
+                </div>
+                <div class="cart-total__price-total">
+                    <div class="cart-total__price-total-label">К оплате</div>
+                    <div class="cart-total__price-total-value">{{$cartPriceFloat}} ₽</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,14 @@
+@php
+    /**
+    * @var array $items - Список позиций
+    * @var bool $canCheckout - Возможна ли покупка
+    * @var \App\Models\User $user - Текущий пользователь
+    */
+@endphp
+
+<div class="cart-title head-1 padding-80">Корзина</div>
+
+<div id="cart">
+    <bx-cart summary_data='@json($summary)'
+             items_data='@json($items)'></bx-cart>
+</div>

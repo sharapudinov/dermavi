@@ -1,0 +1,26 @@
+@php
+    /** @var \App\Core\Sale\View\OrderItemViewModel $orderItem */
+    /** @var \App\Models\Catalog\Diamond $diamond */
+@endphp
+<div class="page-profile__diamond-params page-profile__diamond-params--jewelry ">
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">Металл</div>
+        <div class="page-profile__diamond-params-value">{{$variant->metal}} {{$variant->fineness}}</div>
+    </div>
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">Размер</div>
+        <div class="page-profile__diamond-params-value">{{$variant->size}}</div>
+    </div>
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">Вставки</div>
+        <div class="page-profile__diamond-params-value">{{$variant->diamondsCount}}</div>
+    </div>
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">Вес вставок</div>
+        <div class="page-profile__diamond-params-value">{{$variant->diamondsWeight}} карат</div>
+    </div>
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">Вес украшения</div>
+        <div class="page-profile__diamond-params-value">{{$variant->weight}} г</div>
+    </div>
+</div>

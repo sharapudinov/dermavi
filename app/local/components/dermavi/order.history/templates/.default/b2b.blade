@@ -1,0 +1,21 @@
+@php
+    /** @var App\Models\User $user */
+    /** @var Illuminate\Support\Collection|App\Core\Sale\View\OrderViewModel[] $orders */
+    /** @var bool $isIE */
+@endphp
+
+<div class="page-profile__container-tablet">
+    @include('include/_b2b_order_filter')
+</div>
+<div class="profile-list">
+    <div id="orders-list" >
+        @include('include/_b2b_order_list', ['orders' => $orders])
+    </div>
+</div>
+<script>
+    window.orderHistoryParams = {!! \CUtil::PhpToJSObject([
+        'PARAMS' => array_filter($arParams, function ($key) {
+        return $key[0] != '~';
+    }, ARRAY_FILTER_USE_KEY),
+    ]) !!}
+</script>

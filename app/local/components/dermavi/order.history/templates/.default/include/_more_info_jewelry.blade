@@ -1,0 +1,47 @@
+@php
+    /** @var array $statusIcons */
+    /** @var \App\Core\Sale\View\OrderViewModel $order */
+    /** @var \App\Core\Sale\View\OrderItemViewModel $orderItem */
+    /** @var \App\Core\Jewelry\Dto\JewelrySkuDto $variant */
+@endphp
+<div class="page-profile__more-info">
+    <div id="page-profile-b2c-more-info-{{ $orderItem->getBasketId() }}" style="display: none;">
+        @foreach($variant->diamonds as $diamond)
+            <ul class="page-profile__more-info-list page-profile__more-info-list--jewelry">
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Тип</div>
+                    <div class="page-profile__more-info-value">{!! $variant['types'][$loop->index] !!}</div>
+                </li>
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Форма</div>
+                    <div class="page-profile__more-info-value">{!! $diamond->shape !!}</div>
+                </li>
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Цвет</div>
+                    <div class="page-profile__more-info-value">{!! $variant['colorsGia'][$loop->index] !!}</div>
+                </li>
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Чистота</div>
+                    <div class="page-profile__more-info-value">{!! $variant['claritiesGia'][$loop->index] !!}</div>
+                </li>
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Огранка</div>
+                    <div class="page-profile__more-info-value">{!! $variant['shapes'][$loop->index] !!}</div>
+                </li>
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Вес</div>
+                    <div class="page-profile__more-info-value">{{$diamond->weight}}</div>
+                </li>
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Кол-во</div>
+                    <div class="page-profile__more-info-value">{{$diamond->count}}</div>
+                </li>
+            </ul>
+        @endforeach
+    </div>
+
+    <button class="js-fade-toggle link link--italic page-profile__more-info-btn" type="button" data-toggle="Свернуть"
+        data-target="#page-profile-b2c-more-info-{{ $orderItem->getBasketId() }}">
+        Подробнее о&nbsp;вставках
+    </button>
+</div>

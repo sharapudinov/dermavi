@@ -1,0 +1,32 @@
+@php
+    /** @var \App\Core\Sale\View\OrderItemViewModel $orderItem */
+    /** @var \App\Models\Catalog\Diamond $diamond */
+@endphp
+<div class="page-profile__diamond-params">
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">@lang('user_order_history_shape')</div>
+        <div class="page-profile__diamond-params-value">{{ $diamond->getShapeValue() }}</div>
+    </div>
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">@lang('user_order_history_carat')</div>
+        <div class="page-profile__diamond-params-value">{{ $diamond->getWeight() }}</div>
+    </div>
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">@lang('user_order_history_color')</div>
+        <div class="page-profile__diamond-params-value">{{ $diamond->getDiamondPacketColorValue() }}</div>
+    </div>
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">@lang('user_order_history_clarity')</div>
+        <div class="page-profile__diamond-params-value">{{ $diamond->getClarityValue() }}</div>
+    </div>
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">@lang('user_order_history_cut')</div>
+        <div class="page-profile__diamond-params-value">{!! $diamond->cut ? $diamond->cut->getDisplayValue() : '&mdash;' !!}</div>
+    </div>
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">@lang('user_order_history_price')</div>
+        <div class="page-profile__diamond-params-value">
+            {!! \App\Core\Currency\Currency::getCurrentCurrency()->getSymbol() !!}{{ $orderItem->formatPrice() }}
+        </div>
+    </div>
+</div>

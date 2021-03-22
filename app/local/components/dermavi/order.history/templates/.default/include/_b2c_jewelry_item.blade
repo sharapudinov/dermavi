@@ -1,0 +1,37 @@
+@php
+    use App\Core\Jewelry\Dto\JewelrySkuDto;
+    use App\Core\Jewelry\Dto\JewelryDto;
+    use App\Models\Jewelry\JewelrySku;
+
+    /** @var \App\Core\Sale\View\OrderViewModel $order */
+    /** @var App\Core\Sale\View\OrderItemViewModel $orderItem */
+    $jewelry = new JewelryDto($orderItem->getJewelrySku()->jewelry);
+    $variant = new JewelrySkuDto($orderItem->getJewelrySku());
+
+@endphp
+
+<div class="js-updateable-by-form"
+     data-product-id="{{ $jewelry->id }}"
+     data-cart-product-id="{{ $orderItem->getBasketId() }}"
+     data-order-id="{{ $order->getId() }}"
+>
+<div class="page-profile__order-pic">
+    <img src="{{array_first($variant->photosPreview)}}" alt="">
+</div>
+<p class="page-profile__order-article">Артикул {{$variant->number}}</p>
+<p class="page-profile__order-jewelry">{{$variant->name}}</p>
+<p class="page-profile__order-collection">Коллекция {{$jewelry->collection}}</p>
+<p class="page-profile__order-price">{!! $variant->formattedPrice !!}</p>
+
+@php
+/* Убираем возможность изменения гравировки (после тестирования и принятия клиентом можно удалить блок)
+<div class="page-profile__benefits page-profile__benefits--jewelry">
+@include('include/_engraving')
+</div>
+*/
+@endphp
+
+    @include('include/_characteristics_jewelry')
+    @include('include/_more_info_jewelry')
+
+</div>

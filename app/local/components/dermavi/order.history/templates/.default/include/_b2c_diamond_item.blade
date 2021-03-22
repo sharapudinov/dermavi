@@ -1,0 +1,102 @@
+@php
+    /** @var App\Core\Sale\View\OrderItemViewModel $orderItem */
+    /** @var \App\Models\Catalog\Diamond $diamond */
+    /** @var \App\Core\Sale\View\DiamondPaidServiceCollection $paidServices */
+    $diamond = $orderItem->getDiamond();
+@endphp
+@include('include/_picture', ['diamond' => $diamond])
+<p class="page-profile__order-id">
+    <a href="{{ $diamond->getDetailPageUrl() }}" target="_blank">
+        ID {{ $diamond->getPacketNumber() }}
+    </a>
+</p>
+@if ($diamond->getTrasingData()->isValid())
+<button class="btn btn--lg btn--transparent page-profile__history-btn
+                                    js-tracing-search-diamond-product-card"
+        data-packet-id="{{ $diamond->getPacketNumber() }}" type="button">
+    @lang('user_order_history_diamond_history')
+</button>
+@endif
+
+@php
+/* Убираем возможность изменения параметров (после тестирования и принятия клиентом можно удалить блок)
+<div class="page-profile__benefits js-updateable-by-form"
+    data-product-id="{{ $diamond->getId() }}"
+    data-cart-product-id="{{ $orderItem->getBasketId() }}"
+    data-order-id="{{ $order->getId() }}"
+    data-shape="{{ $diamond->shape->getExternalID() }}">
+    @include('include/_engraving')
+    <div class="page-profile__benefits-col page-profile__benefits-col--name js-benefits-name">
+        <button type="button" data-href="#popup-edit-diamond-name" data-popup="open"
+                class="feature page-profile__benefits-item {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}">
+            <svg class="icon icon--feature-1 feature__icon">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-feature_1"></use>
+            </svg>
+            <span class="feature__text">
+                @lang('user_order_history_name_and_message')
+            </span>
+        </button>
+        <p class="page-profile__benefits-name js-updateable-name {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}">
+            {{ $orderItem->getCustomProperty('NAME') }}
+        </p>
+        <p class="page-profile__benefits-text js-updateable-message {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}">
+            {{ $orderItem->getCustomProperty('DESCRIPTION') }}
+        </p>
+        <button class="page-cart__benefits-clear js-benefits-clear {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}
+                                        {{ $orderItem->getCustomProperty('NAME') || $orderItem->getCustomProperty('DESCRIPTION') ? '' : 'is-hidden' }}"
+                type="button">
+            <svg class="icon icon--close-lg">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-close_lg"></use>
+            </svg>
+        </button>
+    </div>
+    @if (($paidServices->certificate($diamond))
+    && $price = \App\Helpers\UserCartHelper::getGiaCertificatePriceForDiamond($diamond, true))
+    <div class="page-profile__benefits-col page-profile__benefits-col--gia
+                                        js-benefits-gia">
+        <button type="button" data-href="#popup-edit-diamond-gia"
+                data-popup="open" class="feature page-profile__benefits-item
+                                            {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}">
+            <svg class="icon icon--feature-3 feature__icon">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-feature_3"></use>
+            </svg>
+            <span class="feature__text">
+                @lang('user_order_history_certificate')
+            </span>
+        </button>
+        @php
+        */
+        /* Убираем возможность изменения параметров (после тестирования и принятия клиентом можно удалить блок)
+
+        /** @var \App\Core\Sale\View\OrderItemViewModel $certificate - Сертификат */
+        $certificate = $orderItem->getAttachedService('certificate');
+        /** @var \App\Models\Catalog\PaidService $paidServiceInfo - Информация о платной услуге */
+        $paidServiceInfo = $paidServices->certificates->first();
+        /*
+        @endphp
+        @php
+        /* Убираем возможность изменения параметров (после тестирования и принятия клиентом можно удалить блок)
+        <p class="page-profile__benefits-price js-updateable-gia
+                                            {{ $certificate ? '' : 'is-hidden' }}
+                                            {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}"
+           data-gia="false" data-price="{{ $price }}">
+            + {!! $price . ' ' . \App\Core\Currency\Currency::getCurrentCurrency()->getSymbol() !!}
+        </p>
+
+        <button class="page-cart__benefits-clear js-benefits-clear js-benefits-clear-gia
+                                            {{ $certificate ? '' : 'is-hidden' }}
+                                            {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}"
+                type="button"
+                data-product-cart-id="{{ $certificate ? $certificate->getBasketId() : '' }}">
+            <svg class="icon icon--close-lg">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-close_lg"></use>
+            </svg>
+        </button>
+    </div>
+    @endif
+</div>
+*/
+@endphp
+
+@include('include/_characteristics', ['diamond' => $diamond, 'orderItem' => $orderItem])
+@include('include/_more_info', ['diamond' => $diamond, 'orderItem' => $orderItem])

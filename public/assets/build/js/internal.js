@@ -80,19 +80,6 @@ $(function(){
         $('.js-goods-item').toggleClass('goods-item_tablet-33');
     });
 
-    $('button').click(function(e){
-        var button_classes, value = +$(this).siblings('.counter__value').val();
-        button_classes = $(e.currentTarget).prop('class');
-        if(button_classes.indexOf('up_count') !== -1){
-            value = (value) + 1;
-        } else {
-            value = (value) - 1;
-        }
-        value = value < 1 ? 1 : value;
-        $(this).siblings('.counter__value').val(value);
-        return false;
-    });
-
     $('.counter').click(function(){
         $(this).focus().select();
         return false;

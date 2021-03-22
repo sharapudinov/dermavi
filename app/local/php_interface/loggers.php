@@ -15,11 +15,11 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Registry;
 
-//// common logger
-//$logger = new Logger('common');
-//$logger->pushHandler(new StreamHandler(logs_path('common.log')));
-//Registry::addLogger($logger, 'common');
-//
+// common logger
+$logger = new Logger('common');
+$logger->pushHandler(new StreamHandler(logs_path('common.log')));
+Registry::addLogger($logger, 'common');
+
 //api logger
 $logger = new Logger(\App\Api\BaseController::LOGGER_NAME);
 $logger->pushHandler(new StreamHandler(logs_path('api.log')));
@@ -132,11 +132,11 @@ Registry::addLogger($logger, 'internal_user_auth_info');
 //$logger->pushHandler(new StreamHandler(logs_path('/api/internal/profile/info.log')));
 //Registry::addLogger($logger, 'internal_user_profile_info');
 //
-//// Логгер для сбора ошибок App\Api\Internal\User\ProfileController
-//$logger = new Logger('internal_user_profile_error');
-//$logger->pushHandler(new StreamHandler(logs_path('/api/internal/profile/error.log')));
-//Registry::addLogger($logger, 'internal_user_profile_error');
-//
+// Логгер для сбора ошибок App\Api\Internal\User\ProfileController
+$logger = new Logger('internal_user_profile_error');
+$logger->pushHandler(new StreamHandler(logs_path('/api/internal/profile/error.log')));
+Registry::addLogger($logger, 'internal_user_profile_error');
+
 //// Логгер для сбора информации App\Api\Internal\Main\PrivacyPolicyController
 //$logger = new Logger('internal_main_privacy_policy_info');
 //$logger->pushHandler(new StreamHandler(logs_path('/api/internal/privacy_policy/info.log')));

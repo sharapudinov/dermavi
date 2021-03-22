@@ -65,6 +65,6 @@ class ProductOrder implements ProductOrderInterface
      */
     public function getMailEventName(): array
     {
-        return ['NEW_JEWELRY_ORDER_CREATE', 'NEW_ORDER_CREATE'];
+        return ['SALE_NEW_ORDER'];
     }
 }

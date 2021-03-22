@@ -1,0 +1,183 @@
+@php
+    /** @var \App\Models\User $user */
+    /** @var \Illuminate\Support\Collection|\App\Core\Sale\View\OrderViewModel[] $orders */
+    /** @var bool $isIE */
+    /** @var \App\Core\Sale\View\DiamondPaidServiceCollection $paidServices */
+    /** @var array $statusIcons */
+
+    /** @var \Illuminate\Support\Collection|\App\Core\Sale\View\OrderViewModel[] $purchases */
+    $purchases = $orders->filter->isFinished();
+@endphp
+
+<div class="page-profile__container-tablet">
+    <div class="js-tabs-head page-profile__tabs-head">
+        <button class="link is-tab-active page-profile__tab" data-tab-target="#tab-target-1" type="button">
+            @lang('user_order_history_my_orders')
+        </button>
+
+        @if ($purchases->isNotEmpty())
+            <button class="link page-profile__tab" data-tab-target="#tab-target-2" type="button">
+                @lang('user_order_history_my_purchases')
+            </button>
+        @endif
+    </div>
+
+    <div class="js-tabs-body tabs-body page-profile__tabs-body">
+        <div id="tab-target-1" class="tabs-body__item page-profile__order is-tab-open">
+            @foreach($orders as $order)
+                @continue($order->isFinished())
+                <div class="page-profile__order-info">
+                    <p class="page-profile__order-number">@lang('user_order_history_order') №{{ $order->getAccountNumber() }}</p>
+                    <ul class="page-profile__order-data">
+                        <li class="page-profile__order-data-item">
+                            <span class="page-profile__order-data-name">
+                                @lang('user_order_history_date')
+                            </span>
+                            <p class="page-profile__order-data-value">
+                                {{ $order->getTranslatedDate() }}
+                            </p>
+                        </li>
+                        <li class="page-profile__order-data-item">
+                            <span class="page-profile__order-data-name">
+                                @lang('user_order_history_status')
+                            </span>
+                            <p class="page-profile__order-data-value page-profile__order-status">
+                                @if($order->isCanceled())
+                                    <svg class="icon icon--cancel page-profile__order-status-icon">
+                                        <use xlink:href="{{ SPRITE_SVG }}#icon-cancel"></use>
+                                    </svg>
+                                    <span class="page-profile__condition-text">
+                                        @lang('user_order_history_canceled')
+                                    </span>
+                                @else
+                                    @if($statusIcon = $statusIcons[$order->getStatus()->getStatusId()])
+                                        <svg class="icon icon--{{$statusIcon['class']}} page-profile__order-status-icon">
+                                            <use xlink:href="{{ SPRITE_SVG }}#icon-{{$statusIcon['xlink_href']}}"></use>
+                                        </svg>
+                                    @endif
+                                    <span class="page-profile__condition-text">
+                                        {{ $order->getStatus()->getName() }}
+                                    </span>
+                                @endif
+                            </p>
+                        </li>
+
+
+                        <li class="page-profile__order-data-item">
+                            <span class="page-profile__order-data-name">
+                                @lang('user_order_history_order_sum')
+                            </span>
+                            <p class="page-profile__order-data-value">
+                                {!! \App\Core\Currency\Currency::getCurrencySymbol($order->getOrder()->getCurrency()) !!}
+                                {!! \App\Helpers\NumberHelper::transformNumberToPrice($order->getPrice()) !!}
+                            </p>
+                        </li>
+
+                        @if ($order->isDelivery())
+                            <li class="page-profile__order-data-item page-profile__order-data-item--fw">
+                                <span class="page-profile__order-data-name">@lang('user_order_history_delivery_number')</span>
+                                <div class="page-profile__order-data-value js-post-id-wrapper">
+                                    <span class="js-post-id">
+                                        @if ($order->getTrackNumber())
+                                            {{$order->getTrackNumber()}}
+                                        @else
+                                            @lang('user_order_history_delivery_number_empty')
+                                        @endif
+                                    </span>
+                                </div>
+                            </li>
+                        @endif
+                    </ul>
+
+                    @if ($order->isDelivery() && $order->getTrackNumber())
+                        <p class="page-profile__tracker">
+                            @lang('user_order_history_delivery_track_text') <a href="{{$order->getTrackUrl()}}" target="_blank" rel="nofollow">www.cccb.ru</a>
+                        </p>
+                    @endif
+
+                    <div id="page-profile-b2c-order-more-{{ $order->getId() }}">
+                        @php $deliveryAddress = (string)$order->getDeliveryAddress(); @endphp
+
+                        @if($order->getOrder()->isDelivery() && $deliveryAddress)
+                            <span class="page-profile__order-data-name">
+                                @lang('user_order_history_delivery_address')
+                            </span>
+                            <p class="page-profile__order-data-value">
+                                @if($address = $order->getCccbPickpointAddress())
+                                    @lang('user_order_history_pickup_point') {{ $address }}
+                                @else
+                                    {{ $deliveryAddress }}
+                                @endif
+                            </p>
+                        @elseif($order->getOrder()->isPickup() && !is_null($order->getPickupPoint()))
+                            <span class="page-profile__order-data-name">
+                                @lang('user_order_history_pickup_point')
+                            </span>
+                            <p class="page-profile__order-data-value">
+                                {{ $order->getPickupPoint()->getAddress() }}
+                            </p>
+                        @endif
+
+                        @if(!$order->isCanceled() && !$order->getOrder()->isPaid())
+                            @php $popupId = 'popup-cancel-confirm-' . $order->getId(); @endphp
+                            <button class="link link--italic page-profile__order-cancel" data-href="#{{$popupId}}"
+                                data-popup="open" type="button">
+                                @lang('user_order_history_cancel_order')
+                            </button>
+                            @php $APPLICATION->IncludeFile(SITE_TEMPLATE_PATH . '/partials/popups/popup_order_cancel_confirm.php', [
+                                'popupId' => $popupId,
+                                'order' => $order,
+                            ]); @endphp
+                        @endif
+                    </div>
+                </div>
+                <ol class="page-profile__order-list">
+                    @foreach($order->getItems() as $orderItem)
+                        <li class="page-profile__order-list-item">
+                            @if ($orderItem->isDiamond())
+                                @include('include/_b2c_diamond_item')
+                            @endif
+
+                            @if ($orderItem->isJewelry())
+                                @include('include/_b2c_jewelry_item')
+                            @endif
+
+                            @if ($orderItem->isConstructorReadyProduct())
+                                @include('include/_b2c_constructor_ready_product_item')
+                            @endif
+                        </li>
+                    @endforeach
+                </ol>
+            @endforeach
+        </div>
+        @if ($purchases->isNotEmpty())
+            <div id="tab-target-2" class="tabs-body__item page-profile__order">
+                @foreach($purchases as $order)
+                    @continue(!$order->getStatus()->isFinished())
+                    @foreach($order->getItems() as $orderItem)
+                        @if ($orderItem->isDiamond())
+                            @include('include/_b2c_diamond_history_item')
+                        @endif
+
+                        @if ($orderItem->isJewelry())
+                            @include('include/_b2c_jewelry_history_item')
+                        @endif
+
+                        @if ($orderItem->isConstructorReadyProduct())
+                            @include('include/_b2c_constructor_ready_product_history_item')
+                        @endif
+                    @endforeach
+                @endforeach
+            </div>
+        @endif
+    </div>
+</div>
+
+@bxComponent('popup:action.status', 'wide', [
+    'form_id' => 'diamond-search-form',
+    'error_text' => get_lang_phrase('user_order_history_tracing_error_text')
+])
+@bxComponent('popup:action.status', 'wide', [
+    'form_id' => 'cart-error'
+])
+@bxComponent('popup:paid.services', '', [])

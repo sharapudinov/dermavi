@@ -1,0 +1,4 @@
+<?php
+
+$MESS['GREENSIGHT_GEO_MENU_TITLE'] = 'Меню';
+$MESS['GREENSIGHT_GEO_SUBMENU_TITLE'] = 'Подменю';

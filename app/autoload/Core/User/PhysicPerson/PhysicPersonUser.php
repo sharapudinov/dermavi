@@ -177,28 +177,23 @@ class PhysicPersonUser implements UserInterface
         $result = true;
 
         try {
+
             $user->update([
-                'UF_USER_NAME_RU' => $formData['contacts-name'],
-                'UF_USER_NAME_EN' => $formData['contacts-name'],
-                'UF_USER_NAME_CN' => $formData['contacts-name'],
-                'UF_USER_SURNAME_RU' => $formData['contacts-surname'],
-                'UF_USER_SURNAME_EN' => $formData['contacts-surname'],
-                'UF_USER_SURNAME_CN' => $formData['contacts-surname'],
-                'UF_USER_MIDDLE_NAME' => $formData['contacts-patronym'],
-                'PERSONAL_PHONE' => $formData['contacts-phone'],
-                'EMAIL' => $formData['contacts-email'],
-                'UF_APPEAL' => GenderHelper::getSalutationByRegFormInfo($formData['contacts-sex'])->getId()
+                'UF_USER_NAME_RU' => $formData['name'],
+                'UF_USER_NAME_EN' => $formData['name'],
+                'UF_USER_NAME_CN' => $formData['name'],
+                'UF_USER_SURNAME_RU' => $formData['surname'],
+                'UF_USER_SURNAME_EN' => $formData['surname'],
+                'UF_USER_SURNAME_CN' => $formData['surname'],
+                'UF_USER_MIDDLE_NAME' => $formData['patronymic'],
+                'PERSONAL_PHONE' => $formData['phone'],
+                'PERSONAL_STREET' => $formData['street'],
+                'EMAIL' => $formData['email'],
+                'NAME' => $formData['name'],
+                'LAST_NAME' => $formData['surname'],
+                'MIDDLE_NAME' => $formData['patronymic'],
             ]);
 
-            $user->passportData->update([
-                'UF_BIRTHDAY' => Date::createFromPhp(
-                    new DateTimePhp($formData['contacts-birthday'])
-                )
-            ]);
-
-            $user->physicAddress->update([
-                'UF_COUNTRY' => $formData['contacts-country']
-            ]);
         } catch (Throwable $exception) {
             $result = false;
             logger(UserCore::LOGGER_NAME_PROFILE_ERROR)

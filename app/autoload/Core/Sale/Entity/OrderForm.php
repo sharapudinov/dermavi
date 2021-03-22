@@ -4,6 +4,7 @@ namespace App\Core\Sale\Entity;
 
 use App\Models\HL\Country;
 use App\Models\Sale\PickupPoint;
+use Bitrix\Main\Diag\Debug;
 use Illuminate\Support\Collection;
 
 /**
@@ -17,27 +18,24 @@ class OrderForm
      * @var array - соответствие свойств формы свойствам заказа
      */
     private static $mapProperties = [
-        'companyName' => 'COMPANY_NAME',
-        'clientName' => 'CLIENT_NAME',
-        'taxId' => 'TAX_ID',
-        'country' => 'COUNTRY',
+        'companyName'       => 'COMPANY_NAME',
+        'clientName'        => 'CLIENT_NAME',
+        'taxId'             => 'TAX_ID',
+        'country'           => 'COUNTRY',
         'companySpeciality' => 'COMPANY_SPECIALITY',
-        'email' => 'EMAIL',
-        'phone' => 'PHONE',
-        
+        'email'             => 'EMAIL',
+        'phone'             => 'PHONE',
+        'deliveryZip'       => 'ZIP',
+        'deliveryCity'      => 'CITY',
+        'deliveryRegion'    => 'REGION',
+        'deliveryFIO'       => 'FIO',
         'deliveryPickupPointId',
         'deliveryPickupPoint',
-        'deliveryZip',
         'deliveryCountryId',
         'deliveryCountry',
-        'deliveryRegion',
-        'deliveryCity',
         'deliveryStreet',
         'deliveryHouse',
         'deliveryFlat',
-        'deliveryFirstName',
-        'deliveryLastName',
-        'deliverySecondName',
         'deliveryBirthday',
         'deliveryPhone',
         'deliveryDate',
@@ -65,7 +63,7 @@ class OrderForm
      * @var bool $toDoor Флаг необходимости доставки до двери
      */
     private $toDoor;
-    
+
     /**
      * @var int - идентификатор пункта самовывоза
      */
@@ -112,6 +110,10 @@ class OrderForm
     private $deliveryFlat;
     /**
      * @var string - имя получателя для доставки/самовывоза
+     */
+    private $deliverydeliveryFIO;
+    /**
+     * @var string - фамилия получателя для доставки/самовывоза
      */
     private $deliveryFirstName;
     /**
@@ -195,7 +197,7 @@ class OrderForm
      * @var string - email для отправки чеков
      */
     private $email;
-    
+
     /**
      * @var Collection|Country[] - страны
      */
@@ -210,7 +212,7 @@ class OrderForm
     {
         return get_object_vars($this);
     }
-    
+
     /**
      * @param int $deliveryServiceId
      * @return self
@@ -218,10 +220,10 @@ class OrderForm
     public function setDeliveryServiceId(int $deliveryServiceId): self
     {
         $this->deliveryServiceId = e($deliveryServiceId);
-        
+
         return $this;
     }
-    
+
     /**
      * @return int
      */
@@ -272,13 +274,13 @@ class OrderForm
     public function setDeliveryPickupPointId(int $deliveryPickupPointId): self
     {
         $this->deliveryPickupPointId = e($deliveryPickupPointId);
-    
+
         $pickupPoints = PickupPoint::baseQuery();
         if ($pickupPoints->has($this->deliveryPickupPointId)) {
             $pickupPoint = $pickupPoints[$this->deliveryPickupPointId];
             $this->deliveryPickupPoint = $pickupPoint->getCity() . ' ' . $pickupPoint->getAddress();
         }
-    
+
         return $this;
     }
 
@@ -294,7 +296,7 @@ class OrderForm
         $this->deliveryPickupPoint = $point;
         return $this;
     }
-    
+
     /**
      * @param int $paySystemId
      * @return self
@@ -302,10 +304,10 @@ class OrderForm
     public function setPaySystemId(int $paySystemId): self
     {
         $this->paySystemId = e($paySystemId);
-    
+
         return $this;
     }
-    
+
     /**
      * @return self
      */
@@ -313,7 +315,7 @@ class OrderForm
     {
         return (int)$this->paySystemId;
     }
-    
+
     /**
      * @param string $deliveryZip
      * @return self
@@ -321,10 +323,10 @@ class OrderForm
     public function setDeliveryZip(string $deliveryZip): self
     {
         $this->deliveryZip = e($deliveryZip);
-    
+
         return $this;
     }
-    
+
     /**
      * @param int $deliveryCountryId
      * @return self
@@ -332,15 +334,15 @@ class OrderForm
     public function setDeliveryCountryId(int $deliveryCountryId): self
     {
         $this->deliveryCountryId = e($deliveryCountryId);
-        
+
         $countries = static::getCountries();
         if ($countries->has($this->deliveryCountryId)) {
             $this->deliveryCountry = $countries[$this->deliveryCountryId]->getName();
         }
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $deliveryRegion
      * @return self
@@ -348,10 +350,10 @@ class OrderForm
     public function setDeliveryRegion(string $deliveryRegion): self
     {
         $this->deliveryRegion = e($deliveryRegion);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $deliveryCity
      * @return self
@@ -359,7 +361,7 @@ class OrderForm
     public function setDeliveryCity(string $deliveryCity): self
     {
         $this->deliveryCity = e($deliveryCity);
-    
+
         return $this;
     }
 
@@ -372,7 +374,7 @@ class OrderForm
     {
         return $this->deliveryCity;
     }
-    
+
     /**
      * @param string $deliveryStreet
      * @return self
@@ -380,10 +382,10 @@ class OrderForm
     public function setDeliveryStreet(string $deliveryStreet): self
     {
         $this->deliveryStreet = e($deliveryStreet);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $deliveryHouse
      * @return self
@@ -391,10 +393,10 @@ class OrderForm
     public function setDeliveryHouse(string $deliveryHouse): self
     {
         $this->deliveryHouse = e($deliveryHouse);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $deliveryFlat
      * @return self
@@ -402,21 +404,32 @@ class OrderForm
     public function setDeliveryFlat(string $deliveryFlat): self
     {
         $this->deliveryFlat = e($deliveryFlat);
-    
+
         return $this;
     }
-    
+
+    /**
+     * @param string $deliveryFIO
+     * @return self
+     */
+    public function setDeliveryFirstName(string $deliveryFIO): self
+    {
+        $this->deliveryFIO = e($deliveryFIO);
+
+        return $this;
+    }
+
     /**
      * @param string $deliveryFirstName
      * @return self
      */
-    public function setDeliveryFirstName(string $deliveryFirstName): self
+    public function setDeliveryFIO(string $deliveryFirstName): self
     {
         $this->deliveryFirstName = e($deliveryFirstName);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $deliveryLastName
      * @return self
@@ -424,10 +437,10 @@ class OrderForm
     public function setDeliveryLastName(string $deliveryLastName): self
     {
         $this->deliveryLastName = e($deliveryLastName);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $deliverySecondName
      * @return self
@@ -435,10 +448,10 @@ class OrderForm
     public function setDeliverySecondName(string $deliverySecondName): self
     {
         $this->deliverySecondName = e($deliverySecondName);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $deliveryBirthday
      * @return self
@@ -446,10 +459,10 @@ class OrderForm
     public function setDeliveryBirthday(string $deliveryBirthday): self
     {
         $this->deliveryBirthday = e($deliveryBirthday);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $deliveryPhone
      * @return self
@@ -457,10 +470,10 @@ class OrderForm
     public function setDeliveryPhone(string $deliveryPhone): self
     {
         $this->deliveryPhone = e($deliveryPhone);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $deliveryDate
      * @return self
@@ -468,10 +481,10 @@ class OrderForm
     public function setDeliveryDate(string $deliveryDate): self
     {
         $this->deliveryDate = e($deliveryDate);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $deliveryTime
      * @return self
@@ -479,10 +492,10 @@ class OrderForm
     public function setDeliveryTime(string $deliveryTime): self
     {
         $this->deliveryTime = e($deliveryTime);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingZip
      * @return self
@@ -490,10 +503,10 @@ class OrderForm
     public function setBillingZip(string $billingZip): self
     {
         $this->billingZip = e($billingZip);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingCountryId
      * @return self
@@ -501,15 +514,15 @@ class OrderForm
     public function setBillingCountryId(string $billingCountryId): self
     {
         $this->billingCountryId = e($billingCountryId);
-    
+
         $countries = static::getCountries();
         if ($countries->has($this->billingCountryId)) {
             $this->billingCountry = $countries[$this->billingCountryId]->getName();
         }
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingRegion
      * @return self
@@ -517,10 +530,10 @@ class OrderForm
     public function setBillingRegion(string $billingRegion): self
     {
         $this->billingRegion = e($billingRegion);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingCity
      * @return self
@@ -528,10 +541,10 @@ class OrderForm
     public function setBillingCity(string $billingCity): self
     {
         $this->billingCity = e($billingCity);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingStreet
      * @return self
@@ -539,10 +552,10 @@ class OrderForm
     public function setBillingStreet(string $billingStreet): self
     {
         $this->billingStreet = e($billingStreet);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingHouse
      * @return self
@@ -550,10 +563,10 @@ class OrderForm
     public function setBillingHouse(string $billingHouse): self
     {
         $this->billingHouse = e($billingHouse);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingFlat
      * @return self
@@ -561,10 +574,10 @@ class OrderForm
     public function setBillingFlat(string $billingFlat): self
     {
         $this->billingFlat = e($billingFlat);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingFirstName
      * @return self
@@ -572,10 +585,10 @@ class OrderForm
     public function setBillingFirstName(string $billingFirstName): self
     {
         $this->billingFirstName = e($billingFirstName);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingLastName
      * @return self
@@ -583,10 +596,10 @@ class OrderForm
     public function setBillingLastName(string $billingLastName): self
     {
         $this->billingLastName = e($billingLastName);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingSecondName
      * @return self
@@ -594,10 +607,10 @@ class OrderForm
     public function setBillingSecondName(string $billingSecondName): self
     {
         $this->billingSecondName = e($billingSecondName);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingBirthday
      * @return self
@@ -605,10 +618,10 @@ class OrderForm
     public function setBillingBirthday(string $billingBirthday): self
     {
         $this->billingBirthday = e($billingBirthday);
-    
+
         return $this;
     }
-    
+
     /**
      * @param string $billingPhone
      * @return self
@@ -616,10 +629,10 @@ class OrderForm
     public function setBillingPhone(string $billingPhone): self
     {
         $this->billingPhone = e($billingPhone);
-    
+
         return $this;
     }
-    
+
     /**
      * Получить список стран
      * @return Collection
@@ -629,10 +642,10 @@ class OrderForm
         if (is_null(static::$countries)) {
             static::$countries = Country::baseQuery();
         }
-        
+
         return static::$countries;
     }
-    
+
     /**
      * Получить массив соответствия свойств формы свойствам заказа
      * @return array
@@ -641,13 +654,11 @@ class OrderForm
     {
         $mapProperties = [];
         foreach (self::$mapProperties as $key => $value) {
-            if ($key == (int)$key) {
-                $mapProperties[$value] = strtoupper(preg_replace('/(?<!^)[A-Z]/', '_$0', $value));
-            } else {
+            if (gettype($key) != 'integer') {
                 $mapProperties[$key] = $value;
             }
         }
-        
+
         return $mapProperties;
     }
 }

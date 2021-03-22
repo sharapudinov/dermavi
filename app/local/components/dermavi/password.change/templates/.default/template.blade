@@ -1,0 +1,79 @@
+@php
+/**
+ * Шаблон формы для смены пароля
+ * @var \App\Models\User $user - Текущий пользователь
+ */
+@endphp
+
+    <button class="js-fade-toggle page-profile__hide-part-btn" type="button" data-target="#change-password"
+        data-breakpoint="breakpointMobile">
+        @lang('user_password_change_change_password')
+    </button>
+
+    <div class="page-profile__hide-part page-profile__hide-part--mb0" id="change-password">
+        <form class="page-profile__change-password" name="change-password-form" id="change-password-form"
+              data-validate="true">
+            {!! get_csrf_hidden() !!}
+            <div class="field js-label-animation">
+                <label class="label" for="change-password__password-old">
+                    @lang('user_password_change_change_password_old_password')
+                </label>
+                <input id="change-password__password-old" type="password" name="change-password__password-old"
+                       data-parsley-length="[8, 20]" required autocomplete="off">
+                <button class="js-password-eye field__password-eye" type="button">
+                    <svg class="icon icon--eye">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-eye"></use>
+                    </svg>
+                    <svg class="icon icon--eye-closed is-hidden">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-eye_closed"></use>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="field js-label-animation">
+                <label class="label" for="change-password__password-new">
+                    @lang('user_password_change_change_password_new_password')
+                </label>
+                <input id="change-password__password-new" type="password" name="new_password_password"
+                       data-parsley-length="[8, 20]" required autocomplete="off">
+                <button class="js-password-eye field__password-eye" type="button">
+                    <svg class="icon icon--eye">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-eye"></use>
+                    </svg>
+                    <svg class="icon icon--eye-closed is-hidden">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-eye_closed"></use>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="field js-label-animation">
+                <label class="label" for="change-password__password-repeat">
+                    @lang('user_password_change_change_password_repeat_password')
+                </label>
+                <input id="change-password__password-repeat" type="password" name="change-password__password-repeat"
+                       data-parsley-equalto="#change-password__password-new" required autocomplete="off">
+                <button class="js-password-eye field__password-eye" type="button">
+                    <svg class="icon icon--eye">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-eye"></use>
+                    </svg>
+                    <svg class="icon icon--eye-closed is-hidden">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-eye_closed"></use>
+                    </svg>
+                </button>
+            </div>
+
+            <input type="hidden" name="new_password_user_hash" value="{{ $user->getHash() }}">
+
+            <button class="btn btn--lg btn--transparent page-profile__change-password-btn js-change-password-button"
+                    type="submit">
+                @lang('user_password_change_change_password_button')
+            </button>
+        </form>
+    </div>
+
+
+@bxComponent('popup:action.status', 'wide', [
+    'form_id' => 'personal-change-password',
+    'success_text' => get_lang_phrase('user_password_change_change_password_old_password_password_changed'),
+    'custom_error_text' => get_lang_phrase('user_password_change_change_password_old_password_is_incorrect')
+])

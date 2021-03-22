@@ -1,0 +1,26 @@
+@php
+    /** Шаблон позиции заказа для готового товара из конструктора ЮБИ */
+    /** @var \App\Core\Sale\View\OrderViewModel $order */
+    /** @var App\Core\Sale\View\OrderItemViewModel $orderItem */
+    /** @var \App\Core\Sale\View\DiamondPaidServiceCollection $paidServices */
+
+    $product = $orderItem->getCombination();
+    if (!$product->blankSku) return;
+@endphp
+
+<div class="js-updateable-by-form"
+    data-product-id="{{ $product->getId() }}"
+    data-cart-product-id="{{ $orderItem->getBasketId() }}"
+    data-order-id="{{ $order->getId() }}"
+>
+    <div class="page-profile__order-pic">
+        <img src="{{ array_first($product->blankSku->getReadyProductPhotos($product)) }}" alt="">
+    </div>
+    <p class="page-profile__order-article">Артикул {{ $product->blankSku->blank->getVendorCode() }}</p>
+    <p class="page-profile__order-jewelry">{{ $product->blankSku->blank->getName() }}</p>
+    <p class="page-profile__order-collection">Коллекция {{ $product->blankSku->blank->collection->getName() }}</p>
+    <p class="page-profile__order-price">{!! $product->getPrice() . ' ' . \App\Core\Currency\Currency::getCurrentCurrency()->getSymbol() !!}</p>
+
+    @include('include/_characteristics_constructor')
+    @include('include/_more_info_constructor')
+</div>

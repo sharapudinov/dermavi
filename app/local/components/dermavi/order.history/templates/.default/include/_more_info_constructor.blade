@@ -1,0 +1,43 @@
+@php
+    /** Шаблон описания вставок для товара конструктора */
+    /** @var \App\Core\Sale\View\OrderItemViewModel $orderItem */
+    /** @var \App\Models\Jewelry\JewelryConstructorReadyProduct $product */
+@endphp
+
+<div class="page-profile__more-info">
+    <div id="page-profile-b2c-more-info-{{ $orderItem->getBasketId() }}" style="display: none;">
+        @foreach($product->diamonds as $diamond)
+            <ul class="page-profile__more-info-list page-profile__more-info-list--jewelry">
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Тип</div>
+                    <div class="page-profile__more-info-value">Бриллиант</div>
+                </li>
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Форма</div>
+                    <div class="page-profile__more-info-value">{!! $diamond->shape ? $diamond->shape->getDisplayValue() : '&mdash;' !!}</div>
+                </li>
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Цвет</div>
+                    <div class="page-profile__more-info-value">{!! $diamond->color ? $diamond->color->getDisplayValue() : '&mdash;' !!}</div>
+                </li>
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Чистота</div>
+                    <div class="page-profile__more-info-value">{!! $diamond->clarity ? $diamond->clarity->getDisplayValue() : '&mdash;' !!}</div>
+                </li>
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Огранка</div>
+                    <div class="page-profile__more-info-value">{!! $diamond->cut ? $diamond->cut->getDisplayValue() : '&mdash;' !!}</div>
+                </li>
+                <li class="page-profile__more-info-cell">
+                    <div class="page-profile__more-info-param">Вес</div>
+                    <div class="page-profile__more-info-value">{{ $diamond->getWeight() }}</div>
+                </li>
+            </ul>
+        @endforeach
+    </div>
+
+    <button class="js-fade-toggle link link--italic page-profile__more-info-btn" type="button" data-toggle="Свернуть"
+            data-target="#page-profile-b2c-more-info-{{ $orderItem->getBasketId() }}">
+        Подробнее о&nbsp;вставках
+    </button>
+</div>

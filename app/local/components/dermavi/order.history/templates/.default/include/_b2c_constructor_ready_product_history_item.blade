@@ -1,0 +1,34 @@
+@php
+    /** Шаблон элемента изделия из конструктора ЮБИ в завершенных заказах */
+    /** @var \App\Core\Sale\View\OrderItemViewModel $orderItem */
+    /** @var \App\Models\Jewelry\JewelryConstructorReadyProduct $product */
+
+    $product = $orderItem->getCombination();
+    if (!$product->blankSku) return;
+@endphp
+
+<div class="js-updateable-by-form">
+    <h5 class="page-profile__diamond-name js-updateable-name">
+        {{ $orderItem->getCustomProperty('NAME') }}
+    </h5>
+    <p class="page-profile__diamond-message js-updateable-message">
+        {{ $orderItem->getCustomProperty('DESCRIPTION') }}
+    </p>
+</div>
+<div class="page-profile__order-pic">
+    <img src="{{array_first($product->blankSku->getReadyProductPhotos($product))}}" alt="">
+</div>
+
+<p class="page-profile__order-id">
+    <a href="{{ $product->blankSku->getDetailPageUrl() }}" target="_blank">
+        {{ $product->blankSku->blank->getName() }}
+    </a>
+</p>
+
+<p class="page-profile__order-article">Артикул {{ $product->blankSku->blank->getVendorCode() }}</p>
+<p class="page-profile__order-jewelry">{{ $product->blankSku->blank->getName() }}</p>
+<p class="page-profile__order-collection">Коллекция {{ $product->blankSku->blank->collection->getName() }}</p>
+<p class="page-profile__order-price">{!! $product->getPrice() . ' ' . \App\Core\Currency\Currency::getCurrentCurrency()->getSymbol() !!}</p>
+
+@include('include/_characteristics_constructor')
+@include('include/_more_info_constructor')

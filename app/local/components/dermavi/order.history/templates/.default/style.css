@@ -1,0 +1,11 @@
+.order-history-item-custom:hover {
+    background-color: #f2f2f4;
+}
+
+.cancel-order-custom {
+    font-size: .875rem;
+}
+
+.b2c-order-number-custom {
+    color: #000;
+}

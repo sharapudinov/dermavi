@@ -1,0 +1,36 @@
+@php
+    /** @var Illuminate\Support\Collection|App\Core\Sale\View\OrderStatusViewModel[] $orderStatuses */
+@endphp
+
+<button class="js-fade-toggle page-profile__hide-part-btn" type="button" data-target="#profile-filters" data-breakpoint="breakpointMobile">@lang('user_order_history_filters')</button>
+<div class="page-profile__hide-part" id="profile-filters">
+    <form class="page-profile__filters" data-validate="true">
+        @if($orderStatuses->isNotEmpty())
+            <div class="page-profile__filters-col">
+                <span class="page-profile__filters-name">@lang('user_order_history_status')</span>
+                <div class="page-profile__filters-cnt">
+                    <div class="checkbox page-profile__filters-checkbox">
+                        @foreach($orderStatuses as $orderStatus)
+                            <input class="checkbox__input" type="checkbox" name="statuses[]" id="profile-filters-checkbox-{{$orderStatus->getStatusId()}}" value="{{$orderStatus->getStatusId()}}" {{in_array($orderStatus->getStatusId(), context()->getRequest()->get('statuses')) ? 'checked' : ''}}>
+                            <label class="checkbox__label page-profile__filters-checkbox-label" for="profile-filters-checkbox-{{$orderStatus->getStatusId()}}">{{$orderStatus->getName()}}</label>
+                        @endforeach
+
+                        <input class="checkbox__input" type="checkbox" name="canceled" id="profile-filters-checkbox-cancel" value="Y" {{context()->getRequest()->get('canceled') == 'Y' ? 'checked' : ''}}>
+                        <label class="checkbox__label" for="profile-filters-checkbox-cancel">@lang('user_order_history_canceled')</label>
+
+                        <button class="link link--italic page-profile__filters-check-btn js-check-none" type="button">@lang('user_order_history_all_orders')</button>
+                    </div>
+                </div>
+            </div>
+        @endif
+        <div class="page-profile__filters-col">
+            <span class="page-profile__filters-name">@lang('user_order_history_all_period')</span>
+            <div class="page-profile__filters-cnt js-datepicker-container">
+                <div class="js-datepicker-inline" data-date-min="01.01.2010"></div>
+                <input type="hidden" name="start_date" class="js-start-date js-date-range">
+                <input type="hidden" name="end_date" class="js-end-date js-date-range">
+                <button class="link link--italic js-clear-date-range" type="button">@lang('user_order_history_all_the_time')</button>
+            </div>
+        </div>
+    </form>
+</div>

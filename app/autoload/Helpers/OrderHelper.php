@@ -82,20 +82,24 @@ class OrderHelper
     {
         $cacheKey = get_default_cache_key(self::class) . $name;
 
-        return cache($cacheKey, TTL::WEEK, function () use ($name)  {
-            try {
-                $services = Manager::getActiveList();
-                foreach ($services as $serviceId => $service) {
-                    if ($service['NAME'] == $name) {
-                        return $serviceId;
+        return cache(
+            $cacheKey,
+            TTL::WEEK,
+            function () use ($name) {
+                try {
+                    $services = Manager::getActiveList();
+                    foreach ($services as $serviceId => $service) {
+                        if ($service['NAME'] == $name) {
+                            return $serviceId;
+                        }
                     }
+                } catch (ArgumentException $e) {
+                    // Игнорируем
                 }
-            } catch (ArgumentException $e) {
-                // Игнорируем
-            }
 
-            return 0;
-        });
+                return 0;
+            }
+        );
     }
 
     /**
@@ -171,26 +175,14 @@ class OrderHelper
 
         $paySystemService = PaySystemManager::getObjectById($paySystemId);
         $payment = $paymentCollection->createItem();
-        $payment->setFields([
-            'PAY_SYSTEM_ID' => $paySystemService->getField('ID'),
-            'PAY_SYSTEM_NAME' => $paySystemService->getField('NAME'),
-            'SUM' => $order->getBasket()->getPrice()
-        ]);
+        $payment->setFields(
+            [
+                'PAY_SYSTEM_ID'   => $paySystemService->getField('ID'),
+                'PAY_SYSTEM_NAME' => $paySystemService->getField('NAME'),
+                'SUM'             => $order->getBasket()->getPrice()
+            ]
+        );
         $order->save()->getErrors();
-    }
-
-    /**
-     * Устанавливает для всех бриллиантов в заказев инфоблоке Имя бриллианта и Сообщение
-     * @param string $orderId
-     */
-    public static function setDiamondsNamesAndMessages(string $orderId): void
-    {
-        $order = OrderViewModel::fromOrderIds([$orderId])->first();
-
-        $items = $order->getItems();
-        foreach($items as $item){
-            self::setDiamondNameAndMessage($item);
-        }
     }
 
     /**
@@ -202,7 +194,7 @@ class OrderHelper
         $order = OrderViewModel::fromOrderIds([$orderId])->first();
 
         $items = $order->getItems();
-        foreach($items as $item){
+        foreach ($items as $item) {
             self::removeDiamondNameAndMessage($item);
         }
     }
@@ -215,10 +207,12 @@ class OrderHelper
     {
         $diamond = $basketItem->getDiamond();
         if ($diamond) {
-            $diamond->update([
-                'PROPERTY_DIAMOND_NAME_VALUE' => $basketItem->getCustomProperty('NAME'),
-                'PROPERTY_TRACING_MESSAGE_VALUE' => $basketItem->getCustomProperty('DESCRIPTION')
-            ]);
+            $diamond->update(
+                [
+                    'PROPERTY_DIAMOND_NAME_VALUE'    => $basketItem->getCustomProperty('NAME'),
+                    'PROPERTY_TRACING_MESSAGE_VALUE' => $basketItem->getCustomProperty('DESCRIPTION')
+                ]
+            );
         }
     }
 
@@ -230,10 +224,12 @@ class OrderHelper
     {
         $diamond = $basketItem->getDiamond();
         if ($diamond) {
-            $diamond->update([
-                'PROPERTY_DIAMOND_NAME_VALUE' => '',
-                'PROPERTY_TRACING_MESSAGE_VALUE' => ''
-            ]);
+            $diamond->update(
+                [
+                    'PROPERTY_DIAMOND_NAME_VALUE'    => '',
+                    'PROPERTY_TRACING_MESSAGE_VALUE' => ''
+                ]
+            );
         }
     }
 
@@ -246,32 +242,7 @@ class OrderHelper
      */
     public static function getMode(BitrixOrder $order): ProductOrderInterface
     {
-        $diamond = $order->items->first(function (BitrixBasketItem $item) {
-            return $item->diamond;
-        });
-
-        $jewelry = $order->items->first(function (BitrixBasketItem $item) {
-            return $item->jewelry;
-        });
-
-        $constructorReadyProduct = $order->items->first(function (BitrixBasketItem $item) {
-            return $item->jewelryConstructorReadyProduct;
-        });
-
-        if ($diamond && !$jewelry && !$constructorReadyProduct) {
-            if ($diamond->getSiteId() == 's2') {
-                $mode = new AuctionDiamondOrder();
-            } else {
-                $mode = new DiamondOrder();
-            }
-        } elseif (!$diamond && $jewelry && !$constructorReadyProduct) {
-            $mode = new JewelryOrder();
-        } elseif (!$diamond && !$jewelry && $constructorReadyProduct) {
-            $mode = new JewelryConstructorReadyProduct();
-        } else {
-            $mode = new ProductOrder();
-        }
-
+        $mode = new ProductOrder();
         return $mode;
     }
 }

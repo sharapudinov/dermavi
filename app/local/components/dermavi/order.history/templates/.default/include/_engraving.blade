@@ -1,0 +1,71 @@
+@php
+    /** @var \App\Core\Sale\View\DiamondPaidServiceCollection $paidServices */
+    /** @var App\Core\Sale\View\OrderItemViewModel $orderItem */
+   /** @var \App\Models\Catalog\PaidService $engravingDiamond */
+   /** @var \App\Models\Catalog\PaidService $engravingJewelry */
+if ($orderItem->isJewelry() || $orderItem->isConstructorReadyProduct()) {
+    $popup = '#popup-edit-jewelry-engraving';
+    $svgClass='icon--engrave-ring';
+    $svgIcon='#icon-engrave_ring';
+}
+if ($orderItem->isDiamond()) {
+     $popup = '#popup-edit-diamond-engraving';
+     $svgClass='icon--feature-2';
+     $svgIcon='#icon-engrave_ring';
+}
+
+$product = $orderItem->getProduct() instanceof \App\Models\Jewelry\JewelryConstructorReadyProduct
+    ? $orderItem->getProduct()->diamonds->first()
+    : $orderItem->getProduct();
+@endphp
+@if ($paidServices->engraving($product))
+    <div class="page-profile__benefits-col page-profile__benefits-col--engraving {{$orderItem->isJewelry() || $orderItem->isConstructorReadyProduct()?'page-profile__benefits-col--fw':''}} js-benefits-engraving">
+        <button type="button" data-href="{{$popup}}"
+                data-popup="open" class="feature page-profile__benefits-item
+                                            {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}"
+                data-type="{{ $orderItem->isJewelry() ? 'jewelry' : 'diamond' }}">
+            <svg class="icon {{$svgClass}} feature__icon">
+                <use xlink:href="{{ SPRITE_SVG }}{{$svgIcon}}"></use>
+            </svg>
+            <span class="feature__text {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}">
+                @lang('user_order_history_engraving')
+            </span>
+        </button>
+        @php
+            if ($orderItem->isDiamond()) {
+                $engravingType = $engravingDiamond;
+            } else {
+                $engravingType = $engravingJewelry;
+            }
+
+            /** @var \App\Core\Sale\View\OrderItemViewModel $engraving - Гравировка */
+            $engraving = $orderItem->getAttachedService('engraving');
+            if ($engraving) {
+                $engravingForFreeSum = $engraving->getService()->getForFreeSumFrom();
+            } else {
+                $engravingForFreeSum = $engravingType->getForFreeSumFrom();
+            }
+        @endphp
+        <p class="page-profile__benefits-price js-updateable-engraving-price {{ $engraving ? '' : 'is-hidden' }}
+            {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}"
+            data-engraving-symbol-price="{{ $engravingForFreeSum !== null && $orderItem->getPrice() > $engravingForFreeSum ? 0 : $engravingType->getPrice() }}">
+            +<span class="js-engraving-price">
+                {{ $engraving ? $engraving->getPrice() : ''}}
+            </span>
+            {!! \App\Core\Currency\Currency::getCurrentCurrency()->getSymbol() !!}
+        </p>
+        <p class="page-profile__benefits-text js-updateable-engraving
+                                            {{ $engraving ? '' : 'is-hidden' }}
+        {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}">
+            {{ $engraving ? $engraving->getCustomProperty('Text') : '' }}
+        </p>
+        <button class="page-cart__benefits-clear js-benefits-clear js-benefits-clear-engraving
+                                            {{ !$order->getStatus()->isInProcess() ? 'disabled-grey-button' : '' }}
+        {{ $engraving ? '' : 'is-hidden' }}" type="button"
+                data-product-cart-id="{{ $engraving ? $engraving->getBasketId() : '' }}">
+            <svg class="icon icon--close-lg">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-close_lg"></use>
+            </svg>
+        </button>
+    </div>
+@endif

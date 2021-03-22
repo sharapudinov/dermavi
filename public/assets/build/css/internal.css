@@ -6904,7 +6904,7 @@ h1:not([class]) {
 }
 @media (max-width: 1800px) {
     .ordering__delivery-form {
-        width: 50%;
+        width: 100%;
     }
 }
 @media (max-width: 1100px) {
@@ -11267,3 +11267,9 @@ html.loaded:before {
 
 
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}

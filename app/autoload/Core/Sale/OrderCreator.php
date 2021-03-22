@@ -18,6 +18,7 @@ use Bitrix\Main\ArgumentException;
 use Bitrix\Main\ArgumentNullException;
 use Bitrix\Main\ArgumentOutOfRangeException;
 use Bitrix\Main\ArgumentTypeException;
+use Bitrix\Main\Diag\Debug;
 use Bitrix\Main\Loader;
 use Bitrix\Main\LoaderException;
 use Bitrix\Main\NotImplementedException;
@@ -109,7 +110,7 @@ class OrderCreator
         /** Устанавливаем тип плательщика */
         $this->order->setPersonTypeId(
             PersonType::getPersonType(
-                $this->user->getUserEntityTypeCode()
+                    PersonType::PHYSICAL_ENTITY
             )->getPersonTypeId()
         );
 
@@ -287,7 +288,6 @@ class OrderCreator
     private function setProperties(): void
     {
         $mapProperties = OrderForm::getMapProperties();
-
         /** Задаем свойства заказу */
         foreach ($this->orderForm->getAllProperties() as $property => $value) {
             if ($mapProperties[$property] && $value) {

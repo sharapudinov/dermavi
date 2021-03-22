@@ -92,8 +92,8 @@ class DeliveryServiceWrapper
     {
         if (static::$instances === null) {
             static::$instances = collect();
-            static::rememberService(static::PICKUP, OrderSettings::getPickupServiceId());
-            static::rememberService(static::CCCB, OrderSettings::getCccbServiceId());
+            static::rememberService(static::PICKUP, 3);
+            static::rememberService(static::CCCB, 2);
         }
         return collect(static::$instances);
     }

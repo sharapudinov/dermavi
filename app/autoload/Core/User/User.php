@@ -178,7 +178,8 @@ final class User
     public function setUserAndDefineUserPersonType(UserModel $user): self
     {
         $this->user = $user;
-        $this->defineUserPersonType($user->getUserEntityTypeCode());
+        $this->defineUserPersonType(PersonType::PHYSICAL_ENTITY);
+
         return $this;
     }
 

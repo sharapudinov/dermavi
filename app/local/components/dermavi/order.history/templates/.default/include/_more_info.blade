@@ -1,0 +1,57 @@
+@php
+    /** @var array $statusIcons */
+    /** @var \App\Core\Sale\View\OrderViewModel $order */
+    /** @var \App\Core\Sale\View\OrderItemViewModel $orderItem */
+    /** @var \App\Models\Catalog\Diamond $diamond */
+@endphp
+<div class="page-profile__more-info">
+    <div id="page-profile-b2c-more-info-{{ $orderItem->getBasketId() }}" style="display: none;">
+
+        <ul class="page-profile__more-info-list">
+            <li class="page-profile__more-info-cell">
+                <div class="page-profile__more-info-param">@lang('user_order_history_age'), @lang('user_order_history_mln_years')</div>
+                <div class="page-profile__more-info-value">{{ $diamond->getAge() }}</div>
+            </li>
+            <li class="page-profile__more-info-cell">
+                <div class="page-profile__more-info-param">@lang('user_order_history_origin')</div>
+                <div class="page-profile__more-info-value">{{ $diamond->getOriginValue() }}</div>
+            </li>
+            <li class="page-profile__more-info-cell">
+                <div class="page-profile__more-info-param">@lang('user_order_history_mining')</div>
+                <div class="page-profile__more-info-value">{{ $diamond->getYearMining() }}</div>
+            </li>
+            {{--                                    <li class="page-profile__more-info-cell">--}}
+            {{--                                        <div class="page-profile__more-info-param">Collection</div>--}}
+            {{--                                        <div class="page-profile__more-info-value">OH! diamonds</div>--}}
+            {{--                                    </li>--}}
+            <li class="page-profile__more-info-cell">
+                <div class="page-profile__more-info-param">@lang('user_order_history_fluor')</div>
+                <div class="page-profile__more-info-value">{{ $diamond->getFluorValue() }}</div>
+            </li>
+            <li class="page-profile__more-info-cell">
+                <div class="page-profile__more-info-param">@lang('user_order_history_polish')</div>
+                <div class="page-profile__more-info-value">{{ $diamond->getPolishValue() }}</div>
+            </li>
+            <li class="page-profile__more-info-cell">
+                <div class="page-profile__more-info-param">@lang('user_order_history_symmetry')</div>
+                <div class="page-profile__more-info-value">{{ $diamond->getSymmetryValue() }}</div>
+            </li>
+            <li class="page-profile__more-info-cell">
+                <div class="page-profile__more-info-param">@lang('user_order_history_table')</div>
+                <div class="page-profile__more-info-value">{{ $diamond->getTable() }}</div>
+            </li>
+            <li class="page-profile__more-info-cell">
+                <div class="page-profile__more-info-param">@lang('user_order_history_depth')</div>
+                <div class="page-profile__more-info-value">{{ $diamond->getDepth() }}</div>
+            </li>
+            <li class="page-profile__more-info-cell">
+                <div class="page-profile__more-info-param">@lang('user_order_history_culet')</div>
+                <div class="page-profile__more-info-value">{{ $diamond->getCuletValue() }}</div>
+            </li>
+        </ul>
+    </div>
+
+    <button class="js-fade-toggle link link--italic page-profile__more-info-btn" type="button"
+        data-toggle="@lang('user_order_history_hide')"
+        data-target="#page-profile-b2c-more-info-{{ $orderItem->getBasketId() }}">@lang('user_order_history_more')</button>
+</div>

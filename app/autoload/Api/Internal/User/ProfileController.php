@@ -43,18 +43,22 @@ class ProfileController extends BaseController
     {
         /** @var array $request - Массив с полями формы */
         $request = htmlentities_on_array($_REQUEST);
-
+        $fields = $this->request->getParsedBody();
         /** @var UserModel $user - Текущий пользователь */
         $user = user();
 
         /** @var ResponseInterface $response - Ответ сервера */
         $response = null;
 
-        try {
             /** @var UserInterface $personType - Тип лица пользователя (физ/юр) */
-            $personType = (new User)->setUserAndDefineUserPersonType($user)->getPersonType();
 
-            if ($personType->setProfileData($user, $request)) {
+        try {
+            $personType=(new User)->setUserAndDefineUserPersonType($user);
+            $personType=$personType->getPersonType();
+
+            $res=$personType->setProfileData($user, $fields);
+
+            if ($res) {
                 $response = $this->respondWithSuccess();
                 Cache::flush(User::PERSONAL_INFO_PROFILE_CACHE_INIT_DIR . $user->getId());
                 logger(User::LOGGER_NAME_PROFILE_SUCCESS)
@@ -70,6 +74,7 @@ class ProfileController extends BaseController
         } catch (FieldIntegralityCheckerException $exception) {
             $response = $this->respondWithError($exception->getMessage(), $exception->getCode());
         } finally {
+
             return $response;
         }
     }

@@ -17,11 +17,8 @@ use Illuminate\Support\Collection;
  * @package App\Models\Auxiliary\Sale
  *
  * @property Collection|BitrixBasketItemProperty[] $properties
- * @property Diamond|null $diamond
  * @property PaidService|null $service
- * @property JewelrySku|null $jewelry
  * @property Fuser|null $fuser
- * @property JewelryConstructorReadyProduct|null $jewelryConstructorReadyProduct
  */
 class BitrixBasketItem extends D7Model
 {
@@ -123,39 +120,6 @@ class BitrixBasketItem extends D7Model
     }
 
     /**
-     * Возвращает запрос для получения связанного бриллианта.
-     *
-     * @internal
-     * @return BaseQuery
-     */
-    public function diamond(): BaseQuery
-    {
-        return $this->hasOne(Diamond::class, 'ID', 'PRODUCT_ID');
-    }
-
-    /**
-     * Возвращает запрос для получения связанного ЮИ.
-     *
-     * @internal
-     * @return BaseQuery
-     */
-    public function jewelry(): BaseQuery
-    {
-        return $this->hasOne(JewelrySku::class, 'ID', 'PRODUCT_ID');
-    }
-
-    /**
-     * Возвращает запрос для получения связанного готового изделия в конструкторе
-     *
-     * @internal
-     * @return BaseQuery
-     */
-    public function jewelryConstructorReadyProduct(): BaseQuery
-    {
-        return $this->hasOne(JewelryConstructorReadyProduct::class, 'ID', 'PRODUCT_ID');
-    }
-
-    /**
      * Возвращает запрос для получения связанной услуги.
      *
      * @internal
@@ -173,18 +137,6 @@ class BitrixBasketItem extends D7Model
      */
     public function getProduct(): ?ProductInterface
     {
-        if ($this->diamond) {
-            return $this->diamond;
-        }
-
-        if ($this->jewelry) {
-            return $this->jewelry;
-        }
-
-        if ($this->jewelryConstructorReadyProduct) {
-            return $this->jewelryConstructorReadyProduct;
-        }
-
         return null;
     }
 

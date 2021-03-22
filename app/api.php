@@ -42,7 +42,7 @@ $app->group('/internal', function () {
     $this->get('/user/auth/set-new-password/', 'App\Api\Internal\User\AuthController:setNewPassword');
     $this->post('/user/auth/change-password/', 'App\Api\Internal\User\AuthController:changePassword');
     $this->post('/user/auth/logout/', 'App\Api\Internal\User\AuthController:logout');
-    $this->get('/user/profile/update-profile/', 'App\Api\Internal\User\ProfileController:updateProfile');
+    $this->post('/user/profile/update-profile/', 'App\Api\Internal\User\ProfileController:updateProfile');
     $this->get('/user/profile/delivery-address/add/', 'App\Api\Internal\User\AddressController:addNewAddress');
     $this->get('/user/profile/delivery-address/update/', 'App\Api\Internal\User\AddressController:updateAddress');
     $this->post(
@@ -79,7 +79,7 @@ $app->group('/internal', function () {
 
 
     //Корзина
-    $this->post('/sale/cart/add/', 'App\Api\Internal\Sale\CartController:setToCart');
+    $this->any('/sale/cart/add/', 'App\Api\Internal\Sale\CartController:setToCart');
     $this->post('/sale/cart/remove/', 'App\Api\Internal\Sale\CartController:removeFromCart');
 
     $this->post(
@@ -105,23 +105,8 @@ $app->group('/internal', function () {
         '/sale/order/items/{orderItemId:[\d]+}/properties/remove/',
         'App\Api\Internal\Sale\OrderController:removeOrderItemCustomProperties'
     );
-    $this->post(
-        '/sale/order/items/{orderItemId:[\d]+}/engraving/',
-        'App\Api\Internal\Sale\OrderController:addEngraving'
-    );
-    $this->post(
-        '/sale/order/items/{orderItemId:[\d]+}/certificate/',
-        'App\Api\Internal\Sale\OrderController:addCertificateOrder'
-    );
-    $this->post(
-        '/sale/order/items/{orderItemId:[\d]+}/remove-paid-service/',
-        'App\Api\Internal\Sale\OrderController:removePaidService'
-    );
 
-    $this->get('/sale/pickup-point/get-list', 'App\Api\Internal\Sale\PickupPointController:getList');
-    $this->get('/sale/viewing-point/get-list', 'App\Api\Internal\Main\ViewingController:getOfficesToView');
-
-    $this->post('/sale/order/create/', 'App\Api\Internal\Sale\OrderController:createOrder');
+    $this->post('/order/create/', 'App\Api\Internal\Sale\OrderController:createOrder');
 
 
     //Список желаний/ избранное

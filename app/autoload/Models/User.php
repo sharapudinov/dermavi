@@ -29,18 +29,18 @@ use Illuminate\Support\Collection;
  * Class User
  * @package App\Models
  *
- * @property-read Collection|Address[]  $deliveryAddresses
- * @property-read Company               $company
- * @property-read Country               $country
- * @property-read Contact               $contact
- * @property-read Address               $physicAddress
- * @property-read PassportData          $passportData
- * @property-read User                  $manager
- * @property-read PersonalForm          $personalInfoForm
- * @property-read Address               $registrationAddress
+ * @property-read Collection|Address[] $deliveryAddresses
+ * @property-read Company $company
+ * @property-read Country $country
+ * @property-read Contact $contact
+ * @property-read Address $physicAddress
+ * @property-read PassportData $passportData
+ * @property-read User $manager
+ * @property-read PersonalForm $personalInfoForm
+ * @property-read Address $registrationAddress
  * @property-read Collection|Document[] $documents
- * @property-read Subscription          $subscription
- * @property-read SalutationType        $salutation
+ * @property-read Subscription $subscription
+ * @property-read SalutationType $salutation
  */
 class User extends UserModel
 {
@@ -107,7 +107,8 @@ class User extends UserModel
      */
     public function getName(string $language = null): ?string
     {
-        return LanguageHelper::getUserMultilingualFieldValue($this, 'USER_NAME', $language);
+        return $this['NAME'];
+//        return LanguageHelper::getUserMultilingualFieldValue($this, 'USER_NAME', $language);
     }
 
     /**
@@ -119,7 +120,8 @@ class User extends UserModel
      */
     public function getSurname(string $language = null): ?string
     {
-        return LanguageHelper::getUserMultilingualFieldValue($this, 'USER_SURNAME', $language);
+        return $this['LAST_NAME'];
+//        return LanguageHelper::getUserMultilingualFieldValue($this, 'USER_SURNAME', $language);
     }
 
     /**
@@ -129,7 +131,7 @@ class User extends UserModel
      */
     public function getMiddleName(): ?string
     {
-        return $this['UF_USER_MIDDLE_NAME'];
+        return $this['SECOND_NAME'];
     }
 
     /**
@@ -203,7 +205,7 @@ class User extends UserModel
      * а не идентификаторов.
      *
      * @param string|array $groupCodes
-     * @param bool         $adminInAll - если истина, то наличие прав администратора, подразумевает и вхождение
+     * @param bool $adminInAll - если истина, то наличие прав администратора, подразумевает и вхождение
      *                                 в любую из заданных групп,
      *
      * @return bool
@@ -273,9 +275,29 @@ class User extends UserModel
      * @return string|null
      *
      */
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
-        return $this['PERSONAL_PHONE'] ?? $this->company->getPhone();
+        return $this['PERSONAL_PHONE'];
+    }
+
+    public function getZip(): string
+    {
+        return (string)$this['PERSONAL_ZIP'];
+    }
+
+    public function getRegion(): string
+    {
+        return (string)$this['PERSONAL_STATE'];
+    }
+
+    public function getCity(): string
+    {
+        return (string)$this['PERSONAL_CITY'];
+    }
+
+    public function getStreet(): string
+    {
+        return (string)$this['PERSONAL_STREET'];
     }
 
     /**
@@ -445,7 +467,6 @@ class User extends UserModel
      */
     public function getLkDataLink(): string
     {
-
         if ($this->isLegalEntity()) {
             $str = 'company-data';
         } else {
@@ -494,7 +515,7 @@ class User extends UserModel
     public function physicAddress(): BaseQuery
     {
         return $this->hasOne(Address::class, 'UF_USER_ID', 'ID')
-                    ->filter(['UF_TYPE_ID' => AddressType::getPhysicAddressType()->getId()]);
+            ->filter(['UF_TYPE_ID' => AddressType::getPhysicAddressType()->getId()]);
     }
 
     /**
@@ -505,7 +526,7 @@ class User extends UserModel
     public function deliveryAddresses(): BaseQuery
     {
         return $this->hasMany(Address::class, 'UF_USER_ID', 'ID')
-                    ->filter(['UF_TYPE_ID' => AddressType::getDeliveryAddressType()->getId()]);
+            ->filter(['UF_TYPE_ID' => AddressType::getDeliveryAddressType()->getId()]);
     }
 
     /**
@@ -516,7 +537,7 @@ class User extends UserModel
     public function registrationAddress(): BaseQuery
     {
         return $this->hasOne(Address::class, 'UF_USER_ID', 'ID')
-                    ->filter(['UF_TYPE_ID' => AddressType::getRegisterAddressType()->getId()]);
+            ->filter(['UF_TYPE_ID' => AddressType::getRegisterAddressType()->getId()]);
     }
 
     /**

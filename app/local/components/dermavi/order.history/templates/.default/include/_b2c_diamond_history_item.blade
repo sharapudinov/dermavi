@@ -1,0 +1,40 @@
+@php
+    /** @var App\Core\Sale\View\OrderItemViewModel $orderItem */
+    /** @var \App\Models\Catalog\Diamond $diamond */
+    $diamond = $orderItem->getDiamond();
+@endphp
+<div class="js-updateable-by-form" data-product-id="{{ $diamond->getId() }}"
+    data-cart-product-id="{{ $orderItem->getBasketId() }}"
+    data-order-id="{{ $order->getId() }}"
+    data-shape="{{ $diamond->shape->getExternalID() }}">
+    <h5 class="page-profile__diamond-name js-updateable-name">
+        {{ $orderItem->getCustomProperty('NAME') }}
+    </h5>
+    <p class="page-profile__diamond-message">
+        <span class="js-updateable-message">{{ $orderItem->getCustomProperty('DESCRIPTION') }}</span>
+        @php
+        /* Убираем возможность изменения параметров (после тестирования и принятия клиентом можно удалить блок)
+        <button class=" page-profile__addresses-edit" data-href="#popup-edit-diamond-name" data-popup="open" type="button" data-id="#addresses-new">
+            <svg class="icon icon--edit">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-edit"></use>
+            </svg>
+        </button>
+        */
+        @endphp
+    </p>
+</div>
+@include('include/_picture', ['diamond' => $diamond])
+<p class="page-profile__order-id">
+    <a href="{{ $diamond->getDetailPageUrl() }}" target="_blank">
+        ID {{ $diamond->getPacketNumber() }}
+    </a>
+</p>
+@if ($diamond->getTrasingData()->isValid())
+    <button class="btn btn--lg btn--transparent page-profile__history-btn
+                                js-tracing-search-diamond-product-card"
+            data-packet-id="{{ $diamond->getPacketNumber() }}" type="button">
+        @lang('user_order_history_diamond_history')
+    </button>
+@endif
+@include('include/_characteristics', ['diamond' => $diamond, '$orderItem' => $orderItem])
+@include('include/_more_info', ['diamond' => $diamond, '$orderItem' => $orderItem, 'order' => $order])

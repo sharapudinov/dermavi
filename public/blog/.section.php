@@ -1,0 +1,7 @@
+<?
+
+$sSectionName = "Новый раздел";
+$arDirProperties = [
+
+];
+?>

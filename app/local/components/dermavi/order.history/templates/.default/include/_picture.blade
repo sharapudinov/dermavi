@@ -1,0 +1,13 @@
+@php
+/** @var \App\Models\Catalog\Diamond $diamond */
+@endphp
+
+<div class="page-profile__order-pic">
+    @if ($diamond->getPhotos())
+        <img src="{{ $diamond->getPhotos()[0] }}" alt="{{ $diamond->getPacketNumber() }}">
+    @else
+        <svg class="icon icon--card-{{ $diamond->getShapeID() }}">
+            <use xlink:href="{{ SPRITE_SVG }}#icon-card_{{ $diamond->getShapeID() }}"></use>
+        </svg>
+    @endif
+</div>

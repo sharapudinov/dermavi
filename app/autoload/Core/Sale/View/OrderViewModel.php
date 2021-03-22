@@ -40,25 +40,19 @@ class OrderViewModel
 
     /** @var AddressViewModel Адрес доставки */
     private $deliveryAddress;
-    
+
     /** @var PickupPoint Пункт самовывоза */
     private $pickupPoint;
 
-    /** @var bool Доставка спецсвязью? */
-    private $isDelivery;
-
-    /** @var string Адрес пунка самовывоза спецсвязи */
-    private $cccbPickpointAddress;
-
-    /** @var Collection Состав заказа */
+  /** @var Collection Состав заказа */
     private $items;
-    
+
     /** @var bool Заказ отменен? */
     private $isCanceled;
 
     /** @var string Номер отслеживания заказа */
     private $trackNumber;
-    
+
     /** @var BitrixOrder Объект заказа Битрикса */
     private $order;
 
@@ -78,7 +72,6 @@ class OrderViewModel
         $this->price = $order->getPrice();
         $this->date = $order->getDate();
         $this->trackNumber = $order->getTrackNumber();
-        $this->isDelivery = $order->isDelivery();
 
         $this->status = new OrderStatusViewModel($order->status);
         $this->isCanceled = $order->isCanceled();
@@ -88,7 +81,6 @@ class OrderViewModel
         $this->deliveryAddress = new AddressViewModel($properties, 'DELIVERY_');
 
         $this->pickupPoint = $properties['DELIVERY_PICKUP_POINT_ID'] ? PickupPoint::getById($properties['DELIVERY_PICKUP_POINT_ID']) : null;
-        $this->cccbPickpointAddress = $order->getCccbPickupAddress();
 
         $this->userDescription = $order->getUserDescription();
 
@@ -175,7 +167,7 @@ class OrderViewModel
     {
         return 'https://www.cccb.ru/search/?q=' . $this->getTrackNumber();
     }
-    
+
     /**
      * Возвращает пункт самовывоза.
      * @return PickupPoint|null
@@ -263,14 +255,13 @@ class OrderViewModel
     public static function fromOrders(Collection $orders): Collection
     {
         $baskets = BitrixBasketItem::filter(['ORDER_ID' => $orders->keys()->all()])
-            ->with('properties', 'diamond', 'service', 'jewelry', 'jewelryConstructorReadyProduct.diamonds')
+            ->with('properties')
             ->getList();
 
         /** @var Collection|OrderItemViewModel[] $items */
-        $items = collect();
-        UserCartHelper::attachServiceToProduct($baskets, $items);
+        $items = collect($baskets);
 
-        $items = $items->groupBy(function (OrderItemViewModel $item) {
+        $items = $items->groupBy(function ($item) {
             return $item->getOrderId();
         });
 
@@ -288,7 +279,7 @@ class OrderViewModel
     {
         return self::fromOrders(collect()->put($order->getId(), $order))->first();
     }
-    
+
     /**
      * Заказ отменен?
      * @return bool

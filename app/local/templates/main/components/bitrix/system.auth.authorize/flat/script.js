@@ -15,9 +15,9 @@ Vue.component('bx-email-field',
                 };
             },
 
-            model : {
+            model: {
                 prop: 'value',
-                event: 'change'
+                event: 'change',
             },
             template: `<div class="login__form">
                         <label  v-if="show_label"
@@ -112,7 +112,9 @@ Vue.component('bx-sign-in',
                                 contentType: false,  // Сообщить jQuery не передавать тип контента
                                 success: function() {
                                     let back_url = (new URL(document.location)).searchParams.get('back_url') ?? '';
-                                    window.location.href = '/' + back_url + '?' + 'auth=true';
+                                    if (back_url)
+                                        window.location.href = '/' + back_url + '?' + 'auth=true';
+                                    else location.reload();
                                 },
                                 error: function(response) {
                                     alert(response.responseJSON.error.message);
@@ -371,7 +373,7 @@ Vue.component('bx-forgot-password',
                             if (!this.validate(e))
                                 return;
                             var data = new FormData(e.target);
-                            var self=this;
+                            var self = this;
                             $.ajax({
                                 url: e.target.action,
                                 method: 'POST',

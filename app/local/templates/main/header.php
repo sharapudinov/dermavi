@@ -1,7 +1,7 @@
 <?php
 
-use App\Helpers\UserHelper;
 use Bitrix\Main\Page\Asset;
+use Bitrix\Main\UI\Extension;
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
     die();
@@ -25,7 +25,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
     $APPLICATION->ShowMeta("keywords");
     $APPLICATION->ShowMeta("description");
     $APPLICATION->ShowMeta("robots");
-    $APPLICATION->ShowHead();
     ?>
     <title><?php
         $APPLICATION->ShowTitle(); ?></title>
@@ -51,10 +50,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet">
     <?php
-    \Bitrix\Main\UI\Extension::load("ui.vue");
-//    Asset::getInstance()->addJs("https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js")?>
-   <?php
-   Asset::getInstance()->addJs("https://code.jquery.com/jquery-3.4.1.min.js")?>
+    Extension::load("ui.vue");
+    Asset::getInstance()->addJs("https://code.jquery.com/jquery-3.4.1.min.js");
+    Asset::getInstance()->addJs("https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js");
+    $APPLICATION->ShowHead();
+    ?>
     <script src="<?= frontend()->js('slick/slick/slick.js'); ?>"></script>
     <script src="https://cdn.jsdelivr.net/combine/npm/lightgallery,npm/lg-autoplay,npm/lg-fullscreen,npm/lg-hash,npm/lg-pager,npm/lg-share,npm/lg-thumbnail,npm/lg-video,npm/lg-zoom"
             type="text/javascript"></script>
@@ -174,209 +174,22 @@ if (!is_directory('/auth')): ?>
                 </div>
             </div>
             <div class="header-nav-wrap">
-                <div class="header-nav">
-                    <div class="header-nav__item-wrap">
-                        <a href="#" class="header-nav__item">Каталог</a>
-                    </div>
-                    <div class="header-nav__item-wrap">
-                        <a href="#" class="header-nav__item">Бренды</a>
-                    </div>
-                    <div class="header-nav__item-wrap">
-                        <a href="#" class="header-nav__item">Новинки</a>
-                    </div>
-                    <div class="header-nav__item-wrap">
-                        <a href="#" class="header-nav__item">Для лица</a>
-                        <div class="header-drop">
-                            <div class="header-drop__content">
-                                <div class="header-drop__list-wrap">
-                                    <div class="header-drop__list-title">Категории</div>
-                                    <div class="header-drop__list-cats">
-                                        <a href="#" class="header-drop__item">Антивозрастные средства</a>
-                                        <a href="#" class="header-drop__item">Маски</a>
-                                        <a href="#" class="header-drop__item">Ночной уход</a>
-                                        <a href="#" class="header-drop__item">Отшелушивание</a>
-                                        <a href="#" class="header-drop__item">Очищение</a>
-                                        <a href="#" class="header-drop__item">Уход за губами</a>
-                                        <a href="#" class="header-drop__item">Уход за кожей вокруг глаз</a>
-                                        <a href="#" class="header-drop__item">Патчи</a>
-                                        <a href="#" class="header-drop__item">Увлажнение/питание</a>
-                                        <a href="#" class="header-drop__item">Уход за проблемной кожей</a>
-                                        <a href="#" class="header-drop__item">Сыворотки</a>
-                                        <a href="#" class="header-drop__item">Тонизирование</a>
-                                    </div>
-                                </div>
-                                <div class="header-drop__list-wrap">
-                                    <div class="header-drop__list-title">Бренды</div>
-                                    <div class="header-drop__list">
-                                        <a href="#" class="header-drop__item">Babor</a>
-                                        <a href="#" class="header-drop__item">Clarins</a>
-                                        <a href="#" class="header-drop__item">Davines</a>
-                                        <a href="#" class="header-drop__item">Estée Lauder</a>
-                                        <a href="#" class="header-drop__item">Foreo</a>
-                                        <a href="#" class="header-drop__item">Kiehl's</a>
-                                        <a href="#" class="header-drop__item">La Prairie</a>
-                                        <a href="#" class="header-drop__item">Sensai</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="header-drop__best">
-                                <div class="header-drop__best-title">бестселлеры</div>
-                                <div class="header-best__list">
-                                    <a href="#" class="header-best__item">
-                                        <div class="header-best__item-img-wrap"><img src="img/best.jpg" alt=""
-                                                                                     class="header-best__item-img">
-                                        </div>
-                                        <div class="header-best__item-wrap">
-                                            <div class="header-best__item-top">
-                                                <div class="header-best__item-title">La Mer</div>
-                                                <div class="header-best__item-stickers">
-                                                    <div class="header-best__item-sticker">
-                                                        <div class="sticker-hit">hit</div>
-                                                    </div>
-                                                    <div class="header-best__item-sticker">
-                                                        <div class="sticker-new">new</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="header-best__item-text">Лифтинг сыворотка Essense of bees</div>
-                                            <div class="header-best__item-price">1 890 ₽</div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="header-best__item">
-                                        <div class="header-best__item-img-wrap"><img src="img/best2.jpg" alt=""
-                                                                                     class="header-best__item-img">
-                                        </div>
-                                        <div class="header-best__item-wrap">
-                                            <div class="header-best__item-top">
-                                                <div class="header-best__item-title">sisley</div>
-                                                <div class="header-best__item-stickers">
-                                                </div>
-                                            </div>
-                                            <div class="header-best__item-text">Крем для кожи вокруг глаз</div>
-                                            <div class="header-best__item-price">44 223 ₽</div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="header-best__item">
-                                        <div class="header-best__item-img-wrap"><img src="img/best3.jpg" alt=""
-                                                                                     class="header-best__item-img">
-                                        </div>
-                                        <div class="header-best__item-wrap">
-                                            <div class="header-best__item-top">
-                                                <div class="header-best__item-title">La prairie</div>
-                                                <div class="header-best__item-stickers">
-                                                    <div class="header-best__item-sticker">
-                                                        <div class="sticker-hit">hit</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="header-best__item-text">Лифтинг сыворотка Essense of bees</div>
-                                            <div class="header-best__item-price">1 890 ₽</div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="header-nav__item-wrap">
-                        <a href="#" class="header-nav__item">Для волос</a>
-                        <div class="header-drop">
-                            <div class="header-drop__content">
-                                <div class="header-drop__list-wrap">
-                                    <div class="header-drop__list-title">Категории</div>
-                                    <div class="header-drop__list-cats">
-                                        <a href="#" class="header-drop__item">Антивозрастные средства</a>
-                                        <a href="#" class="header-drop__item">Маски</a>
-                                        <a href="#" class="header-drop__item">Отшелушивание</a>
-                                        <a href="#" class="header-drop__item">Очищение</a>
-                                        <a href="#" class="header-drop__item">Уход за губами</a>
-                                        <a href="#" class="header-drop__item">Патчи</a>
-                                        <a href="#" class="header-drop__item">Увлажнение/питание</a>
-                                        <a href="#" class="header-drop__item">Сыворотки</a>
-                                        <a href="#" class="header-drop__item">Тонизирование</a>
-                                    </div>
-                                </div>
-                                <div class="header-drop__list-wrap">
-                                    <div class="header-drop__list-title">Бренды</div>
-                                    <div class="header-drop__list">
-                                        <a href="#" class="header-drop__item">Babor</a>
-                                        <a href="#" class="header-drop__item">Clarins</a>
-                                        <a href="#" class="header-drop__item">Estée Lauder</a>
-                                        <a href="#" class="header-drop__item">Foreo</a>
-                                        <a href="#" class="header-drop__item">La Prairie</a>
-                                        <a href="#" class="header-drop__item">Sensai</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="header-drop__best">
-                                <div class="header-drop__best-title">бестселлеры</div>
-                                <div class="header-best__list">
-                                    <a href="#" class="header-best__item">
-                                        <div class="header-best__item-img-wrap"><img src="img/best.jpg" alt=""
-                                                                                     class="header-best__item-img">
-                                        </div>
-                                        <div class="header-best__item-wrap">
-                                            <div class="header-best__item-top">
-                                                <div class="header-best__item-title">La Mer</div>
-                                                <div class="header-best__item-stickers">
-                                                    <div class="header-best__item-sticker">
-                                                        <div class="sticker-hit">hit</div>
-                                                    </div>
-                                                    <div class="header-best__item-sticker">
-                                                        <div class="sticker-new">new</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="header-best__item-text">Лифтинг сыворотка Essense of bees</div>
-                                            <div class="header-best__item-price">1 890 ₽</div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="header-best__item">
-                                        <div class="header-best__item-img-wrap"><img src="img/best3.jpg" alt=""
-                                                                                     class="header-best__item-img">
-                                        </div>
-                                        <div class="header-best__item-wrap">
-                                            <div class="header-best__item-top">
-                                                <div class="header-best__item-title">La prairie</div>
-                                                <div class="header-best__item-stickers">
-                                                    <div class="header-best__item-sticker">
-                                                        <div class="sticker-hit">hit</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="header-best__item-text">Лифтинг сыворотка Essense of bees</div>
-                                            <div class="header-best__item-price">1 890 ₽</div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="header-best__item">
-                                        <div class="header-best__item-img-wrap"><img src="img/best2.jpg" alt=""
-                                                                                     class="header-best__item-img">
-                                        </div>
-                                        <div class="header-best__item-wrap">
-                                            <div class="header-best__item-top">
-                                                <div class="header-best__item-title">sisley</div>
-                                                <div class="header-best__item-stickers">
-                                                </div>
-                                            </div>
-                                            <div class="header-best__item-text">Крем для кожи вокруг глаз</div>
-                                            <div class="header-best__item-price">44 223 ₽</div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="header-nav__item-wrap">
-                        <a href="#" class="header-nav__item">Для тела</a>
-                    </div>
-                    <div class="header-nav__item-wrap">
-                        <a href="#" class="header-nav__item">Тренды</a>
-                    </div>
-                    <div class="header-nav__item-wrap">
-                        <a href="#" class="header-nav__item">Наборы</a>
-                    </div>
-                </div>
+                <? app()->IncludeComponent(
+                    'bitrix:menu',
+                    'dermavi.catalog',
+                    [
+                        "ROOT_MENU_TYPE" => "left",
+                        "MAX_LEVEL" => "1",
+                        "CHILD_MENU_TYPE" => "top",
+                        "USE_EXT" => "Y",
+                        "DELAY" => "N",
+                        "ALLOW_MULTI_SELECT" => "Y",
+                        "MENU_CACHE_TYPE" => "N",
+                        "MENU_CACHE_TIME" => "3600",
+                        "MENU_CACHE_USE_GROUPS" => "Y",
+                        "MENU_CACHE_GET_VARS" => ""
+                    ]
+                ) ?>
                 <div class="header-nav__search">
                     <input type="search" placeholder="Поиск по каталогу"
                            class="input input-normal input-pl-50 input-full_width input-border">

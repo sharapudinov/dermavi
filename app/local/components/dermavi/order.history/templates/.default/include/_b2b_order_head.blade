@@ -1,0 +1,46 @@
+@php
+/**
+ * Шаблон для шапки таблицы
+ * @var array $columns - Массив столбцов
+ * @var array|array[] $sort - Массив столбцов, по которым можно сортировать
+ * @var string $sortBy - Поле сортировки
+ * @var string $sortOrder - Порядок сортировки
+ */
+@endphp
+
+@if($columns)
+    <ul class="profile-list__params">
+        @foreach($columns as $column)
+            <li class="profile-list__params-item profile-list__params-item--{{$column}} @if(in_array($column, array_keys($sort))) js-order-list-sort @endif" @if(in_array($column, array_keys($sort))) data-sort-by="{{$column}}" data-order="{{$column == $sortBy ? ($sortOrder == 'asc' ? 'desc' : 'asc') : 'asc'}}" @endif>
+                <span class="profile-list__params-name">
+                    @lang('user_order_history_' . $column)
+
+                    @if(in_array($column, array_keys($sort)))
+                        <button class="profile-list__params-arrow @if($column == $sortBy) is-active @endif" type="button">
+                            <svg class="icon icon--arrow-tiny {{$column == $sortBy ? ($sortOrder == 'asc' ? 'catalog__option-icon--inverted' : '') : ''}}">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-arrow_tiny"></use>
+                            </svg>
+                        </button>
+                    @endif
+                </span>
+            </li>
+        @endforeach
+    </ul>
+@endif
+
+<div class="page-profile__container-tablet">
+    <div class="profile-list__sort">
+        <label class="label profile-list__sort-label" for="profile-list-sort">@lang('user_order_history_sort_by')</label>
+        <select class="profile-list__sort-select js-order-list-sort" name="profile-list-sort" id="profile-list-sort"
+            data-search="false" data-placeholder="">
+            @foreach ($sort as $column => $info)
+                <option value="{{ $column }}-asc" data-sort-by="{{ $column }}" data-order="asc">
+                    @lang('user_order_history_sort_by_' . $column) &mdash; @lang('user_order_history_sort_by_ascending')
+                </option>
+                <option value="{{ $column }}-desc" data-sort-by="{{ $column }}" data-order="desc">
+                    @lang('user_order_history_sort_by_' . $column) &mdash; @lang('user_order_history_sort_by_descending')
+                </option>
+            @endforeach
+        </select>
+    </div>
+</div>

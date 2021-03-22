@@ -1,0 +1,173 @@
+@php
+    /** @var App\Models\User $user */
+    /** @var Illuminate\Support\Collection|App\Core\Sale\View\OrderViewModel[] $orders */
+    /** @var bool $isIE */
+    /** @var App\Core\Currency\Currency $currency */
+    /** @var array $statusIcons */
+@endphp
+
+@include('include/_b2b_order_head')
+
+<div class="js-accordion accordion accordion-profile-list is-collapsed profile-list__main">
+    @foreach($orders as $order)
+        <h3 class="js-accordion-head ui-accordion-header-profile-list order-history-item-custom">
+            <ul class="profile-list__vals">
+                <li class="profile-list__vals-item profile-list__vals-item--num">{{ $order->getNumber() }}</li>
+                <li class="profile-list__vals-item profile-list__vals-item--date profile-list__vals-item--hidden-tablet">
+                    {{ $order->getTranslatedDate() }}
+                </li>
+                <li class="profile-list__vals-item profile-list__vals-item--status profile-list__vals-item--hidden-tablet">
+                    @if($order->isCanceled())
+                        <svg class="icon icon--cancel profile-list__vals-icon">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-cancel"></use>
+                        </svg>
+                    @else
+                        @if($statusIcon = $statusIcons[$order->getStatus()->getStatusId()])
+                            <svg class="icon icon--{{$statusIcon['class']}} profile-list__vals-icon">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-{{$statusIcon['xlink_href']}}"></use>
+                            </svg>
+                        @endif
+                    @endif
+                    <span>
+                        @if($order->isCanceled())
+                            @lang('user_order_history_canceled')
+                        @else
+                            {{ $order->getStatus()->getName() }}
+                        @endif
+                    </span>
+                </li>
+                <li class="profile-list__vals-item profile-list__vals-item--quantity profile-list__vals-item--hidden-tablet">
+                    {{ $order->getItems()->count() }} @lang('user_order_history_pieces')
+                </li>
+                <li class="profile-list__vals-item profile-list__vals-item--cost">{!! \App\Core\Currency\Currency::getCurrentCurrency()->getSymbol() !!} {!! App\Helpers\NumberHelper::transformNumberToPrice($order->getPrice()) !!}</li>
+            </ul>
+
+            <ul class="profile-list__vals profile-list__vals--in-cnt">
+                <li class="profile-list__vals-item">
+                    {{ $order->getTranslatedDate() }}
+                </li>
+                <li class="profile-list__vals-item">
+                    @if($order->isCanceled())
+                        <svg class="icon icon--cancel profile-list__vals-icon">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-cancel"></use>
+                        </svg>
+                    @else
+                        @if($statusIcon = $statusIcons[$order->getStatus()->getStatusId()])
+                            <svg class="icon icon--{{$statusIcon['class']}} profile-list__vals-icon">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-{{$statusIcon['xlink_href']}}"></use>
+                            </svg>
+                        @endif
+                    @endif
+                    <span>
+                        @if($order->isCanceled())
+                            @lang('user_order_history_canceled')
+                        @else
+                            {{ $order->getStatus()->getName() }}
+                        @endif
+                    </span>
+                </li>
+                <li class="profile-list__vals-item">{{ $order->getItems()->count() }} @lang('user_order_history_pieces')</li>
+            </ul>
+        </h3>
+        <div class="ui-accordion-content-profile-list">
+            @php $diamonds = $order->getDiamonds(); @endphp
+            @if($diamonds->isNotEmpty())
+                <table class="profile-list__table">
+                    <tr class="profile-list__table-row profile-list__table-row profile-list__table-row--grey">
+                        <th class="profile-list__table-head  profile-list__table-head--quantity">
+                            <span class="profile-list__table-head-desktop-txt">@lang('user_order_history_qty')</span>
+                            <span class="profile-list__table-head-tablet-txt">@lang('user_order_history_shape')</span>
+                        </th>
+                        <th class="profile-list__table-head profile-list__table-head--form profile-list__table-head--hidden-tablet">
+                            @lang('user_order_history_shape')
+                        </th>
+                        <th class="profile-list__table-head profile-list__table-head--weight">@lang('user_order_history_carat')</th>
+                        <th class="profile-list__table-head profile-list__table-head--color">@lang('user_order_history_color')</th>
+                        <th class="profile-list__table-head profile-list__table-head--purity">@lang('user_order_history_clarity')</th>
+                        <th class="profile-list__table-head profile-list__table-head--faceting">@lang('user_order_history_cut')</th>
+                        <th class="profile-list__table-head profile-list__table-head--cost">@lang('user_order_history_cost')</th>
+                    </tr>
+
+                    @foreach($diamonds as $item)
+                        @continue(!$item->isDiamond())
+                        @php
+                            /** @var App\Models\Catalog\Diamond $diamond */
+                            $diamond = $item->getDiamond();
+
+                            $detailPageUrl = $diamond->getDetailPageUrl();
+                            $detailPageUrl = str_replace(['#SITE_DIR#', '#CODE#'], [SITE_DIR, $diamond['CODE']], $detailPageUrl);
+                            $detailPageUrl = preg_replace('/(\/+)/','/', $detailPageUrl);
+                        @endphp
+
+                        <tr class="profile-list__table-row profile-list__table-row--grey" style="cursor: pointer;" onClick="window.open('{{$detailPageUrl}}')">
+                            @if($item->getQuantity() == 1)
+                                <td class="profile-list__table-cell profile-list__table-head--quantity">
+                                    <svg class="icon icon--diamond-{{ $diamond->getShapeID() }}-sm">
+                                        <use xlink:href="{{ SPRITE_SVG }}#icon-diamond_{{ $diamond->getShapeID() }}_sm"></use>
+                                    </svg>
+                                    <p class="profile-list__table-cell-tablet-txt">{{ $diamond->getShapeValue() }}</p>
+                                </td>
+                                <td class="profile-list__table-cell profile-list__table-cell--form profile-list__table-cell--hidden-tablet">
+                                    {{ $diamond->getShapeValue() }}
+                                </td>
+                                <td class="profile-list__table-cell profile-list__table-cell--weight">{{ $diamond->getWeight() }}</td>
+                                <td class="profile-list__table-cell profile-list__table-cell--color">{{ $diamond->getDiamondPacketColorValue() }}</td>
+                                <td class="profile-list__table-cell profile-list__table-cell--purity">{{ $diamond->getClarityValue() }}</td>
+                                <td class="profile-list__table-cell profile-list__table-cell--faceting">{!! $diamond->cut ? $diamond->cut->getDisplayValue() : '&mdash;' !!}</td>
+                                <td class="profile-list__table-cell profile-list__table-cell--cost">
+                                    {!! \App\Core\Currency\Currency::getCurrentCurrency()->getSymbol() !!} {!! App\Helpers\NumberHelper::transformNumberToPrice($item->getPrice()) !!}
+                                </td>
+                            @else
+                                <td class="profile-list__table-cell profile-list__table-cell-set profile-list__table-head--quantity">
+                                    <button class="js-set-open profile-list__table-cell-set-btn" type="button">
+                                        <svg class="icon icon--arrow-tiny profile-list__table-cell-set-arrow">
+                                            <use xlink:href="{{ SPRITE_SVG }}#icon-arrow_tiny"></use>
+                                        </svg>
+                                        <svg class="icon icon--diamond-{{ $diamond->getShapeID() }}-sm">
+                                            <use xlink:href="{{ SPRITE_SVG }}#icon-diamond_{{ $diamond->getShapeID() }}"></use>
+                                        </svg>
+                                        <span class="profile-list__table-cell-set-count">x{{$item->getQuantity()}}</span>
+                                        <p class="profile-list__table-cell-tablet-txt">@lang('user_order_history_set')</p>
+                                    </button>
+                                </td>
+                                <td class="profile-list__table-cell profile-list__table-cell--form profile-list__table-cell--hidden-tablet">
+                                    @lang('user_order_history_set')
+                                </td>
+                                {{--todo Доделать вывод комплектов (сетов) на фазе 3--}}
+                                <td class="profile-list__table-cell profile-list__table-cell--weight">3.51 <br> &ndash; <br> 4.31</td>
+                                <td class="profile-list__table-cell profile-list__table-cell--color">F</td>
+                                <td class="profile-list__table-cell profile-list__table-cell--purity">VS2 <br> &ndash; <br> SI2</td>
+                                <td class="profile-list__table-cell profile-list__table-cell--faceting">Excellent</td>
+                                <td class="profile-list__table-cell profile-list__table-cell--cost">$ 999 999</td>
+                            @endif
+                        </tr>
+                        {{--todo Доделать вывод комплектов (сетов) на фазе 3--}}
+                    @endforeach
+                </table>
+            @endif
+
+            <div class="profile-list__delivery">
+                @php($deliveryAddress = (string)$order->getDeliveryAddress())
+                @if($order->getOrder()->isDelivery() && $deliveryAddress)
+                    <h3 class="profile-list__delivery-title">@lang('user_order_history_delivery_address')</h3>
+                    <p class="profile-list__delivery-text">{{$deliveryAddress}}</p>
+                @elseif($order->getOrder()->isPickup() && !is_null($order->getPickupPoint()))
+                    <h3 class="profile-list__delivery-title">@lang('user_order_history_pickup_point')</h3>
+                    <p class="profile-list__delivery-text">{{$order->getPickupPoint()->getAddress()}}</p>
+                @endif
+                @if(!$order->isCanceled() && !$order->getOrder()->isPaid())
+                    @php($popupId = 'popup-cancel-confirm-' . $order->getId())
+                    <p>
+                        <button class="link link--italic" type="button" data-href="#{{$popupId}}" data-popup="open">
+                            @lang('user_order_history_cancel_order')
+                        </button>
+                    </p>
+                    @php($APPLICATION->IncludeFile(SITE_TEMPLATE_PATH . '/partials/popups/popup_order_cancel_confirm.php', [
+                        'popupId' => $popupId,
+                        'order' => $order,
+                    ]))
+                @endif
+            </div>
+        </div>
+    @endforeach
+</div>

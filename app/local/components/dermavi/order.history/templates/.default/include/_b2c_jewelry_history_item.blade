@@ -1,0 +1,29 @@
+@php
+    use App\Core\Jewelry\Dto\JewelrySkuDto;
+    use App\Core\Jewelry\Dto\JewelryDto;
+    use App\Models\Jewelry\JewelrySku;
+
+    /** @var \App\Core\Sale\View\OrderViewModel $order */
+    /** @var App\Core\Sale\View\OrderItemViewModel $orderItem */
+    $jewelry = new JewelryDto($orderItem->getJewelrySku()->jewelry);
+    $variant = new JewelrySkuDto($orderItem->getJewelrySku());
+@endphp
+<div class="js-updateable-by-form">
+    <h5 class="page-profile__diamond-name js-updateable-name">
+        {{ $orderItem->getCustomProperty('NAME') }}
+    </h5>
+    <p class="page-profile__diamond-message js-updateable-message">
+        {{ $orderItem->getCustomProperty('DESCRIPTION') }}
+    </p>
+</div>
+<div class="page-profile__order-pic">
+    <img src="{{array_first($variant->photosPreview)}}" alt="">
+</div>
+
+<p class="page-profile__order-article">Артикул {{$variant->number}}</p>
+<p class="page-profile__order-jewelry">{{$variant->name}}</p>
+<p class="page-profile__order-collection">Коллекция {{$jewelry->collection}}</p>
+<p class="page-profile__order-price">{!! $variant->formattedPrice !!}</p>
+
+@include('include/_characteristics_jewelry')
+@include('include/_more_info_jewelry')

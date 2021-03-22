@@ -1,7 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Новости");
-?><?$APPLICATION->IncludeComponent("bitrix:news", "bootstrap_v4", array(
+?>
+
+<?$APPLICATION->IncludeComponent("bitrix:news", "bootstrap_v4", array(
 	"IBLOCK_TYPE" => "news",
 	"IBLOCK_ID" => "1",
 	"TEMPLATE_THEME" => "site",
@@ -12,7 +14,7 @@ $APPLICATION->SetTitle("Новости");
 	"NUM_DAYS" => "180",
 	"YANDEX" => "N",
 	"USE_RATING" => "N",
-	"USE_CATEGORIES" => "N",
+	"USE_CATEGORIES" => "Y",
 	"USE_REVIEW" => "N",
 	"USE_FILTER" => "N",
 	"SORT_BY1" => "ACTIVE_FROM",

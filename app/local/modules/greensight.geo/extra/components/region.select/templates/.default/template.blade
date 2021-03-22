@@ -1,0 +1,79 @@
+<? //здесь пока фиктивная верстка. Если blade не подходит, то нужно переделать на php ?>
+<div>
+    <span>
+        <span>Ваш регион:</span>&nbsp;
+        <span class="region_select_current" style="text-decoration: underline; cursor: pointer">
+            {{ $selectedRegion ? $selectedRegion['UF_NAME'] : 'Выбрать' }}
+        </span>
+    </span>
+    @if ($selectedRegion && $requiresConfirmation)
+        <div class="region_select_confirm_autoselect_container" style="border:1px solid black">
+            <div>Ваш регион — {{ $selectedRegion['UF_NAME'] }}?</div>
+            <div>
+                <button class="region_select_confirm_autoselect_confirm">Да, всё верно</button>
+                <button class="region_select_select_other">Выбрать другой</button>
+            </div>
+        </div>
+    @endif
+
+    <? //popup ?>
+    <div class="region_select_popup" style="display: none; border: 1px solid black;">
+        <div>
+            <span>Выберите регион</span>
+        </div>
+        <div><input placeholder="Поиск..." class="region_select_search"></div>
+        <div class="region_select_available_regions">
+            <ul class="locality-selector-popup__table">
+                @foreach($availableRegions as $id => $region)
+                    <li data-region="{{ $id }}" style="text-decoration: underline; cursor:pointer">{{ $region['UF_NAME'] }}</li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // заменить на $(document).ready() если используется не скелетон
+    ready(function() {
+        $('.region_select_confirm_autoselect_confirm').on('click', function() {
+            $.ajax({
+                type: "POST",
+                data:  {
+                    region_select_action: 'confirm_auto_select'
+                }
+            });
+            $('.region_select_confirm_autoselect_container').hide();
+
+        });
+        $('.region_select_current').on('click', function() {
+            $('.region_select_popup').show();
+        });
+
+        $('.region_select_select_other').on('click', function() {
+            $('.region_select_confirm_autoselect_container').hide();
+            $('.region_select_popup').show();
+        });
+
+        $('.region_select_available_regions li').on('click', function () {
+            $.ajax({
+                type: "POST",
+                data:  {
+                    region_select_action: 'select_region',
+                    region: $(this).data('region')
+                },
+                success: function() {
+                    window.location.reload();
+                }
+            });
+        });
+
+        $('.region_select_search').on('keyup', function() {
+            var query = $(this).val().toLowerCase();
+            $('.region_select_available_regions li').each(function () {
+                var el = $(this);
+                el.text().toLowerCase().indexOf(query) !== -1 ? el.show() : el.hide();
+            })
+        });
+    });
+</script>

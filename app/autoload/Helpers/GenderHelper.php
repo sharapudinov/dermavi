@@ -83,7 +83,7 @@ class GenderHelper
      * @return SalutationType
      */
     public static function getSalutationByRegFormInfo(string $info): SalutationType
-    {
+    {        
         if ($info == 'М' || $info == 'Mr') {
             $salutation = 'г-н';
         } elseif ($info == 'Ж' || $info == 'Miss') {

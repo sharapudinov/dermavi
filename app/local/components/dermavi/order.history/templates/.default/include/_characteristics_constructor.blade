@@ -1,0 +1,28 @@
+@php
+    /** Шаблон блока характеристик для товара конструктора */
+@endphp
+
+<div class="page-profile__diamond-params page-profile__diamond-params--jewelry ">
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">Металл</div>
+        <div class="page-profile__diamond-params-value">{{ $product->blankSku->metal->getName() }} {{ $product->blankSku->fineness->getName() }}</div>
+    </div>
+    @if ($product->blankSku->getSize())
+        <div class="page-profile__diamond-params-col">
+            <div class="page-profile__diamond-params-name">Размер</div>
+            <div class="page-profile__diamond-params-value">{{ $product->blankSku->getSize() }}</div>
+        </div>
+    @endif
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">Вставки</div>
+        <div class="page-profile__diamond-params-value">{{ $product->diamonds->count() }}</div>
+    </div>
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">Вес вставок</div>
+        <div class="page-profile__diamond-params-value">{{ $product->diamonds->map->getWeight()->sum() }} карат</div>
+    </div>
+    <div class="page-profile__diamond-params-col">
+        <div class="page-profile__diamond-params-name">Вес украшения</div>
+        <div class="page-profile__diamond-params-value">{{ $product->blankSku->blank->getWeight() }} г</div>
+    </div>
+</div>
