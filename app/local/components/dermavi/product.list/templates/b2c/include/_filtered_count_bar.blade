@@ -1,0 +1,43 @@
+@php
+    /** Шаблон блока, указывающего количество найденных ювелирных изделий с учетом фильтра */
+    /** @var int $productsCount Количество найденных ювелирных изделий с учетом фильтра */
+@endphp
+
+<section class="js-fixed-panel fixed-panel fixed-panel--is-hidden fixed-panel--in-jewelry js-filtered-count-bar">
+    <div class="container">
+        <div class="fixed-panel__jewelry">
+            <button class="fixed-panel__reset js-filters-reset link link--btn link--btn-sm link--white" type="button">
+                @lang('catalog_product_list_clear_all_filters')
+            </button>
+
+            @if ($productsCount > 0)
+                <p class="fixed-panel__result">
+                    {{ $productsCount }}
+                    {{ \App\Helpers\StringHelper::getMultiLanguagePluralForm(
+                        $productsCount,
+                        'catalog_product_list_count_accusative',
+                        'catalog_product_list_count_genitive_one',
+                        'catalog_product_list_count_genitive_many'
+                    ) }}
+                </p>
+                <button class="js-filters-close fixed-panel__btn fixed-panel__btn--mobile-visible btn btn--sm
+                    btn--transparent btn--white" type="button">
+                    @lang('catalog_product_list_show') {{ $productsCount }}
+                </button>
+                <button class="js-filters-scroll fixed-panel__btn fixed-panel__btn--mobile-hidden btn btn--sm
+                    btn--transparent btn--white" type="button">
+                    @lang('catalog_product_list_show')
+                </button>
+            @else
+                <p class="fixed-panel__no-results js-filters-scroll">
+                    @lang('catalog_product_list_nothing_found')
+                </p>
+            @endif
+            <button class="js-panel-close fixed-panel__close" type="button" title="Закрыть">
+                <svg class="icon icon--cross">
+                    <use xlink:href="{{ SPRITE_SVG }}#icon-cross"></use>
+                </svg>
+            </button>
+        </div>
+    </div>
+</section>

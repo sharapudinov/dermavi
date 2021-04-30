@@ -6,7 +6,7 @@ use App\Api\External\Cutwise\CutwiseWidget;
 use App\Core\Browser;
 use App\Models\Auctions\AuctionLot;
 use App\Models\Auctions\AuctionPBLot;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use Illuminate\Support\Collection;
 
 /**

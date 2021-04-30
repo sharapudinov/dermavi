@@ -1,0 +1,31 @@
+@php
+    /**
+     * @var \Illuminate\Support\Collection $products - Товары
+     * @var array $checkedProductsInfo - Информация о выбранных товарах
+     * @var \App\Core\Currency\Currency $currency - Информация о текущей валюте
+     * @var string $view режим начального отображения: table, cell
+     * @var bool $isB2c определяет текущий режим вывода для B2C каталога
+     * @var bool $isShowMore определяет нажата ли кнопка показать больше
+     * @var bool $showTop определяет показывать ли топ бриллиантов
+     */
+@endphp
+@if(!$isShowMore && $showTop)
+    @bxComponent('catalog:product.top', '', [
+    'products' => $top['top'],
+    ])
+@endif
+@php($counter = 0)
+@foreach ($products as $product)
+    @if($topProductsIds->contains($product->getId()) && $showTop)
+        @continue
+    @endif
+    @bxComponent('catalog:product.item', 'b2c_redesign', [
+    'product' => $product,
+    'checked_products_info' => $checkedProductsInfo,
+    'b2c' => $isB2c,
+    ])
+    @if(++$counter == $pageSize - count($topProductsIds) * (int) $showTop)
+        @break
+    @endif
+@endforeach
+@include('include/_filtered_count_bar')

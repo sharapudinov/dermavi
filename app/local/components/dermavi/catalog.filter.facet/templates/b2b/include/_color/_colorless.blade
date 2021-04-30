@@ -1,0 +1,64 @@
+@php
+/** Шаблон для вывода бесцветных оттенков бриллиантов */
+/** @var App\Filtration\Dto\FieldDto $color - DTO фильтра "Цвет" */
+
+if ($color->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $color->getCode();
+$htmlIdPrefix = 'filter_box_';
+
+/**
+ * Коллекция цветов, доступных для вывода в фильтрах
+ */
+$filterableVariants = $color->getVariants()->filter(
+    /** @var App\Filtration\Dto\FieldVariantDto $variantItem */
+    function ($variantItem) {
+        // Исключаем цвета не из основной группы цветов
+        return $variantItem->getExtra()['isMainGroupColor'] ?? false;
+    }
+);
+
+/**
+ * Бесцветные
+ */
+$colorlessVariants = $filterableVariants->filter(
+    /** @var App\Filtration\Dto\FieldVariantDto $variantItem */
+    function ($variantItem) {
+        // Исключаем цвета из группы фантазийных цветов
+        return !($variantItem->getExtra()['isFancy'] ?? false);
+    }
+);
+@endphp
+
+<div class="tabs-body__item is-tab-open" id="filter-color-colorless">
+    <ul class="filters-box__checklist filters-box__checklist--grid">
+        @foreach ($colorlessVariants as $variantItem)
+            @php
+                $filterValue = $variantItem->getValue();
+                $displayValue = $variantItem->getName();
+                $fieldId = $variantItem->getHtmlSelector();
+                $fieldName = $variantItem->getRequestName();
+                $isChecked = $variantItem->isSelected();
+                $isEnabled = $isChecked || ($variantItem->getDocCount() ?? 1) > 0;
+            @endphp
+
+            <li class="filters-box__checkbox checkbox-underline checkbox-underline--sm filters-box-color__item
+                js-filter-value{{ !$isEnabled ? ' js-disabled' : '' }}"
+                data-id="{{ $fieldId }}">
+                <input class="checkbox-underline__input js-filter-checkbox"
+                       type="checkbox"
+                       data-field="{{ $typeCode }}"
+                       name="{{ $fieldName }}"
+                       id="{{ $htmlIdPrefix . $fieldId }}"
+                       value="{{ $filterValue }}"
+                        {{ $isChecked ? 'checked' : '' }}
+                        {{ !$isEnabled ? 'disabled="disabled"' : '' }}
+                >
+                <label class="checkbox-underline__label" for="{{ $htmlIdPrefix . $fieldId }}">
+                    {!! $displayValue !!}
+                </label>
+            </li>
+        @endforeach
+    </ul>
+</div>

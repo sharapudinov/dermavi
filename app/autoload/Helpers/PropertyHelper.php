@@ -3,7 +3,7 @@
 namespace App\Helpers;
 
 use App\Core\BitrixProperty\Property;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\Catalog\HL\DiamondPacket;
 use Arrilot\BitrixModels\Models\ElementModel;
 use CIBlockElement;

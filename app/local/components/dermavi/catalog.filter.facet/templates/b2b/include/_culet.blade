@@ -1,0 +1,46 @@
+@php
+/** Шаблон для вывода калетт в фильтре b2b */
+/** @var App\Filtration\Dto\FieldDto $culet - DTO фильтра "Калетта" */
+
+if ($culet->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $culet->getCode();
+$htmlIdPrefix = 'filter_box_';
+@endphp
+
+<div class="js-filters-box-item filters-box__item filters-box-culet">
+    <div class="js-filters-box-head filters-box__title">
+        @lang('catalog_main_filter_facet_advanced_filter_parameter_culet')
+    </div>
+    <div class="js-filters-box-body filters-box__parameters">
+        <ul class="filters-box__checklist filters-box__checklist-simple filters-box-culet__checklist">
+            @foreach ($culet->getVariants() as $variantItem)
+                @php
+                    $filterValue = $variantItem->getValue();
+                    $displayValue = $variantItem->getName();
+                    $fieldId = $variantItem->getHtmlSelector();
+                    $fieldName = $variantItem->getRequestName();
+                    $isChecked = $variantItem->isSelected();
+                    $isEnabled = $isChecked || ($variantItem->getDocCount() ?? 1) > 0;
+                @endphp
+                <li class="filters-box__checkbox checkbox-underline checkbox-underline--sm filters-box-culet__item
+                    js-filter-value{{ !$isEnabled ? ' js-disabled' : '' }}"
+                    data-id="{{ $fieldId }}">
+                    <input class="checkbox-underline__input js-filter-checkbox"
+                           type="checkbox"
+                           data-field="{{ $typeCode }}"
+                           name="{{ $fieldName }}"
+                           id="{{ $htmlIdPrefix . $fieldId }}"
+                           value="{{ $filterValue }}"
+                            {{ $isChecked ? 'checked' : '' }}
+                            {{ !$isEnabled ? 'disabled="disabled"' : '' }}
+                    >
+                    <label class="checkbox-underline__label" for="{{ $htmlIdPrefix . $fieldId }}">
+                        {!! $displayValue !!}
+                    </label>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+</div>

@@ -11,7 +11,7 @@ use App\EventHandlers\CartHandlers;
 use App\Helpers\TTL;
 use App\Helpers\UserCartHelper;
 use App\Models\Auxiliary\Sale\BitrixBasketItem;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\Catalog\HL\PaidServiceCategory;
 use App\Models\Catalog\PaidService;
 use App\Models\Catalog\PaidServices\EngravingService;

@@ -1,0 +1,38 @@
+@php
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var bool $isInCart - Находится ли товар в корзине
+    * @var \App\Core\Currency\Currency $currency - Текущая валюта
+    * @var bool $isInternetExplorer - Является ли браузер IE
+    */
+@endphp
+
+<div class="page-product__col page-product__col-auto text-c">
+    <div class="page-product__widget-container">
+        <div class="page-product__widget-container">
+            @if ($product->getCutWiseLink() && !$isInternetExplorer)
+                <iframe name="Cutwise Widget" frameborder="0" width="320" height="480"
+                        sandbox="allow-scripts allow-orientation-lock allow-pointer-lock allow-presentation"
+                        src="{{ $product->getCutWiseLink() }}" allowfullscreen></iframe>
+            @else
+                <div class="product-view__diamond-img-wrap product-view__diamond-img-wrap--h480">
+                    <svg class="icon icon--card-{{ $product->getShapeID() }}">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-card_{{ $product->getShapeID() }}"></use>
+                    </svg>
+                </div>
+            @endif
+        </div>
+    </div>
+    <div class="page-product__share-btn page-product__share-btn--tablet">
+        <div class="product-view__icon-wrap no-print">
+            @bxComponent('main:social.share', 'tooltip', [
+                'diamond_id' => $product->getPacketNumber()
+            ])
+        </div>
+        <div class="product-view__icon-wrap no-print">
+            <button type="button" class="js-print" title="Print">
+                <svg class="icon icon--print product-view__icon"><use xlink:href="{{ SPRITE_SVG }}#icon-print"></use></svg>
+            </button>
+        </div>
+    </div>
+</div>

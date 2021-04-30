@@ -47,6 +47,6 @@ class DiamondOrder extends ProductOrder implements ProductOrderInterface
      */
     public function getMailEventName(): array
     {
-        return ['NEW_ORDER_CREATE'];
+        return ['SALE_NEW_ORDER'];
     }
 }

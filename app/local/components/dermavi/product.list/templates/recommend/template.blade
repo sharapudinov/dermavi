@@ -1,0 +1,40 @@
+<div class="slider-main mb200">
+    <div class="slider-main__top">
+        <div class="slider-main__title">с этим<b> часто покупают</b></div>
+        <!--<div class="slider-main__menu">-->
+        <!--<div class="slider-main__menu-item active">все</div>-->
+        <!--<div class="slider-main__menu-item">очищение</div>-->
+        <!--<div class="slider-main__menu-item">увлажнение</div>-->
+        <!--<div class="slider-main__menu-item">питание</div>-->
+        <!--<div class="slider-main__menu-item">пилинг</div>-->
+        <!--</div>-->
+        <div class="slider-main__nav">
+            <button class="slider-main__prev btn js-slider-main__prev"><i class="icon icon-arrow_left"></i></button>
+            <div class="slider-main__count">
+                <div class="slider-main__count-current js-slider-main__count">1</div>
+                <div class="slider-main__count-all js-slider-main__count-all">8</div>
+            </div>
+            <button class="slider-main__next btn js-slider-main__next"><i class="icon icon-arrow_right"></i>
+            </button>
+        </div>
+    </div>
+    <div class="slider-main__wrap js-slider-main">
+        @php
+            $classArray=['one','two','tree'];
+            $counter=0;
+        @endphp
+        @foreach($products as $product)
+            <a href="{{$product['DETAIL_PAGE_URL']}}" class="slider-main__item {{$classArray[$counter++%3]}} js-slider-main__item">
+                <div class="slider-main__img-wrap">
+                    <img src="{{$product['PREVIEW_PICTURE']}}" alt="" class="slider-main__img">
+                </div>
+                <div class="slider-main__item-stickers">
+                    <div class="slider-main__item-sticker sticker-hit">HIT</div>
+                </div>
+                <div class="slider-main__item-title">{{$product['NAME']}}</div>
+                <div class="slider-main__item-price">{{$product['DISCOUNT_PRICE']}} ₽</div>
+            </a>
+        @endforeach
+
+    </div>
+</div>

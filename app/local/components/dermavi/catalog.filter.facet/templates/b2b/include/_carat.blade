@@ -1,0 +1,98 @@
+@php
+/** Шаблон для отображения слайдера весов бриллиантов в b2b фильтре */
+/** @var App\Filtration\Dto\FieldDto $weight - DTO фильтра "Диапазон весов бриллиантов" */
+
+if ($weight->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $weight->getCode();
+$htmlIdPrefix = 'filter_box_';
+
+$fieldNameMin = '';
+$fieldIdMin = '';
+$fieldNameMax = '';
+$fieldIdMax = '';
+$stepValue = 0.01;
+$minValue = 0;
+$maxValue = 0;
+$fromValue = null;
+$toValue = null;
+$isDisabled = true;
+foreach ($weight->getVariants() as $variantItem) {
+    if ($variantItem->isEnabled()) {
+        $isDisabled = false;
+    }
+    switch ($variantItem->getRangeCode()) {
+        case $variantItem::RANGE_CODE_MIN:
+            $minValue = round((float)$variantItem->getValue(), 2);
+            $fieldNameMin = $variantItem->getRequestName();
+            $fieldIdMin = $variantItem->getHtmlSelector();
+            break;
+
+        case $variantItem::RANGE_CODE_MAX:
+            $maxValue = round((float)$variantItem->getValue(), 2);
+            $fieldNameMax = $variantItem->getRequestName();
+            $fieldIdMax = $variantItem->getHtmlSelector();
+            break;
+
+        case $variantItem::RANGE_CODE_FROM:
+            $fromValue = (float)$variantItem->getValue();
+            break;
+
+        case $variantItem::RANGE_CODE_TO:
+            $toValue = (float)$variantItem->getValue();
+            break;
+    }
+}
+@endphp
+
+<div class="js-filters-box-item filters-box__item filters-box-range">
+    <div class="js-filters-box-head filters-box__title filters-box-range__title">
+        @lang('catalog_main_filter_facet_parameter_carat')
+    </div>
+    <div class="js-filters-box-body filters-box__parameters filters-box-range__parameters">
+        <div class="range-slider filters-box__range{{ $isDisabled ? ' js-disabled' : '' }}"
+             data-start="{{ $fromValue ?? $minValue }}, {{ $toValue ?? $maxValue }}"
+             data-min="{{ $minValue }}"
+             data-max="{{ $maxValue }}"
+             data-step="{{ $stepValue }}"
+             data-type="{{ $typeCode }}"
+             data-format="float_two"
+             data-equal-values="true"
+        >
+            <div class="range-slider__control" data-field="{{ $typeCode }}" data-text="@lang('catalog_main_filter_facet_tag_carat_text')"></div>
+
+            <div class="range-slider__inputs">
+                <div class="range-slider__inputs-from">
+                    <label class="range-slider__label range-slider__label--from"
+                           for="{{ $htmlIdPrefix . $fieldIdMin }}">
+                        @lang('catalog_main_filter_facet_parameter_from')
+                    </label>
+                    <div class="range-slider__field range-slider__field--from">
+                        <input type="text" class="range-slider__input" autocomplete="off"
+                               name="{{ $fieldNameMin }}"
+                               id="{{ $htmlIdPrefix . $fieldIdMin }}"
+                               min="{{ $minValue }}"
+                               max="{{ $maxValue }}"
+                               step="{{ $stepValue }}">
+                    </div>
+                </div>
+                <div class="range-slider__inputs-to">
+                    <label class="range-slider__label range-slider__label--to"
+                           for="{{ $htmlIdPrefix . $fieldIdMax }}">
+                        @lang('catalog_main_filter_facet_parameter_to')
+                    </label>
+
+                    <div class="range-slider__field range-slider__field--to">
+                        <input type="text" class="range-slider__input" autocomplete="off"
+                               name="{{ $fieldNameMax }}"
+                               id="{{ $htmlIdPrefix . $fieldIdMax }}"
+                               min="{{ $minValue }}"
+                               max="{{ $maxValue }}"
+                               step="{{ $stepValue }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

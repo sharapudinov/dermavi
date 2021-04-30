@@ -1,0 +1,25 @@
+@php
+    /** Шаблон блока гравировки бриллианта */
+    /** @var App\Core\Sale\View\OrderItemViewModel|null $cartItem Объект, описывающий товар в корзине */
+    /** @var App\Core\Sale\View\OrderItemViewModel|null $engraving Объект, описывающий сертификат в корзине */
+    $engraving = $cartItem ? $cartItem->getAttachedService('engraving') : null;
+@endphp
+
+<div class="product-view__service product-view__service--engrave js-benefits-engraving">
+    <button type="button" data-href="#popup-edit-diamond-engraving" data-popup="open" data-type="diamond" class="feature">
+        <svg class="icon icon--feature-2 feature__icon">
+            <use xlink:href="{{ SPRITE_SVG }}#icon-feature_2"></use>
+        </svg>
+        <span class="feature__text">@lang('catalog_product_detail_engraving_full')</span>
+    </button>
+    <p class="product-view__service-value">
+        <span class="js-updateable-engraving {{ $engraving ? '' : 'is-hidden' }}">{{ $engraving ? $engraving->getCustomProperty('Text') : '' }}</span>
+        <button class="product-view__service-remove js-benefits-clear {{ $engraving ? '' : 'is-hidden' }}
+            js-benefits-clear-engraving" type="button"
+            {!! $engraving ? 'data-product-cart-id="' . $engraving->getBasketId() . '"' : '' !!}>
+            <svg class="icon icon--close-sm">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-close_sm"></use>
+            </svg>
+        </button>
+    </p>
+</div>

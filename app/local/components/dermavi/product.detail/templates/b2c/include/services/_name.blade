@@ -1,0 +1,26 @@
+@php
+    /** Шаблон блока с именем и описанием бриллианта */
+    /** @var App\Core\Sale\View\OrderItemViewModel|null $cartItem Объект, описывающий товар в корзине */
+@endphp
+
+<div class="product-view__service product-view__service--name js-benefits-name">
+    <button type="button" data-href="#popup-edit-diamond-name" data-popup="open" class="feature">
+        <svg class="icon icon--feature-1 feature__icon">
+            <use xlink:href="{{ SPRITE_SVG }}#icon-feature_1"></use>
+        </svg>
+        <span class="feature__text">@lang('catalog_product_detail_service_name')</span>
+    </button>
+    <p class="product-view__service-value">
+        <span class="js-updateable-name">{{ $cartItem ? $cartItem->getCustomProperty('NAME') : '' }}</span>
+        <button class="product-view__service-remove js-benefits-clear
+            {{ $cartItem && ($cartItem->getCustomProperty('NAME') || $cartItem->getCustomProperty('DESCRIPTION')) ? '' : 'is-hidden' }}"
+            type="button">
+            <svg class="icon icon--close-sm">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-close_sm"></use>
+            </svg>
+        </button>
+    </p>
+    <p class="product-view__service-value {{ $arParams['type'] == 'constructor' ? 'js-constructor-frame-message' : '' }}">
+        <span class="js-updateable-message">{{ $cartItem ? $cartItem->getCustomProperty('DESCRIPTION') : '' }}</span>
+    </p>
+</div>

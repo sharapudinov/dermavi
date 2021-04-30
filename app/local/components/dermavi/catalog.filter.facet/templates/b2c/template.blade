@@ -1,0 +1,251 @@
+@php
+/** Шаблон для фасетного фильтра b2c в каталоге */
+/** @var array|mixed[] $arParams - Массив параметров компонента */
+/** @var App\Filtration\Dto\FieldDto[] $filterFields - Массив, описывающий поля фильтров */
+/** @var App\Core\Currency\Entity\CurrencyEntity $currency - Объект, описывающий текущую валюту */
+/** @var array $filterBaseParams - Общие параметры для отправки в ajax-запросе обновления фильтра */
+@endphp
+
+<section class="page-catalog__filters-b2c js-sticky filters-popup js-jewerly-filter"
+         data-params="{{ json_encode($filterBaseParams, JSON_THROW_ON_ERROR) }}"
+>
+
+    <div class="product-filters-b2c__wrap">
+        <div class="product-filters-b2c">
+            @if ($arParams['show_catalog_types_variants'])
+                <div class="catalog__controls-view catalog__controls-view--redesign">
+                    <button type="button"
+                            class="js-view-button catalog__controls-view-btn catalog__controls-view-btn--cell catalog__controls-view-btn--redesign is-active"
+                            aria-label="Enable cell view">
+                        <svg class="catalog__controls-view-icon icon icon--view-cell">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-view_cell"></use>
+                        </svg>
+                    </button>
+                    <button type="button"
+                            class="js-view-button catalog__controls-view-btn catalog__controls-view-btn--table catalog__controls-view-btn--redesign"
+                            aria-label="Enable table view">
+                        <svg class="catalog__controls-view-icon icon icon--view-table">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-view_table"></use>
+                        </svg>
+                    </button>
+                </div>
+            @endif
+            <div class="product-filters-b2c__tags">
+                <div class="tags section-filters__tags">
+                    <ul class="tags__items-list">
+                        <li class="tags__item tags__item--clear filters__clear">
+                            <button class="tags__clear-all" title="@lang('catalog_main_filter_facet_clear_all_filters')"
+                                    type="button">@lang('catalog_main_filter_facet_clear_all_filters')</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="product-filters-b2c__tabs-wrap">
+                <ul class="product-filters-b2c__tabs js-product-filters-b2c-tabs">
+                    @includeWhen($filterFields['shape'], 'content/_all/_shape', ['shape' => $filterFields['shape']])
+                    @includeWhen($filterFields['price'], 'content/_all/_price', ['price' => $filterFields['price']])
+                    @includeWhen($filterFields['weight'], 'content/_all/_carat', ['weight' => $filterFields['weight']])
+                    @includeWhen($filterFields['color'], 'content/_all/_color', ['color' => $filterFields['color']])
+                    @includeWhen($filterFields['clarity'], 'content/_all/_clarity', ['clarity' => $filterFields['clarity']])
+                    @includeWhen($filterFields['cut'], 'content/_all/_cut', ['cut' => $filterFields['cut']])
+                    <li class="product-filters-b2c__item js-product-filters-b2c-item">
+                        <span class="product-filters-b2c__item-text">@lang('catalog_main_filter_facet_additional')</span>
+                        <svg class="icon icon--arrow-tiny-sm product-filters-b2c__item-icon">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-arrow_tiny"></use>
+                        </svg>
+                        <div class="product-filters-b2c__dropdown is-invisible js-product-filters-b2c-dropdown">
+                            <div class="product-filters-b2c__content js-product-filters-b2c-content product-filters-b2c__content--additionally">
+                                <ul class="product-filters-b2c__content-categories js-product-filters-b2c-categories">
+                                    @includeWhen($filterFields['fluorescence'], 'content/_all/_fluorescence', [
+                                        'fluorescence' => $filterFields['fluorescence']
+                                    ])
+                                    @includeWhen($filterFields['symmetry'], 'content/_all/_symmetry', [
+                                        'symmetry' => $filterFields['symmetry']
+                                    ])
+                                    @includeWhen($filterFields['polish'], 'content/_all/_polish', [
+                                        'polish' => $filterFields['polish']
+                                    ])
+                                    @includeWhen($filterFields['culet'], 'content/_all/_culet', [
+                                        'culet' => $filterFields['culet']
+                                    ])
+                                    @includeWhen($filterFields['year_mining'], 'content/_all/_year_mining', [
+                                        'yearMining' => $filterFields['year_mining']
+                                    ])
+                                    @includeWhen($filterFields['origin'], 'content/_all/_origin', [
+                                        'origin' => $filterFields['origin']
+                                    ])
+                                    @includeWhen($filterFields['depth'], 'content/_all/_depth', [
+                                        'depth' => $filterFields['depth']
+                                    ])
+                                    @includeWhen($filterFields['table'], 'content/_all/_table', [
+                                        'table' => $filterFields['table']
+                                    ])
+                                    @includeWhen($filterFields['price_carat'], 'content/_all/_price_per_carat', [
+                                        'priceCarat' => $filterFields['price_carat']
+                                    ])
+                                </ul>
+                            </div>
+
+                        </div>
+                    </li>
+                    {{--                    @include('content/_all/_promotions')--}}
+                </ul>
+                <button type="button" class="product-filters-b2c__filters-btn product-filters-b2c__mobile-btn"
+                        data-href="#popup-filters-b2c-redesign" data-popup="open">
+                    @lang('catalog_main_filter_facet_filters')
+                </button>
+                <button type="button" class="product-filters-b2c__manage-columns js-manage-columns is-invisible"
+                        data-href="#popup-manage-columns" data-popup="open">
+                    @lang('catalog_main_filter_facet_manage_columns')
+                </button>
+                <form class="product-filters-b2c__sorting js-sorting" action="" method="">
+                    <div class="field mb-0">
+                        <label class="label p-events-none" for="product-filters__select2">
+                            @lang('catalog_main_filter_facet_sort_by')
+                        </label>
+                        <select name="product-filters__select2" id="product-filters__select2"
+                                data-search="false" data-placeholder="" class="js-catalog-table-sort-selector">
+                            <option value=""></option>
+                            <option value="price.asc">
+                                @lang('catalog_main_filter_facet_price_by_low_to_high')
+                            </option>
+                            <option value="price.desc">
+                                @lang('catalog_main_filter_facet_price_by_high_to_low')
+                            </option>
+                            <option value="carat.asc">
+                                @lang('catalog_main_filter_facet_carat')
+                                @lang('catalog_main_filter_facet_sort_by_low_to_high')
+                            </option>
+                            <option value="carat.desc">
+                                @lang('catalog_main_filter_facet_carat')
+                                @lang('catalog_main_filter_facet_sort_by_high_to_low')
+                            </option>
+                            <option value="color.asc">
+                                @lang('catalog_main_filter_facet_color_by_low_to_high')
+                            </option>
+                            <option value="color.desc">
+                                @lang('catalog_main_filter_facet_color_by_high_to_low')
+                            </option>
+                            <option value="clarity.asc">
+                                @lang('catalog_main_filter_facet_clarity_by_low_to_high')
+                            </option>
+                            <option value="clarity.desc">
+                                @lang('catalog_main_filter_facet_clarity_by_high_to_low')
+                            </option>
+                            <option value="cut.asc">
+                                @lang('catalog_main_filter_facet_cut_by_low_to_high')
+                            </option>
+                            <option value="cut.desc">
+                                @lang('catalog_main_filter_facet_cut_by_high_to_low')
+                            </option>
+                        </select>
+                    </div>
+                </form>
+                <div class="catalog__controls-view is-mobile catalog__controls-view--redesign">
+                    <button type="button" class="catalog__controls-view-btn catalog__controls-view-btn--cell
+                        catalog__controls-view-btn--redesign is-active"
+                        aria-label="Enable cell view">
+                        <svg class="catalog__controls-view-icon icon icon--view-cell">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-view_cell"></use>
+                        </svg>
+                    </button>
+                    <button type="button" class="catalog__controls-view-btn catalog__controls-view-btn--table
+                        catalog__controls-view-btn--redesign"
+                        aria-label="Enable table view">
+                        <svg class="catalog__controls-view-icon icon icon--view-table">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-view_table"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<?php
+/**
+ * Контейнер для мобильного вьюпорта
+ */
+?>
+<div id="popup-filters-b2c-redesign" class="popup popup--fullscreen popup-filters-b2c" data-fullscreen="true"
+     data-wrap-class="fancybox-wrap--fullscreen" data-animation="zoom" style="display: none;">
+    <div class="popup__body">
+        <div class="popup-filters-b2c__head">
+            <h1 class="popup-filters-b2c__tl">@lang('catalog_main_filter_facet_filters')</h1>
+        </div>
+        <div class="product-filters-b2c__tags product-filters-b2c__tags--mobile">
+            <div class="tags section-filters__tags">
+                <ul class="tags__items-list">
+                    <li class="tags__item tags__item--clear js-filters-reset">
+                        <button class="tags__clear-all" title="@lang('catalog_main_filter_facet_clear_all_filters')"
+                                type="button">@lang('catalog_main_filter_facet_clear_all_filters')</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="js-accordion accordion accordion-filters filters-b2c filters-b2c--accordion">
+            @includeWhen($filterFields['shape'], 'content/_mobile/_shape', [
+                'shape' => $filterFields['shape']
+            ])
+            @includeWhen($filterFields['price'], 'content/_mobile/_price', [
+                'price' => $filterFields['price']
+            ])
+            @includeWhen($filterFields['weight'], 'content/_mobile/_carat', [
+                'weight' => $filterFields['weight']
+            ])
+            @includeWhen($filterFields['color'], 'content/_mobile/_color', [
+                'color' => $filterFields['color']
+            ])
+            @includeWhen($filterFields['clarity'], 'content/_mobile/_clarity', [
+                'clarity' => $filterFields['clarity']
+            ])
+
+            @includeWhen($filterFields['cut'], 'content/_mobile/_cut', [
+                'cut' => $filterFields['cut']
+            ])
+            <div id="filters-b2c-advanced-mobile" class="filters-b2c__advanced">
+                @includeWhen($filterFields['fluorescence'], 'content/_mobile/_fluorescence', [
+                    'fluorescence' => $filterFields['fluorescence']
+                ])
+                @includeWhen($filterFields['symmetry'], 'content/_mobile/_symmetry', [
+                    'symmetry' => $filterFields['symmetry']
+                ])
+                @includeWhen($filterFields['polish'], 'content/_mobile/_polish', [
+                    'polish' => $filterFields['polish']
+                ])
+                @includeWhen($filterFields['culet'], 'content/_mobile/_culet', [
+                    'culet' => $filterFields['culet']
+                ])
+                @includeWhen($filterFields['year_mining'], 'content/_mobile/_year_mining', [
+                    'yearMining' => $filterFields['year_mining']
+                ])
+                @includeWhen($filterFields['origin'], 'content/_mobile/_origin', [
+                    'origin' => $filterFields['origin']
+                ])
+                @includeWhen($filterFields['depth'], 'content/_mobile/_depth', [
+                    'depth' => $filterFields['depth']
+                ])
+                @includeWhen($filterFields['table'], 'content/_mobile/_table', [
+                    'table' => $filterFields['table']
+                ])
+                @includeWhen($filterFields['price_carat'], 'content/_mobile/_price_per_carat', [
+                    'priceCarat' => $filterFields['price_carat']
+                ])
+            </div>
+        </div>
+
+        <div class="filters-b2c__btn">
+            <button class="btn btn--sm btn--transparent m-0 js-fade-toggle filters-b2c__advanced-btn" type="button"
+                    title="Hide the advanced filter"
+                    data-toggle="@lang('catalog_main_filter_facet_hide_filters')"
+                    data-target="#filters-b2c-advanced-mobile">@lang('catalog_main_filter_facet_additional_filters')</button>
+        </div>
+
+        <button class="popup__close" data-popup="close" type="button" title="Закрыть">
+            <svg class="icon icon--cross">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-cross"></use>
+            </svg>
+        </button>
+    </div>
+</div>

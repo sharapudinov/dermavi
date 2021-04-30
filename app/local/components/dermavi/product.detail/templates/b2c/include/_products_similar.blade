@@ -1,0 +1,10 @@
+@php
+    /**
+     * @var \Illuminate\Support\Collection $perfectMatch - Коллекция подходящих товаров
+     */
+@endphp
+
+@component('catalog:related.products', 'perfect.match.b2c', [
+    'products' => $perfectMatch,
+    'currency' => $currency
+])

@@ -91,7 +91,7 @@
                     @foreach($diamonds as $item)
                         @continue(!$item->isDiamond())
                         @php
-                            /** @var App\Models\Catalog\Diamond $diamond */
+                            /** @var App\Models\Catalog\Catalog $diamond */
                             $diamond = $item->getDiamond();
 
                             $detailPageUrl = $diamond->getDetailPageUrl();

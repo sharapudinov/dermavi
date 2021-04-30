@@ -1,0 +1,126 @@
+@php
+/** Шаблон для вывода форм в фильтре b2c */
+/** @var App\Filtration\Dto\FieldDto $shape - DTO фильтра "Формы" */
+
+if ($shape->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $shape->getCode();
+$htmlIdPrefix = 'filter_box_';
+
+// Разбиваем формы на 2 столбца
+$partOne = $shape->getVariants()->slice(0, 7);
+$partTwo = $shape->getVariants()->slice(7);
+@endphp
+
+<li class="product-filters-b2c__item js-product-filters-b2c-item">
+    <span class="product-filters-b2c__item-text">@lang('catalog_main_filter_facet_shape')</span>
+    <svg class="icon icon--arrow-tiny-sm product-filters-b2c__item-icon">
+        <use xlink:href="{{ SPRITE_SVG }}#icon-arrow_tiny"></use>
+    </svg>
+    <div class="product-filters-b2c__dropdown is-invisible js-product-filters-b2c-dropdown">
+        <div class="product-filters-b2c__content js-product-filters-b2c-content product-filters-b2c__content--shape">
+            <div class="product-filters-b2c__content-values-wrapper">
+                <ul class="product-filters-b2c__content-values">
+                    @foreach($partOne as $variantItem)
+                        @php
+                            $icon = $variantItem->getExtra()['iconCode'] ?? '';
+                            $filterValue = $variantItem->getValue();
+                            $displayValue = $variantItem->getName();
+                            $fieldId = $variantItem->getHtmlSelector();
+                            $fieldName = $variantItem->getRequestName();
+                            $isChecked = $variantItem->isSelected();
+                            $isEnabled = $isChecked || ($variantItem->getDocCount() ?? 1) > 0;
+                        @endphp
+                        <li class="product-filters-b2c__content-values-item">
+                            <div class="checkbox-underline-icon
+                                 js-filter-value{{ !$isEnabled ? ' js-disabled' : '' }}"
+                                 data-id="{{ $fieldId }}">
+                                <input class="checkbox-underline-icon__input js-filter-checkbox"
+                                       type="checkbox"
+                                       data-field="{{ $typeCode }}"
+                                       name="{{ $fieldName }}"
+                                       id="{{ $htmlIdPrefix . $fieldId }}"
+                                       value="{{ $filterValue }}"
+                                       data-display-value="{!! word_wrap($displayValue) !!}"
+                                       {{ $isChecked ? 'checked' : '' }}
+                                       {{ !$isEnabled ? 'disabled="disabled"' : '' }}
+                                >
+                                <label class="checkbox-underline-icon__label js-product-filters-b2c-label"
+                                       data-value="{{ $filterValue }}"
+                                       for="{{ $htmlIdPrefix . $fieldId }}">
+                                    <svg class="icon icon--diamond-{{ $icon }}-ex-sm checkbox-underline-icon__icon-diamond">
+                                        <use xlink:href="{{ SPRITE_SVG }}#icon-diamond_{{ $icon }}_ex_sm"></use>
+                                    </svg>
+                                    <span class="checkbox-underline-icon__label-text">
+                                        {!! word_wrap($displayValue) !!}
+                                    </span>
+                                    <svg class="icon icon--close-m checkbox-underline-icon__icon-close">
+                                        <use xlink:href="{{ SPRITE_SVG }}#icon-close_lg"></use>
+                                    </svg>
+                                </label>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+                <ul class="product-filters-b2c__content-values">
+                    @foreach($partTwo as $variantItem)
+                        @php
+                            $icon = $variantItem->getExtra()['iconCode'] ?? '';
+                            $filterValue = $variantItem->getValue();
+                            $displayValue = $variantItem->getName();
+                            $fieldId = $variantItem->getHtmlSelector();
+                            $fieldName = $variantItem->getRequestName();
+                            $isChecked = $variantItem->isSelected();
+                            $isEnabled = $isChecked || ($variantItem->getDocCount() ?? 1) > 0;
+                        @endphp
+                        <li class="product-filters-b2c__content-values-item">
+                            <div class="checkbox-underline-icon
+                                 js-filter-value{{ !$isEnabled ? ' js-disabled' : '' }}"
+                                 data-id="{{ $fieldId }}">
+                                <input class="checkbox-underline-icon__input js-filter-checkbox"
+                                       type="checkbox"
+                                       data-field="{{ $typeCode }}"
+                                       name="{{ $fieldName }}"
+                                       id="{{ $htmlIdPrefix . $fieldId }}"
+                                       value="{{ $filterValue }}"
+                                       data-display-value="{!! word_wrap($displayValue) !!}"
+                                       {{ $isChecked ? 'checked' : '' }}
+                                       {{ !$isEnabled ? 'disabled="disabled"' : '' }}
+                                >
+                                <label class="checkbox-underline-icon__label js-product-filters-b2c-label"
+                                       data-value="{{ $filterValue }}"
+                                       for="{{ $htmlIdPrefix . $fieldId }}">
+                                    <svg class="icon icon--diamond-{{ $icon }}-ex-sm checkbox-underline-icon__icon-diamond">
+                                        <use xlink:href="{{ SPRITE_SVG }}#icon-diamond_{{ $icon }}_ex_sm"></use>
+                                    </svg>
+                                    <span class="checkbox-underline-icon__label-text">
+                                        {!! word_wrap($displayValue) !!}
+                                    </span>
+                                    <svg class="icon icon--close-m checkbox-underline-icon__icon-close">
+                                        <use xlink:href="{{ SPRITE_SVG }}#icon-close_lg"></use>
+                                    </svg>
+                                </label>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="product-filters-b2c__content-view product-filters-b2c__content-view--shape js-content-view-shape">
+                @foreach($shape->getVariants() as $variantItem)
+                    @php
+                        $icon = $variantItem->getExtra()['iconCode'] ?? '';
+                        $filterValue = $variantItem->getValue();
+                    @endphp
+                    <svg class="icon icon--perspective-{{$icon}}-sm product-filters-b2c__content-view-icon is-invisible js-product-filters-b2c-icon"
+                         data-value="{{ $filterValue }}">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-perspective_{{ $icon }}"></use>
+                    </svg>
+                @endforeach
+            </div>
+            <p class="product-filters-b2c__content-desc">
+                @lang('catalog_main_filter_facet_shape_description')
+            </p>
+        </div>
+    </div>
+</li>

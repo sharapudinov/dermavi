@@ -2,7 +2,7 @@
 
 use Arrilot\BitrixMigrations\BaseMigrations\BitrixMigration;
 use Arrilot\BitrixMigrations\Exceptions\MigrationException;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 
 /*
 добавляем  свойство контакт владельца в инфоблок бриллиантов

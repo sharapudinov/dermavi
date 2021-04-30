@@ -1,0 +1,115 @@
+@php
+    /** @var string $langPrefix Префикс для языковых фраз */
+    /** @var bool $isShowFirst Первый показ - отображение кнопки входа */
+@endphp
+
+<main class="wrap-main page-catalog">
+    <section class="page-catalog__header">
+        @bxComponent('main:picture', '', [
+        'path' => frontend()->img('catalog_b2c_bg.jpg'),
+        'pathWebp' => frontend()->img('catalog_b2c_bg.webp'),
+        'pathThumbnailWebp' => frontend()->img('catalog_b2c_bg_thumbnail.webp'),
+        'classNameImg' => 'page-catalog__header-bg-img',
+        ])
+
+        <h1 class="page-catalog__caption">@lang($langPrefix . 'page_title')</h1>
+
+        @if ($isShowFirst)
+            <div class="page-catalog__header-cnt" id="catalog-b2c-enter">
+                @bxComponent('main:picture', '', [
+                'path' => frontend()->img('catalog_b2c_diamonds.png'),
+                'pathWebp' => frontend()->img('catalog_b2c_diamonds.webp'),
+                'pathThumbnailWebp' => frontend()->img('catalog_b2c_diamonds_thumbnail.webp'),
+                'className' => 'page-catalog__header-img',
+                'classNameImg' => 'page-catalog__header-bg-diamonds',
+                'isBackground' => false,
+                ])
+
+                <div class="page-catalog__header-text">
+                    <h2 class="page-catalog__header-text-tl">
+                        @lang('catalog_index_for_whom')
+                    </h2>
+                    <button type="button" class="btn btn--lg btn--white btn--transparent page-catalog__header-text-btn
+                    js-show-catalog">
+                        @lang('catalog_index_for_b2c')
+                    </button>
+
+                    {{-- На английской версии всегда показываем кнопку открытия попапа с авторизацией --}}
+                    {{-- Или если передан флаг автоматического открытия авторизации --}}
+                    @if (
+                        \App\Helpers\LanguageHelper::isEnglishVersion()
+                        || $isShowAuthorization
+                    )
+                        <button
+                            type="button"
+                            data-href="#popup-login"
+                            data-tab-target="#sign-up-legal-person"
+                            data-popup="open"
+                            class="btn btn--lg btn--white btn--transparent page-catalog__header-text-btn">
+                            @lang('catalog_index_for_b2b')
+                        </button>
+                        {{-- Выводим попап с авторизацией если передан такой флаг и пользователь неавторизован --}}
+                        @if ($isShowAuthorization && !$isUserAuthorized)
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    $(document).on('pageLoaderRemoved', function () {
+                                        if (typeof window.openPopupAuthorization === 'function') {
+                                            try {
+                                                window.openPopupAuthorization();
+                                            } catch (e) {
+                                            }
+                                        }
+                                    });
+                                });
+                            </script>
+                        @endif
+                    @else
+                        {{--
+                        На русской и китайскоей версии показываем ссылку на переключение языка
+                        с автоматическим открытием авторизации
+                        --}}
+                        <button
+                                type="button"
+                                data-lang="en"
+                                data-link="{{ $companyAuthorizationUrl }}"
+                                class="btn btn--lg btn--white btn--transparent page-catalog__header-text-btn
+                            js-reload-catalog-for-reg">
+                            @lang('catalog_index_for_b2b')
+                        </button>
+                    @endif
+                </div>
+            </div>
+        @endif
+    </section>
+
+    @if (!$isShowFirst)
+        <div class="js-catalog-redesign">
+            <?php
+            /*
+            ?>
+            @bxComponent('catalog:main.filter', 'b2c', ['IS_B2C'=> true])
+            <?php
+            /*/
+            ?>
+            @bxComponent('catalog:main.filter.facet', 'b2c', ['IS_B2C' => true])
+            <?php
+            //*/
+            ?>
+            @bxComponent('catalog:product.list', 'b2c', ['IS_B2C'=> true])
+        </div>
+        <section class="container">
+            @bxComponent('main:it.is.time.to','',['class'=>'it-is-time-to--white'])
+        </section>
+
+        <!-- Просмотренные бриллианты -->
+        <section class="product-watched">
+            @bxComponent('catalog:seen.before', 'b2c', [
+            'product' => $product,
+            'currency' => $currency
+            ])
+        </section>
+    @endif
+
+ </main>
+
+@bxComponent('popup:manage.column', '', ['IS_B2C' => true])

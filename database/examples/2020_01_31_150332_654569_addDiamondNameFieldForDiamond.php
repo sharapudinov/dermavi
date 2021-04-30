@@ -2,7 +2,7 @@
 
 use Arrilot\BitrixMigrations\BaseMigrations\BitrixMigration;
 use Arrilot\BitrixMigrations\Constructors\IBlockProperty;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use Arrilot\BitrixMigrations\Exceptions\MigrationException;
 
 class AddDiamondNameFieldForDiamond20200131150332654569 extends BitrixMigration

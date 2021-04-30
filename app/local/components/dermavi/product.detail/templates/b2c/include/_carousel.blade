@@ -1,0 +1,57 @@
+<div class="thumbs-carousel products-view__carousel">
+    <div class="thumbs-carousel__main swiper-container js-thumbs-carousel-main">
+        <ul class="swiper-wrapper">
+
+            @if ($product->getCutWiseLink() && !$isInternetExplorer)
+                <li class="swiper-slide">
+                    <iframe class="product-view__widget" name="Cutwise Widget" width="320" height="480"
+                            frameborder="0"
+                            sandbox="allow-scripts allow-orientation-lock allow-pointer-lock allow-presentation"
+                            src="{{ $product->getCutWiseLink() }}" allowfullscreen></iframe>
+                </li>
+            @endif
+
+            @foreach($product->getPhotos() as $photo)
+                <li class="swiper-slide">
+                    <div class="product-view__diamond-img-wrap">
+                        <img class="product-view__img lazyload" src="{{ $photo }}" alt="{{ $product->getTitle() }}">
+                    </div>
+                </li>
+            @endforeach
+
+            @if (!$product->getPhotos() && !$product->getCutWiseLink())
+                <li class="swiper-slide">
+                    <div class="product-view__diamond-img-wrap">
+                        <svg class="icon icon--card-{{ $product->getShapeID() }}">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-card_{{ $product->getShapeID() }}"></use>
+                        </svg>
+                    </div>
+                </li>
+            @endif
+        </ul>
+    </div>
+
+    <div class="thumbs-carousel__thumbs swiper-container js-thumbs-carousel-preview">
+        <ul class="swiper-wrapper">
+
+
+            @if ($product->getCutWiseLink() && !$isInternetExplorer)
+                <li class="swiper-slide">
+                    <div class="product-view__diamond-img-wrap product-view__diamond-img-wrap--thumb">
+                        <svg class="icon icon--360-deg">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-360_deg"></use>
+                        </svg>
+                    </div>
+                </li>
+            @endif
+            @foreach($product->getPhotos() as $photo)
+                <li class="swiper-slide">
+                    <div class="product-view__diamond-img-wrap product-view__diamond-img-wrap--thumb">
+                        <img class="lazyload" data-src="{{$photo}}" alt="{{$product->getTitle()}}">
+                    </div>
+                </li>
+            @endforeach
+
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+@php
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var \App\Models\Catalog\PaidService $giaService
+    * @var App\Core\Sale\View\OrderItemViewModel|null $cartItem Объект, описывающий товар в корзине
+    * @var App\Core\Sale\View\OrderItemViewModel|null $certificate Объект, описывающий сертификат в корзине
+    */
+    $certificate = $cartItem ? $cartItem->getAttachedService('certificate') : null;
+@endphp
+
+@if ($giaService)
+    <div class="product-view__service js-benefits-gia">
+        <button type="button" data-href="#popup-edit-diamond-gia" data-popup="open" data-type="diamond" class="feature">
+            <svg class="icon icon--feature-3 feature__icon">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-feature_3"></use>
+            </svg>
+            <span class="feature__text">@lang('catalog_product_detail_gia_certificate')</span>
+        </button>
+
+        <p class="product-view__service-value {{ $arParams['from'] ? 'js-constructor-frame-gia' : '' }}">
+            <span class="js-updateable-gia {{ $certificate ? '': 'is-hidden' }}" data-gia="false"
+                data-price="{{ $giaService->getPriceForProduct($product) }}">
+                @lang('catalog_product_detail_service_cert_delivery')
+            </span>
+            <button class="product-view__service-remove js-benefits-clear
+                {{ $certificate ? '': 'is-hidden' }} js-benefits-clear-gia"
+                type="button" {!! $certificate ? 'data-product-cart-id="' . $certificate->getBasketId() . '"' : '' !!}>
+                <svg class="icon icon--close-sm">
+                    <use xlink:href="{{ SPRITE_SVG }}#icon-close_sm"></use>
+                </svg>
+            </button>
+        </p>
+    </div>
+@endif

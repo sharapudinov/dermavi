@@ -288,15 +288,6 @@ final class User
     }
 
     /**
-     * @param $sign_up_clientPB
-     * @return bool
-     */
-    private function isClientPB($sign_up_clientPB)
-    {
-        return $sign_up_clientPB == 'Y';
-    }
-
-    /**
      * @param UserModel $user
      * @return static
      */
@@ -316,61 +307,8 @@ final class User
         return $this->user;
     }
 
-    /**
-     * Имеет ли пользователь доступ к разделу распродажи ювелирных изделий
-     *
-     * @return bool
-     */
-    public function hasJewelrySaleAccess(): bool
-    {
-        if ($this->jewelrySaleAllowed === null) {
-            $this->jewelrySaleAllowed = false;
-
-            $userEmail = '';
-            if ($this->user) {
-                // Админам всегда разрешаем
-                if ($this->user->isAdmin()) {
-                    $this->jewelrySaleAllowed = true;
-                } elseif (!$this->user->isLegalEntity()) {
-                    // ALRSUP-1873: теперь пускаем всех авторизованных физиков
-                    $this->jewelrySaleAllowed = true;
-                    //$userEmail = trim($this->user->getEmail());
-                }
-            }
-
-            if (!$this->jewelrySaleAllowed && $userEmail !== '') {
-                try {
-                    Loader::includeModule('iblock');
-                    $item = ElementTable::getList(
-                        [
-                            'filter' => [
-                                '=IBLOCK.CODE'           => 'jewelry_sale_access',
-                                '=IBLOCK.IBLOCK_TYPE_ID' => 'client',
-                                '=ACTIVE'                => 'Y',
-                                '=CODE'                  => $userEmail,
-                            ],
-                            'select' => [
-                                'ID',
-                            ],
-                            // Изменение в инфоблоке не сбрасывает кеш автоматически
-                            /*
-                            'cache' => [
-                                'ttl' => 3600,
-                                'cache_joins' => true,
-                            ],
-                            */
-                            'limit'  => 1,
-                        ]
-                    )->fetch();
-                } catch (\Exception $exception) {
-                    $item = null;
-                }
-                if ($item) {
-                    $this->jewelrySaleAllowed = true;
-                }
-            }
-        }
-
-        return $this->jewelrySaleAllowed;
+    public static function GetUserGroupArray() {
+        global $USER;
+        return $USER->GetUserGroupArray();
     }
 }

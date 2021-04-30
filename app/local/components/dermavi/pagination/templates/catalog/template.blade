@@ -1,0 +1,54 @@
+@php
+    /**
+     * @var array $arParams - Массив параметров
+     * @var array $buttons - Массив кнопок
+     * @var array $prevButton - Кнопка "Назад"
+     * @var array $nextButton - Кнопка "Вперед"
+     */
+@endphp
+<section class="page-nav js-pagination-section" data-ajax-load-component="{{ $arParams['ajax_load_component'] }}"
+         data-items-block="{{ $arParams['items_block'] }}" data-scroll-to="{{ $arParams['scroll_to'] }}"
+         data-per-page="{{ $arParams['per_page'] }}" data-items-count="{{ $arParams['items_count'] }}"
+         data-component-params="{!! $arParams['componentParams'] !!}" data-type="{{ $arParams['type'] }}"
+         data-ajax-component-template="{{ $arParams['ajax_component_template'] }}"
+         data-template="{{$arParams['template']}}" data-is-need-update-url="{{$arParams['is_need_update_url']}}">
+    @if(count($buttons) > 1)
+        <div class="container">
+            <div class="pagination">
+                <a href="{{ $prevButton['url_static'] }}"
+                   data-page="{{$prevButton['page_key']}}"
+                   class="pagination__item pagination__item--arrow {{ $prevButton ? '' : 'is-disabled' }}"
+                   title="@lang('main_pagination_back')">
+                    <svg class="icon icon--arrow-md-l">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-arrow_md_l"></use>
+                    </svg>
+                </a>
+                @foreach($buttons as $button)
+                    @if ($button['is_separator'])
+                        <a class="pagination__item">...</a>
+                    @else
+                        <a href="{{ $button['url_static'] }}"
+                           data-page="{{$button['page_key']}}"
+                           class="pagination__item {{ $button['is_current'] ? 'is-active' : '' }}">
+                            {{ $button['title'] }}
+                        </a>
+                    @endif
+                @endforeach
+                <a href="{{ $nextButton['url_static'] }}"
+                   data-page="{{$nextButton['page_key']}}"
+                   class="pagination__item pagination__item--arrow {{ $nextButton ? '' : 'is-disabled' }}"
+                   title="@lang('main_pagination_forward')">
+                    <svg class="icon icon--arrow-md-r">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-arrow_md_r"></use>
+                    </svg>
+                </a>
+            </div>
+            @if ($nextButton)
+                <button class="pagination-more btn btn--lg btn--transparent js-show-more-button" type="button"
+                        data-page="{{ $arParams['current_page'] + 1 }}">
+                    @lang('main_pagination_show_more')
+                </button>
+            @endif
+            @endif
+        </div>
+</section>

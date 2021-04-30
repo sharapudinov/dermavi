@@ -1,0 +1,46 @@
+@php
+/**
+ * Шаблон для пустой товарной выдачи
+ */
+@endphp
+<section class="js-catalog-section">
+
+    @if(!$isB2c)
+    <section class="filters-tablet">
+        <div class="container">
+            <button class="catalog__controls-filters-btn btn btn--xs mb-0" type="button" data-href="#filters-popup" data-popup="open">
+                @lang('catalog_product_list_filters_applied_count') <!-- span class="btn__text">{{ $filterCount }}</span -->
+            </button>
+        </div>
+    </section>
+    @endif
+
+    <section class="page-catalog-empty__box">
+
+        <h4 class="text-c page-catalog-empty__caption">
+            @lang('catalog_product_list_nothing_found')
+        </h4>
+
+        <p class="page-catalog-empty__description align-center">
+            @if ($isB2c)
+                @lang('catalog_product_list_b2c_nothing_found_description').
+            @else
+                @lang('catalog_product_list_nothing_found_description').
+            @endif
+        </p>
+
+        @bxComponent('main:get.in.touch.form', 'no_theme', [
+            'form_class' => 'page-catalog-empty-form',
+            'form_id' => 'get-in-touch-form'
+        ])
+    </section>
+</section>
+
+<section class="js-fixed-panel fixed-panel fixed-panel--in-filters fixed-panel--is-hidden" data-selected-prop="{{ count(\App\Helpers\CatalogFilterHelper::getFilterForCatalogDiamonds()) }}">
+    <div class="container">
+        <div class="fixed-panel__cart">
+            <p class="fixed-panel__text"></p>
+            <button class="js-filters-close fixed-panel__btn btn btn--sm btn--transparent btn--white" type="button">@lang('catalog_product_list_show')</button>
+        </div>
+    </div>
+</section>

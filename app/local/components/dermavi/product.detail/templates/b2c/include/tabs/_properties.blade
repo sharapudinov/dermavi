@@ -1,0 +1,13 @@
+@php
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var \App\Core\Currency\Currency $currency - Текущая валюта
+    */
+@endphp
+<div id="product-properties" class="tabs-body__item--product-b2c page-product__features">
+    @bxComponent('catalog:product.characteristics', 'b2c', [
+       'product' => $product,
+       'currency' => $currency
+   ])
+
+</div>

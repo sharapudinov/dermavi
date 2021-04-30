@@ -75,7 +75,7 @@
                v-on:click="signin"
                class="login__top-item active">Вход</a>
             <div class="login__top-logo-wrap">
-                <img src="img/logo_footer.svg"
+                <img src="/img/logo_footer.svg"
                      alt=""
                      class="login__logo-img">
             </div>

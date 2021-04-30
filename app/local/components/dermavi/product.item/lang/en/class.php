@@ -1,0 +1,27 @@
+<?php
+$MESS['catalog_product_item_show_more_options'] = 'Show more options';
+$MESS['catalog_product_item_shape'] = 'Shape';
+$MESS['catalog_product_item_carat'] = 'Carat';
+$MESS['catalog_product_item_color'] = 'Color';
+$MESS['catalog_product_item_clarity'] = 'Clarity';
+$MESS['catalog_product_item_cut'] = 'Cut';
+$MESS['catalog_product_item_age'] = 'Age';
+$MESS['catalog_product_item_origin'] = 'Origin';
+$MESS['catalog_product_item_year'] = 'Year';
+$MESS['catalog_product_item_collection'] = 'Collection';
+$MESS['catalog_product_item_fluorescence'] = 'Fluorescence';
+$MESS['catalog_product_item_polish'] = 'Polish';
+$MESS['catalog_product_item_symmetry'] = 'Symmetry';
+$MESS['catalog_product_item_table'] = 'Table';
+$MESS['catalog_product_item_depth'] = 'Depth';
+$MESS['catalog_product_item_culet'] = 'Culet';
+$MESS['catalog_product_item_lab'] = 'Lab';
+$MESS['catalog_product_item_added'] = 'Added';
+$MESS['catalog_product_item_id'] = 'Id';
+$MESS['same_rough_diamond'] = 'Same rough diamond';
+$MESS['catalog_product_item_carat'] = 'carat';
+$MESS['catalog_product_item_color'] = 'Color';
+$MESS['catalog_product_item_clarity'] = 'clarity';
+$MESS['catalog_product_item_cut'] = 'cut';
+$MESS['catalog_product_item_watch'] = 'Watch';
+$MESS['catalog_product_item_price_per_carat_short'] = 'PER CT.';

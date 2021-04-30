@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use Arrilot\BitrixMigrations\BaseMigrations\BitrixMigration;
 use Bitrix\Iblock\PropertyIndex\Manager;
 use Bitrix\Iblock\SectionPropertyTable;

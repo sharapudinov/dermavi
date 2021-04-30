@@ -4,7 +4,7 @@ namespace App\Api\Internal\Sale;
 
 use App\Api\BaseController;
 use App\Helpers\TTL;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use Slim\Http\Response;
 
 /**

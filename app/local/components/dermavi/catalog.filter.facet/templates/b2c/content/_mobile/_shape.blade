@@ -1,0 +1,63 @@
+@php
+/** Шаблон для вывода форм в фильтре b2c (мобильный вьюпорт) */
+/** @var App\Filtration\Dto\FieldDto $shape - DTO фильтра "Формы" */
+
+if ($shape->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $shape->getCode();
+$htmlIdPrefix = 'filter_box_'; // должен совпадать с десктопным
+@endphp
+
+<h3 class="js-accordion-head">@lang('catalog_main_filter_facet_shape')</h3>
+<div>
+    <div class="product-filters-b2c__content js-product-filters-b2c-content product-filters-b2c__content--shape">
+        <div class="product-filters-b2c__content-values-wrapper">
+            <ul class="product-filters-b2c__content-values product-filters-b2c__content-values--mobile">
+                @foreach ($shape->getVariants() as $variantItem)
+                    @php
+                        $icon = $variantItem->getExtra()['iconCode'] ?? '';
+                        $filterValue = $variantItem->getValue();
+                        $displayValue = $variantItem->getName();
+                        $fieldId = $variantItem->getHtmlSelector();
+                        $fieldName = $variantItem->getRequestName();
+                        $isChecked = $variantItem->isSelected();
+                        $isEnabled = $isChecked || ($variantItem->getDocCount() ?? 1) > 0;
+                    @endphp
+                    <li class="product-filters-b2c__content-values-item">
+                        <div class="checkbox-underline-icon
+                             js-filter-value{{ !$isEnabled ? ' js-disabled' : '' }}"
+                             data-id="{{ $fieldId }}">
+                            <input class="checkbox-underline-icon__input js-filter-checkbox"
+                                   type="checkbox"
+                                   data-field="{{ $typeCode }}"
+                                   name="{{ $fieldName }}"
+                                   id="{{ $htmlIdPrefix . $fieldId }}"
+                                   value="{{ $filterValue }}"
+                                   data-display-value="{!! word_wrap($displayValue) !!}"
+                                   {{ $isChecked ? 'checked' : '' }}
+                                   {{ !$isEnabled ? 'disabled="disabled"' : '' }}
+                            >
+                            <label class="checkbox-underline-icon__label js-product-filters-b2c-label"
+                                   data-value="{{ $filterValue }}"
+                                   for="{{ $htmlIdPrefix . $fieldId }}">
+                                <div class="checkbox-underline-icon__icon-diamond-wrap">
+                                    <svg class="icon icon--diamond-round-ex-sm checkbox-underline-icon__icon-diamond">
+                                        <use xlink:href="{{ SPRITE_SVG }}#icon-diamond_{{ $icon }}_ex_sm"></use>
+                                    </svg>
+                                </div>
+                                <span class="checkbox-underline-icon__label-text">{!! word_wrap($displayValue) !!}</span>
+                                <svg class="icon icon--close-m checkbox-underline-icon__icon-close">
+                                    <use xlink:href="{{ SPRITE_SVG }}#icon-close_lg"></use>
+                                </svg>
+                            </label>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+        <p class="product-filters-b2c__content-desc">
+            @lang('catalog_main_filter_facet_shape_description')
+        </p>
+    </div>
+</div>

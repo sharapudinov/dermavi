@@ -1,0 +1,27 @@
+<?php
+$MESS['catalog_product_item_show_more_options'] = 'Показать больше опций';
+$MESS['catalog_product_item_shape'] = 'Форма';
+$MESS['catalog_product_item_carat'] = 'Вес';
+$MESS['catalog_product_item_color'] = 'Цвет';
+$MESS['catalog_product_item_clarity'] = 'Чистота';
+$MESS['catalog_product_item_cut'] = 'Огранка';
+$MESS['catalog_product_item_age'] = 'Возраст';
+$MESS['catalog_product_item_origin'] = 'Происхождение';
+$MESS['catalog_product_item_year'] = 'Год';
+$MESS['catalog_product_item_collection'] = 'Коллекция';
+$MESS['catalog_product_item_fluorescence'] = 'Флуоресценция';
+$MESS['catalog_product_item_polish'] = 'Полировка';
+$MESS['catalog_product_item_symmetry'] = 'Симметрия';
+$MESS['catalog_product_item_table'] = 'Площадка';
+$MESS['catalog_product_item_depth'] = 'Высота';
+$MESS['catalog_product_item_culet'] = 'Калетта';
+$MESS['catalog_product_item_lab'] = 'Сертификация';
+$MESS['catalog_product_item_added'] = 'Дата добавления';
+$MESS['catalog_product_item_id'] = 'Id';
+$MESS['same_rough_diamond'] = 'Из одного алмаза';
+$MESS['catalog_product_item_carat'] = 'Карат';
+$MESS['catalog_product_item_color'] = 'Цвет';
+$MESS['catalog_product_item_clarity'] = 'Чистота';
+$MESS['catalog_product_item_cut'] = 'Огранка';
+$MESS['catalog_product_item_watch'] = 'Смотреть';
+$MESS['catalog_product_item_price_per_carat_short'] = 'ЗА КАРАТ';

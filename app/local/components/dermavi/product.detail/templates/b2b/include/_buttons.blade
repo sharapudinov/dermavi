@@ -1,0 +1,87 @@
+@php
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var bool $isInCart - Находится ли товар в корзине
+    * @var \App\Core\Currency\Currency $currency - Текущая валюта
+    * @var bool $isInternetExplorer - Является ли браузер IE
+    */
+@endphp
+
+<!-- subtitle with share btn's -->
+<section class="page-product__sect page-product__sect-subheader">
+    <div class="container">
+        <div class="page-product__row">
+            @if ($product->hasGIACert())
+                <div class="page-product__col-auto">
+                    <div class="product-param-new page-product__pr-40">
+                        <div class="product-param-new__name uppercase">GIA</div>
+                        <div class="product-param-new__val">
+                            <a
+                                href="{{ $product->getGIACertUrl() }}"
+                                class="product-param-new__val product-param-new__val--link"
+                                target="_blank">
+                                {{ $product->getGIACert() }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            <div class="page-product__col-auto">
+                <div class="product-param-new page-product__pr-40">
+                    @if ($product->hasPassport())
+                        <div class="product-param-new__name"><div class="product-param-new__val">@lang('catalog_product_diamond_passport')</div></div>
+                    @endif
+                    <div class="page-product__flex">
+                        <div class="product-param-new__val">
+                            @if ($product->hasPassport())
+                                <a
+                                    href="{{ $product->getPassportUrl() }}"
+                                    class="product-param-new__val product-param-new__val--link"
+                                    target="_blank">
+                                    ID {{ $product->getPacketNumber() }}
+                                </a>
+                            @else
+                                ID {{ $product->getPacketNumber() }}
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-product__col-auto">
+                <div class="page-product__share-btn">
+                    <div class="product-view__icon-wrap no-print">
+                        <div class="share-wrapper">
+                            <button type="button" class="share-wrapper__btn js-tooltip" data-content="#share"
+                                    data-tippy-trigger="click" data-tippy-interactive="true" title="Share">
+                                <svg class="icon icon--social-share">
+                                    <use xlink:href="{{ SPRITE_SVG }}#icon-social_share"></use>
+                                </svg>
+                            </button>
+                            <div id="share" class="share tooltip-template">
+                                <span class="share__title">Share</span>
+                                <div class="share__yandex js-yandex-share" id="ya_share_11"></div>
+                                <button class="share__email" title="Email" type="button"
+                                        data-href="#popup-share-diamond" data-popup="open">
+                                    <svg class="icon icon--socials-mail">
+                                        <use xlink:href="{{ SPRITE_SVG }}#icon-socials_mail"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="product-view__icon-wrap no-print">
+                        <button type="button" class="js-print" title="Print">
+                            <svg class="icon icon--print product-view__icon">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-print"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

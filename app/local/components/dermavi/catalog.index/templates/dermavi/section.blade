@@ -1,0 +1,18 @@
+@if($section_banner)
+    <div class="banner-cat">
+        <div class="banner-cat__img-wrap"><img src="{{$section_banner}}" alt="" class="banner-cat__img"></div>
+        <div class="banner-cat__text">
+            Уход <br>
+            <i><b>для лица</b></i>
+        </div>
+    </div>
+@endif
+
+@bxComponent(
+'dermavi:product.list',
+'dermavi',
+[
+    'PAGE_SIZE'    => 16,
+    'SECTION_CODE' => $VARIABLES['SECTION_CODE']
+])
+

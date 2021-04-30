@@ -1,0 +1,50 @@
+@php
+/**
+* @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+* @var bool $isInCart - Находится ли товар в корзине
+* @var \App\Core\Currency\Currency $currency - Текущая валюта
+* @var bool $isInternetExplorer - Является ли браузер IE
+*/
+@endphp
+@bxComponent('main:criteo.tag','product_detail', [
+'currentProductId'=>$product->getCode()
+])
+<main class="wrap-main page-product">
+    @include('include/_header')
+
+    @include('include/_buttons')
+
+    <!-- carousel with iframe anf images of product -->
+    <section class="page-product__sect page-product__sect--mt0 page-product__sect--mb0">
+        <div class="container">
+            <div class="page-product__row page-product__row--justify-center page-product__param-container">
+                @include('include/_images-and-share')
+                @if ($product->isColored())
+                    @include('include/_characteristics_colored')
+                @else
+                    @include('include/_characteristics')
+                @endif
+            </div>
+        </div>
+    </section>
+
+    @include('include/_location-and-contacts')
+
+    @include('include/_certificate-and-promo-video')
+
+    @php $perfectMatchCollection = $product->getPerfectMatchCollection()  @endphp
+    @if ($perfectMatchCollection->isNotEmpty())
+        @bxComponent('catalog:related.products', '', [
+            'products' => $perfectMatchCollection,
+            'currency' => $currency,
+            'title' => 'catalog_product_detail_we_can_also_recommend_you',
+            'carousel_class' => 'container',
+        ])
+    @endif
+
+    @bxComponent('catalog:seen.before', '', [
+        'product' => $product,
+        'currency' => $currency,
+        'carousel_class' => 'container',
+    ])
+</main>

@@ -9,7 +9,7 @@ use App\Core\Sale\Entity\OrderForm;
 use App\EventHandlers\OrderHandlers;
 use App\Exceptions\EmptyOrderCreateException;
 use App\Helpers\OrderHelper;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\User;
 use Arrilot\BitrixModels\Exceptions\ExceptionFromBitrix;
 use Bitrix\Currency\CurrencyManager;

@@ -3,7 +3,7 @@
 namespace App\Seo\GlobalSiteTag;
 
 use App\Core\Sale\View\OrderItemViewModel;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\Jewelry\JewelryConstructorReadyProduct;
 use App\Models\Jewelry\JewelrySku;
 use Illuminate\Support\Collection;

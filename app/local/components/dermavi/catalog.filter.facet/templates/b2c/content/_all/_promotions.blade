@@ -1,0 +1,46 @@
+@php
+    /** Шаблон для вывода акций в фильтре b2c */
+    /** @var array|array[] $promotions - Массив */
+
+@endphp
+
+<li class="product-filters-b2c__item js-product-filters-b2c-item product-filters-b2c__item--light">
+    <span class="product-filters-b2c__item-text">Акции</span>
+    <svg class="icon icon--arrow-tiny-sm product-filters-b2c__item-icon">
+        <use xlink:href="{{ SPRITE_SVG }}#icon-arrow_tiny"></use>
+    </svg>
+    <div class="product-filters-b2c__dropdown is-invisible js-product-filters-b2c-dropdown">
+        <div class="product-filters-b2c__content js-product-filters-b2c-content product-filters-b2c__content--stocks">
+            <div class="checkbox checkbox--dense mb-l">
+                <input class="checkbox__input product-filters-b2c__content-checkbox-input"
+                       type="checkbox" name="stocks" id="stock-1"
+                       value="1">
+                <label class="checkbox__label product-filters-b2c__content-checkbox-label"
+                       for="stock-1">
+                    &minus;10% на&nbsp;круглые бриллианты
+                </label>
+                <input class="checkbox__input product-filters-b2c__content-checkbox-input"
+                       type="checkbox" name="stocks" id="stock-2"
+                       value="2">
+                <label class="checkbox__label product-filters-b2c__content-checkbox-label"
+                       for="stock-2">
+                    Лучшие украшения для выпускного
+                </label>
+                <input class="checkbox__input product-filters-b2c__content-checkbox-input"
+                       type="checkbox" name="stocks" id="stock-3"
+                       value="3">
+                <label class="checkbox__label product-filters-b2c__content-checkbox-label"
+                       for="stock-3">
+                    Выбор лучших украшений от&nbsp;стилиста Vogue к&nbsp;новогодней ночи
+                </label>
+                <input class="checkbox__input product-filters-b2c__content-checkbox-input"
+                       type="checkbox" name="stocks" id="stock-4"
+                       value="4">
+                <label class="checkbox__label product-filters-b2c__content-checkbox-label"
+                       for="stock-4">
+                    &minus;5%&nbsp;на&nbsp;цветные бриллианты
+                </label>
+            </div>
+        </div>
+    </div>
+</li>

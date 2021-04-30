@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\Catalog\HL\Office;
 use Arrilot\BitrixMigrations\BaseMigrations\BitrixMigration;
 use Arrilot\BitrixMigrations\Exceptions\MigrationException;

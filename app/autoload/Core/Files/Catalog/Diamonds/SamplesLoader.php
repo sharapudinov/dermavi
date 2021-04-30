@@ -3,7 +3,7 @@
 namespace App\Core\Files\Catalog\Diamonds;
 
 use App\Helpers\FileHelper;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use Illuminate\Support\Collection;
 
 /**

@@ -1,0 +1,128 @@
+@php
+/** Шаблон для вывода чистот бриллиантов в фильтре b2c */
+/** @var App\Filtration\Dto\FieldDto $clarity - DTO фильтра "Чистота" */
+
+if ($clarity->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $clarity->getCode();
+$htmlIdPrefix = 'filter_box_';
+
+$groupCode2Lang = [
+    'flawless' => 'catalog_main_filter_facet_clarity_description_internally_flawless',
+    'vvs' => 'catalog_main_filter_facet_clarity_description_vvs',
+    'vs' => 'catalog_main_filter_facet_clarity_description_vs',
+    'si' => 'catalog_main_filter_facet_clarity_description_si',
+    'i' => 'catalog_main_filter_facet_clarity_description_i',
+];
+
+// Порядок следования ключей задает последовательность вывода
+$groupOne = [
+    'flawless' => [],
+    'vvs' => [],
+    'vs' => [],
+    'si' => [],
+];
+$groupTwo = [
+    'i' => [],
+];
+foreach ($clarity->getVariants() as $variantItem) {
+    $groupCode = (string)($variantItem->getExtra()['groupCode'] ?? '');
+    if (isset($groupOne[$groupCode])) {
+        $groupOne[$groupCode][] = $variantItem;
+    }
+    if (isset($groupTwo[$groupCode])) {
+        $groupTwo[$groupCode][] = $variantItem;
+    }
+}
+
+$clarityCols = [];
+if ($groupOne = array_filter($groupOne)) {
+    $clarityCols[] = $groupOne;
+}
+if ($groupTwo = array_filter($groupTwo)) {
+    $clarityCols[] = $groupTwo;
+}
+@endphp
+
+<li class="product-filters-b2c__item js-product-filters-b2c-item">
+    <span class="product-filters-b2c__item-text">@lang('catalog_main_filter_facet_clarity')</span>
+    <svg class="icon icon--arrow-tiny-sm product-filters-b2c__item-icon">
+        <use xlink:href="{{ SPRITE_SVG }}#icon-arrow_tiny"></use>
+    </svg>
+    <div class="product-filters-b2c__dropdown is-invisible js-product-filters-b2c-dropdown">
+        <div class="product-filters-b2c__content js-product-filters-b2c-content product-filters-b2c__content--clarity">
+            <div class="product-filters-b2c__content-groups">
+                @foreach($clarityCols as $colVariantItemsList)
+                    <div class="product-filters-b2c__content-groups-col">
+                        @foreach($colVariantItemsList as $groupCode => $variantItemsList)
+                            @php
+                                $cssClass = ' product-filters-b2c__content-group-checkboxes--' . $groupCode;
+                            @endphp
+                            <div class="product-filters-b2c__content-group">
+                                <div class="product-filters-b2c__content-group-checkboxes{{ $cssClass }}">
+                                    <ul class="product-filters-b2c__content-values product-filters-b2c__content-values--mobile">
+                                        @foreach($variantItemsList as $variantItem)
+                                            @php
+                                                $filterValue = $variantItem->getValue();
+                                                $displayValue = $variantItem->getName();
+                                                $fieldId = $variantItem->getHtmlSelector();
+                                                $fieldName = $variantItem->getRequestName();
+                                                $isChecked = $variantItem->isSelected();
+                                                $isEnabled = $isChecked || ($variantItem->getDocCount() ?? 1) > 0;
+
+                                                $icon = $filterValue === 'if' ? 'diamond_round_ex' : $filterValue;
+                                            @endphp
+                                            <li class="product-filters-b2c__content-values-item">
+                                                <div class="checkbox-underline-icon
+                                                 js-filter-value{{ !$isEnabled ? ' js-disabled' : '' }}"
+                                                     data-id="{{ $fieldId }}">
+                                                    <input class="checkbox-underline-icon__input js-filter-checkbox"
+                                                           type="checkbox"
+                                                           data-field="{{ $typeCode }}"
+                                                           name="{{ $fieldName }}"
+                                                           id="{{ $htmlIdPrefix . $fieldId }}"
+                                                           value="{{ $filterValue }}"
+                                                            {{ $isChecked ? 'checked' : '' }}
+                                                            {{ !$isEnabled ? 'disabled="disabled"' : '' }}
+                                                    >
+                                                    <label class="checkbox-underline-icon__label js-product-filters-b2c-label"
+                                                           data-value="{{ $filterValue }}"
+                                                           for="{{ $htmlIdPrefix . $fieldId }}">
+                                                        <svg class="icon icon--diamond-round-ex-sm checkbox-underline-icon__icon-diamond">
+                                                            <use xlink:href="{{ SPRITE_SVG }}#icon-{{ $icon }}_sm"></use>
+                                                        </svg>
+                                                        <span class="checkbox-underline-icon__label-text">{!! $displayValue !!}</span>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <p class="product-filters-b2c__content-group-legend">@lang($groupCode2Lang[$groupCode])</p>
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+            </div>
+            <div class="product-filters-b2c__content-view product-filters-b2c__content-view--clarity">
+                <svg class="icon icon--medium-round-diamond product-filters-b2c__content-view-icon">
+                    <use xlink:href="{{ SPRITE_SVG }}#icon-medium_round_diamond"></use>
+                </svg>
+                @foreach($clarity->getVariants() as $variantItem)
+                    @php
+                        $filterValue = $variantItem->getValue();
+                        $icon = $filterValue === 'if' ? 'big_round_diamond' : $filterValue;
+                    @endphp
+                    <svg class="icon icon--medium-round-diamond product-filters-b2c__content-view-icon is-invisible js-product-filters-b2c-icon"
+                         data-value="{{ $filterValue }}">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-{{ $icon }}"></use>
+                    </svg>
+                @endforeach
+            </div>
+            <p class="product-filters-b2c__content-desc">
+                @lang('catalog_main_filter_facet_clarity_description')
+            </p>
+        </div>
+    </div>
+</li>

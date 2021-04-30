@@ -231,9 +231,9 @@ Vue.component('bx-sign-up',
                                 processData: false,  // Сообщить jQuery не передавать эти данные
                                 contentType: false,  // Сообщить jQuery не передавать тип контента
                                 success: function() {
-                                    /*let back_url = (new URL(document.location)).searchParams.get('back_url') ?? '';
-                                    window.location.href = '/' + back_url + '?' + 'auth=true';*/
-                                },
+                                    alert('Поздравляем, вы успешно зарегистрированы!')
+                                    let back_url = (new URL(document.location)).searchParams.get('back_url') ?? '';
+                                    window.location.href = '/' + back_url + '?' + 'auth=true';                                },
                                 error: function(response) {
                                     alert(response.responseJSON.error.message);
                                 },

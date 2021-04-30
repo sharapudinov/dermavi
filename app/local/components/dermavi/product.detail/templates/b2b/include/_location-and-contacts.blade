@@ -1,0 +1,58 @@
+@php
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var bool $isInCart - Находится ли товар в корзине
+    * @var \App\Core\Currency\Currency $currency - Текущая валюта
+    * @var bool $isInternetExplorer - Является ли браузер IE
+    */
+use Bitrix\Main\Loader;
+use Sprint\Options\Module;
+@endphp
+
+<!-- location and email + phones -->
+<section class="page-product__sect page-product__sect--mt0 page-product__sect--mb0">
+    <div class="container">
+        <div class="page-product__contact-params-container">
+            <div class="page-product__row page-product__row--justify-between">
+                <div class="page-product__col-auto">
+                    <div class="product-param-new__name">
+                        <svg class="icon icon--location"><use xlink:href="{{ SPRITE_SVG }}#icon-location"></use></svg>
+                        @lang('catalog_product_location')
+                    </div>
+                    <div class="product-param-new__val uppercase">{{$product->getOfficeValue()}}</div>
+                </div>
+
+                <div class="page-product__col-auto">
+                    <div>
+                        <div class="product-param-new__name">@lang('catalog_product_add_to_favorite')</div>
+                        <div class="page-product__params-value__container">
+                            <div class="page-product__params-value__item">
+                                <a
+                                    href="tel:{{ preg_replace('/[^\d\+]+/', '', $product->getOwnerPhone()) }}"
+                                    class="product-param-new__val page-product__params-value__item--name uppercase">{{$product->getOwnerPhone()}}</a>
+                            </div>
+                            <div class="page-product__params-value__item page-product__params-value__item--email">
+                                <a href="mailto:{{$product->getOwnerEmail()}}" class="product-param-new__val uppercase">{{$product->getOwnerEmail()}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-product__col-auto">
+                    <div>
+                        <div class="product-param-new__name">@lang('catalog_product_for_general_inquiries')</div>
+                        <div class="page-product__params-value__container">
+                            <div class="page-product__params-value__item">
+                                <a href="tel:{{preg_replace('/[^\d\+]+/', '', \Sprint\Options\Module::getDbOption('PHONE_MAIN_OFFICE_B2B'))}}"
+                                   class="product-param-new__val page-product__params-value__item--name uppercase">{{\Sprint\Options\Module::getDbOption('PHONE_MAIN_OFFICE_B2B')}}</a>
+                            </div>
+                            <div class="page-product__params-value__item page-product__params-value__item--email">
+                                <a href="mailto:{{\Sprint\Options\Module::getDbOption('EMAIL_PHONE_MAIN_OFFICE_B2B')}}" class="product-param-new__val uppercase">{{\Sprint\Options\Module::getDbOption('EMAIL_PHONE_MAIN_OFFICE_B2B')}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

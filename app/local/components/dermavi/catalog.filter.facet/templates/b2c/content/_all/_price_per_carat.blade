@@ -1,0 +1,109 @@
+@php
+/** Шаблон для вывода слайдера цен за карат в шаблоне b2c */
+/** @var App\Core\Currency\Entity\CurrencyEntity $currency - Объект, описывающий текущую валюту */
+/** @var App\Filtration\Dto\FieldDto $priceCarat - DTO фильтра "Цена за карат" */
+
+if ($priceCarat->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $priceCarat->getCode();
+$htmlIdPrefix = 'filter_box_';
+
+$currencySymbol = $currency->getSymbol();
+$fieldNameMin = '';
+$fieldIdMin = '';
+$fieldNameMax = '';
+$fieldIdMax = '';
+$stepValue = 1;
+$minValue = 0;
+$maxValue = 0;
+$fromValue = null;
+$toValue = null;
+$isDisabled = true;
+foreach ($priceCarat->getVariants() as $variantItem) {
+    if ($variantItem->isEnabled()) {
+        $isDisabled = false;
+    }
+    switch ($variantItem->getRangeCode()) {
+        case $variantItem::RANGE_CODE_MIN:
+            $minValue = ceil($variantItem->getValue());
+            $fieldNameMin = $variantItem->getRequestName();
+            $fieldIdMin = $variantItem->getHtmlSelector();
+            break;
+
+        case $variantItem::RANGE_CODE_MAX:
+            $maxValue = ceil($variantItem->getValue());
+            $fieldNameMax = $variantItem->getRequestName();
+            $fieldIdMax = $variantItem->getHtmlSelector();
+            break;
+
+        case $variantItem::RANGE_CODE_FROM:
+            $fromValue = ceil($variantItem->getValue());
+            break;
+
+        case $variantItem::RANGE_CODE_TO:
+            $toValue = ceil($variantItem->getValue());
+            break;
+    }
+}
+if ($maxValue <= 0) {
+    return;
+}
+@endphp
+
+<li class="product-filters-b2c__content-categories-item js-product-filters-b2c-category">
+    <span class="product-filters-b2c__content-categories-label js-product-filters-b2c-label">
+        @lang('catalog_main_filter_facet_advanced_filter_parameter_price_per_carat')
+        <svg class="icon icon--arrow-tiny product-filters-b2c__content-categories-icon">
+            <use xlink:href="{{ SPRITE_SVG }}#icon-arrow_tiny"></use>
+        </svg>
+    </span>
+    <div class="product-filters-b2c__content-category-cnt is-invisible js-product-filters-b2c-category-cnt">
+        <ul class="product-filters-b2c__content-values">
+            <li class="product-filters-b2c__content-values-item">
+                <div class="range-slider range-slider--price product-filters-b2c__content-range-slider-additionally js-combine-slider{{ $isDisabled ? ' js-disabled' : '' }}"
+                     data-start="{{ $fromValue ?? $minValue }}, {{ $toValue ?? $maxValue }}"
+                     data-min="{{ $minValue }}"
+                     data-max="{{ $maxValue }}"
+                     data-step="{{ $stepValue }}"
+                     data-type="{{ $typeCode }}"
+                     data-format="price"
+                     data-text="{{ $currencySymbol }} @lang('catalog_main_filter_facet_tag_price_per_carat_text')"
+                     data-equal-values="true"
+                >
+                    <div class="range-slider__control" data-field="{{ $typeCode }}"></div>
+                    <div class="range-slider__inputs">
+                        <div class="range-slider__inputs-from">
+                            <label class="range-slider__label range-slider__label--from"
+                                   for="{{ $htmlIdPrefix . $fieldIdMin }}">
+                                @lang('catalog_main_filter_facet_parameter_from')
+                            </label>
+                            <div class="range-slider__field range-slider__field--from price-field">
+                                <span class="price-field__currency">{!! $currencySymbol !!}</span>
+                                <input type="text" class="range-slider__input price-field__input" autocomplete="off"
+                                       name="{{ $fieldNameMin }}"
+                                       id="{{ $htmlIdPrefix . $fieldIdMin }}">
+                            </div>
+                        </div>
+                        <div class="range-slider__inputs-to">
+                            <label class="range-slider__label range-slider__label--to"
+                                   for="{{ $htmlIdPrefix . $fieldIdMax }}">
+                                @lang('catalog_main_filter_facet_parameter_to')
+                            </label>
+                            <div class="range-slider__field price-field range-slider__field--to">
+                                <span class="price-field__currency">{!! $currencySymbol !!}</span>
+                                <input type="text" class="range-slider__input price-field__input" autocomplete="off"
+                                       name="{{ $fieldNameMax }}"
+                                       id="{{ $htmlIdPrefix . $fieldIdMax }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="product-filters-b2c__content-category-desc">
+            @lang('catalog_main_filter_facet_price_per_carat_description')
+        </div>
+    </div>
+</li>

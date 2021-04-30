@@ -1,0 +1,79 @@
+@php
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var \App\Core\Currency\Currency $currency - Текущая валюта
+    */
+@endphp
+<ul class="product-param-list product-view__features">
+    <li class="product-param-list__item product-param-list__item--1of2">
+        <div class="product-param">
+            <p class="product-param__name product-param__name--product-b2c">
+                @lang('catalog_product_detail_carat_weight')
+                <span class="js-tooltip product-param__icon"
+                    data-content="@lang('catalog_product_detail_carat_tooltip')">
+                    <svg class="icon icon--question-grey">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-question"></use>
+                    </svg>
+                </span>
+            </p>
+            <p class="product-param__val product-param__val--product-b2c">
+                {{ $product->getWeight() }}
+            </p>
+        </div>
+    </li>
+    <li class="product-param-list__item product-param-list__item--1of2">
+        <div class="product-param">
+            <p class="product-param__name product-param__name--product-b2c">
+                @lang('catalog_product_detail_color')
+                @php
+                    if ($product->diamondPacket && $product->diamondPacket->getRFColor()) {
+                        $color = $product->diamondPacket->getRFColor()['UF_NAME'];
+                    } else {
+                        $color = '';
+                    }
+                @endphp
+                <span class="js-tooltip product-param__icon"
+                      data-content="@lang('catalog_product_detail_corresponds_to_russian') {{ $color }}. @lang('catalog_product_detail_color_desc')">
+                    <svg class="icon icon--question-grey">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-question"></use>
+                    </svg>
+                </span>
+            </p>
+            <p class="product-param__val product-param__val--product-b2c">
+                {!! $product->getColorValue('&mdash;') !!}
+            </p>
+        </div>
+    </li>
+    <li class="product-param-list__item product-param-list__item--1of2">
+        <div class="product-param">
+            <p class="product-param__name product-param__name--product-b2c">
+                @lang('catalog_product_detail_clarity')
+                <span class="js-tooltip product-param__icon"
+                    data-content="@include('include/tooltips/_clarity')">
+                    <svg class="icon icon--question-grey">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-question"></use>
+                    </svg>
+                </span>
+            </p>
+            <p class="product-param__val product-param__val--product-b2c">
+                {!! $product->getClarityValue('&mdash;') !!}
+            </p>
+        </div>
+    </li>
+    @if ($product->diamondPacket && $product->diamondPacket->getRFColor())
+        <li class="product-param-list__item product-param-list__item--1of2">
+            <div class="product-param">
+                <p class="product-param__name product-param__name--product-b2c">
+                    @lang('catalog_product_detail_cut')
+                    <span class="js-tooltip product-param__icon"
+                        data-content="@lang('catalog_product_detail_cut_this_diamond') {{ $product->cut ? $product->cut->getDisplayValue() : '' }}. @lang('catalog_product_detail_cut_desc_tooltip')">
+                        <svg class="icon icon--question-grey">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-question"></use>
+                        </svg>
+                    </span>
+                </p>
+                <p class="product-param__val product-param__val--product-b2c">{!! $product->getCutValue('&mdash;')!!}</p>
+            </div>
+        </li>
+    @endif
+</ul>

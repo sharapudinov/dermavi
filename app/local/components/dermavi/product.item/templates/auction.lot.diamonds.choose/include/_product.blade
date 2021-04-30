@@ -1,0 +1,330 @@
+@php
+/**
+ * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+ * @var array $lang - Массив языковых строк
+ * @var bool $showDiamondsCount - Показывать ли количество бриллиантов
+ * @var bool $cart - Флаг, показывающий, что пользователь находится в корзине
+ * @var string|null $link - Ссылка на элемент
+ */
+@endphp
+
+<div class="product-card__main">
+    <div class="product-card__options product-card__options--main">
+        <a href="{{ $link }}"
+            data-href="{{ $link }}"
+            class="product-card__options-link">
+            <ul class="product-card__options-list">
+                <li class="product-card__options-item product-card__options-item--shape js-sort-field-option"
+                    data-option="stock_number">
+                    <div class="product-card__options-name">
+                        Номер стока
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        &mdash;
+                    </div>
+                </li>
+                <li class="product-card__options-item product-card__options-item--shape js-sort-field-option"
+                    data-option="id">
+                    <div class="product-card__options-name">
+                        ID
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        {{ $product->getPacketNumber() }}
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="shape">
+                    <div class="product-card__options-name">
+                        Форма
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        {{ $product->getShapeValue() }}
+                    </div>
+                </li>
+
+                <li class="product-card__options-item js-sort-field-option" data-option="carat">
+                    <div class="product-card__options-name">
+                        Карат
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        {{ $product->getWeight() }}
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="sieving_rf">
+                    <div class="product-card__options-name">
+                        Рассев (ТУ)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        &mdash;
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="quality_group_rf">
+                    <div class="product-card__options-name">
+                        Группа качества (ТУ)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->getRFQualityGroup())
+                            {{ $product->diamondPacket->getRFQualityGroupID() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="color_rf">
+                    <div class="product-card__options-name">
+                        Цвет (ТУ)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->getRFColor())
+                            {{ $product->diamondPacket->getRFColorID() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="cut_quality_rf">
+                    <div class="product-card__options-name">
+                        Качество огранки (ТУ)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->getRFQualityGroup())
+                            {{ $product->diamondPacket->getRFQualityGroupID() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="lab">
+                    <div class="product-card__options-name">
+                        {{ $lang['catalog_product_item_lab'] }}
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        {!! $product->getLab('&mdash;') !!}
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="certificate_number">
+                    <div class="product-card__options-name">
+                        Номер сертификата
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->isGIACert())
+                        {!! $product->diamondPacket->getGIACertNumber() ?? '&mdash;' !!}
+                        @elseif( $product->diamondPacket->isRFCert() )
+                        {!! $product->diamondPacket->getRFCertNumber() ?? '&mdash;' !!}
+                        @else
+                        &mdash;
+                        @endif
+                    </div>
+                </li>
+
+                <li class="product-card__options-item product-card__options-item--shape js-sort-field-option"
+                    data-option="contract_date_number">
+                    <div class="product-card__options-name">
+                        Контракт
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        {!!  $product->diamondPacket->getContractNumber() !!}
+                        {!!  $product->diamondPacket->getContractDate() !!}
+                    </div>
+                </li>
+
+                <li class="product-card__options-item js-sort-field-option" data-option="gia_certificate_isset">
+                    <div class="product-card__options-name">
+                        Наличие сертификата GIA
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->isGIACert())
+                            Да
+                        @else
+                            Нет
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="gia_certificate_number">
+                    <div class="product-card__options-name">
+                        Номер сертификата GIA
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->isGIACert())
+                            {!! $product->diamondPacket->getGIACertNumber() ?? '&mdash;' !!}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="color_gia">
+                    <div class="product-card__options-name">
+                        Цвет (GIA)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->getGIAColor())
+                            {{ $product->diamondPacket->getGIAColor()->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="clarity_gia">
+                    <div class="product-card__options-name">
+                        Чистота (GIA)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->getQual())
+                            {{ $product->diamondPacket->getQual()->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="cut_gia">
+                    <div class="product-card__options-name">
+                        Огранка (GIA)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->getGIAQualityGroup())
+                            {{ $product->diamondPacket->getGIAQualityGroup()->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="fluorescence_gia">
+                    <div class="product-card__options-name">
+                        {{ $lang['catalog_product_item_fluorescence'] }}
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->getGIAFluor())
+                            {{ $product->diamondPacket->getGIAFluor()->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="fluorescence_color_gia">
+                    <div class="product-card__options-name">
+                        {{ $lang['catalog_product_item_fluorescence'] }}
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        ааа
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="polish_gia">
+                    <div class="product-card__options-name">
+                        Полировка (GIA)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->getGIAPolish())
+                            {{ $product->diamondPacket->getGIAPolish()->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="symmetry_gia">
+                    <div class="product-card__options-name">
+                        Симметрия (GIA)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->getGIASymmetry())
+                            {{ $product->diamondPacket->getGIASymmetry()->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="color_intensity_gia">
+                    <div class="product-card__options-name">
+                        Интенсивность цвета (GIA)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->intensity)
+                            {{ $product->diamondPacket->intensity->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="culet_gia">
+                    <div class="product-card__options-name">
+                        Наличие колеты (GIA)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket && $product->diamondPacket->getGIACulet())
+                            {{ $product->diamondPacket->getGIACulet()->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="table_gia">
+                    <div class="product-card__options-name">
+                        Площадка (GIA)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket)
+                            {!! $product->diamondPacket->getGIATable() ?? '&mdash;' !!}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+                <li class="product-card__options-item js-sort-field-option" data-option="depth_gia">
+                    <div class="product-card__options-name">
+                        Высота (GIA)
+                    </div>
+                    <div class="product-card__options-value js-sort-field-option-value">
+                        @if ($product->diamondPacket)
+                            {!! $product->diamondPacket->getGIADepth() ?? '&mdash;' !!}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </li>
+            </ul>
+        </a>
+    </div>
+    <div class="product-card__total">
+        <div class="product-card__price">
+            <span class="product-card__price-value price js-sort-field-option" data-option="price">
+            </span>
+        </div>
+        <div class="product-card__controls">
+            <div class="product-card__wishlist">
+                <div class="product-card__wishlist-btn" ></div>
+            </div>
+            <div class="product-card__cart">
+                <div class="product-card__cart-checkbox checkbox">
+                    <input class="product-card__cart-checkbox-input checkbox__input js-select-product-checkbox-auction"
+                        type="checkbox"
+                        name="card-catalog-add"
+                        id="card-catalog-add-{{ $product->getID() }}"
+                        autocomplete="off"
+                        aria-label="{{ $lang['catalog_product_list_add_to_cart'] }}"
+                        data-product-id="{{ $product->getID() }}"
+                        {{ in_array($product->getID(), $checkedProductsInfo)
+                            ? 'checked'
+                            : '' }}>
+                    <label class="product-card__cart-checkbox-label checkbox__label"
+                       for="card-catalog-add-{{ $product->getID() }}">&nbsp;</label>
+                </div>
+                @if ($checkedProductsInfo)
+                    <button type="button" class="product-card__cart-btn js-select-product-button-auction
+                    {{ in_array($product->getID(), $checkedProductsInfo)
+                        ? 'is-active'
+                        : '' }}" data-product-id="{{ $product->getID() }}">
+                        <svg class="product-card__cart-icon icon icon--card-cart">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-card_cart"></use>
+                        </svg>
+                    </button>
+                @else
+                    <button type="button" class="product-card__cart-btn js-add-product-cell-to-cart
+                        {{ $isInCart ? 'is-active' : '' }}" data-product-id="{{ $product->getID() }}">
+                        <svg class="product-card__cart-icon icon icon--card-cart">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-card_cart"></use>
+                        </svg>
+                    </button>
+                @endif
+            </div>
+        </div>
+    </div>
+    <div class="product-card__set-trigger">&nbsp;</div>
+</div>

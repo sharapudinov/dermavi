@@ -1,19 +1,14 @@
 <?php
 namespace App\Core\Sale\View;
 
-use App\Api\External\Cutwise\CutwiseWidget;
 use App\Core\Currency\Currency;
 use App\Core\Currency\Entity\CurrencyEntity;
 use App\Helpers\NumberHelper;
 use App\Helpers\PriceHelper;
 use App\Models\Auxiliary\Sale\BitrixBasketItem;
 use App\Models\Auxiliary\Sale\BitrixBasketItemProperty;
-use App\Models\Catalog\Diamond;
-use App\Models\Catalog\HL\PaidServiceCategory;
-use App\Models\Catalog\PaidService;
+use App\Models\Catalog\Catalog;
 use App\Models\Catalog\ProductInterface;
-use App\Models\Jewelry\JewelryConstructorReadyProduct;
-use App\Models\Jewelry\JewelrySku;
 use Illuminate\Support\Collection;
 use LogicException;
 
@@ -36,7 +31,7 @@ class OrderItemViewModel
     /** @var int Идентификатор родительской позиции */
     private $ownerId = 0;
 
-    /** @var Diamond|PaidService|JewelrySku */
+    /** @var Catalog|PaidService|JewelrySku */
     private $product;
 
     /** @var float Цена */
@@ -60,7 +55,7 @@ class OrderItemViewModel
     /**
      * OrderItemViewModel constructor.
      * @param BitrixBasketItem $source
-     * @param Diamond|null $diamond
+     * @param Catalog|null $product
      */
     public function __construct(BitrixBasketItem $source)
     {
@@ -114,43 +109,6 @@ class OrderItemViewModel
     public function getOwnerId(): int
     {
         return $this->ownerId;
-    }
-
-    /**
-     * Возвращает бриллиант.
-     * @return Diamond|null
-     */
-    public function getDiamond(): ?Diamond
-    {
-        return ($this->isDiamond() || $this->isAuctionDiamond()) ? $this->product : null;
-    }
-
-    /**
-     * Возвращает ЮИ.
-     * @return JewelrySku|null
-     */
-    public function getJewelrySku(): ?JewelrySku
-    {
-        return $this->isJewelry() ? $this->product : null;
-    }
-
-    /**
-     * Возвращает ЮИ
-     *
-     * @return JewelryConstructorReadyProduct|null
-     */
-    public function getCombination(): ?JewelryConstructorReadyProduct
-    {
-        return $this->isConstructorReadyProduct() ? $this->product : null;
-    }
-
-    /**
-     * Возвращает услугу.
-     * @return PaidService|null
-     */
-    public function getService(): ?PaidService
-    {
-        return $this->isService() ? $this->product : null;
     }
 
     /**

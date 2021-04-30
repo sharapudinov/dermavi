@@ -5,7 +5,7 @@ namespace App\Helpers;
 use App\Core\Currency\Currency;
 use App\Core\Currency\Entity\CurrencyEntity;
 use App\Core\User\Context\UserContext;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use Bitrix\Main\ObjectNotFoundException;
 
 /**

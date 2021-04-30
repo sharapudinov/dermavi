@@ -1,7 +1,7 @@
 <?php
 
 use App\Core\BitrixProperty\Property;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use Arrilot\BitrixMigrations\BaseMigrations\BitrixMigration;
 use Arrilot\BitrixMigrations\Exceptions\MigrationException;
 

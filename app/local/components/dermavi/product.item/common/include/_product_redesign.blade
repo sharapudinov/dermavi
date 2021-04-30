@@ -1,0 +1,218 @@
+@php
+    /**
+     * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+     * @var array $lang - Массив языковых строк
+     * @var array $checkedProductsInfo - Информация о выбранных для корзины товарах
+     * @var bool $showDiamondsCount - Показывать ли количество бриллиантов
+     * @var bool $semitransparent показывать прозрачно
+     * @var bool $isB2c карточка для физ лица
+     * @var bool $showSetTrigger Показывать данный элемент
+     */
+@endphp
+
+<div class="product-card__main">
+    <div class="product-card__total">
+        <div class="product-card__controls">
+            <div class="product-card__cart">
+                <div class="product-card__cart-checkbox checkbox">
+                    <input class="product-card__cart-checkbox-input checkbox__input js-select-product-checkbox"
+                           type="checkbox"
+                           name="card-catalog-add"
+                           id="card-catalog-add-{{ $product->getID() }}-{{$componentUniqueId}}"
+                           data-product-sync-id="{{ $product->getID() }}"
+                           autocomplete="off"
+                           aria-label="{{ $lang['catalog_product_list_add_to_cart'] }}"
+                           data-product-id="{{ $product->getID() }}"
+                            {{ array_key_exists($product->getID(), $checkedProductsInfo['products'])
+                                ? 'checked'
+                                : '' }}>
+                    <label class="product-card__cart-checkbox-label checkbox__label"
+                           for="card-catalog-add-{{ $product->getID() }}-{{$componentUniqueId}}">&nbsp;</label>
+                </div>
+
+
+                @if ($constructor)
+                    <button type="button" class="product-card__cart-btn product-card__cart-btn--constructor js-constructor-btn">
+                        <svg class="product-card__cart-icon icon icon--card-cart">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-ring_constructor"></use>
+                        </svg>
+                    </button>
+                @else
+                    @if ($checkedProductsInfo)
+                        <button type="button" class="product-card__cart-btn js-select-product-button{{ array_key_exists($product->getID(), $checkedProductsInfo['products']) ? ' is-active' : '' }}{{ $product->getInBasket()? ' already-in-cart' : '' }}" data-product-id="{{ $product->getID() }}">
+                            <svg class="product-card__cart-icon icon icon--card-cart">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-card_cart"></use>
+                            </svg>
+                        </button>
+                    @else
+                        <button type="button" class="product-card__cart-btn{{ $isInCart ? ' is-active' : '' }}{{ $product->getInBasket()? ' already-in-cart' : '' }}" data-product-id="{{ $product->getID() }}">
+                            <svg class="product-card__cart-icon icon icon--card-cart">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-card_cart"></use>
+                            </svg>
+                        </button>
+                    @endif
+                @endif
+            </div>
+
+            <div class="product-card__wishlist">
+                <button type="button" class="product-card__wishlist-btn js-select-wishlist-button
+{{\App\Core\Catalog\Wishlist::getInstance()->has($product->getID()) ? 'is-active' : ''}}"
+                        data-product-id="{{ $product->getID() }}">
+                    <svg class="product-card__wishlist-icon icon icon--card-wishlist">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-card_wishlist"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+
+        @if (!blank($tagText))
+            <div class="product-card__tag--table">
+                <svg class="icon icon--more-sales js-tooltip" data-content="#tooltip--sale-{{ $product->getID() }}">
+                    <use xlink:href="{{ SPRITE_SVG }}#icon-more_sales"></use>
+                </svg>
+                <div id="tooltip--sale-{{ $product->getID() }}" class="product-card__tooltip-sales">
+                    <div class="product-card__tag--tooltip-wrap">
+                        <div class="product-card__tag product-card__tag--redesign product-card__tag--tooltip">{{ $tagText }}</div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <div class="product-card__price">
+            <span class="product-card__price-value price js-product-price">{!! $product->getPriceValue() !!} {!! $currency->getSymbol() !!}</span>
+        </div>
+    </div>
+
+    <div class="product-card__quantity product-card__quantity--single">
+        <a href="{{ $link }}" class="product-card__quantity-link product-card__quantity-link--b2c"
+            {!! $product->getPhotos() ? 'style="background-image: url(' . $product->getPhotos()[0] . ');"' : '' !!}>
+            @if (!$product->getPhotos())
+                <svg class="product-card__quantity-icon icon icon--diamond-{{ $product->getShapeID() }}">
+                    <use xlink:href="{{ SPRITE_SVG }}#icon-diamond_{{ $product->getShapeID() }}"></use>
+                </svg>
+                <svg class="product-card__quantity-icon--cell icon">
+                    <use xlink:href="{{ SPRITE_SVG }}#icon-card_{{ $product->getShapeID() }}"></use>
+                </svg>
+            @endif
+            <div class="product-card__quantity-shape">{{ $product->getShapeValue() }}</div>
+        </a>
+        @if (!blank($tagText))
+            <div class="product-card__tag-wrap">
+                {{--  Скрыл пока нет акций --}}
+{{--                <svg class="icon icon--more-sales js-tooltip" data-content="#tooltip--sale-{{ $product->getID() }}">--}}
+{{--                    <use xlink:href="{{ SPRITE_SVG }}#icon-more_sales"></use>--}}
+{{--                </svg>--}}
+                <div class="product-card__tag product-card__tag--redesign">{{ $tagText }}</div>
+            </div>
+        @endif
+
+    </div>
+    <div class="product-card__options product-card__options--main product-card__options--b2c product-card__options--redesign">
+        <a href="{{ $link }}" class="product-card__options-link">
+            <ul class="product-card__options-list">
+                <li class="js-sort-field-option product-card__options-item product-card__options-item--id-b2c product-card__options-item--mb"
+                    data-option="id">
+                    <div class="product-card__options-name product-card__options-name--id">
+                        @lang('catalog_product_item_id')</div>
+                    <div class="product-card__options-value">
+                        {{ $product->getCode() }}
+                    </div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item product-card__options-item--shape"
+                    data-option="shape">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_shape'] }}</div>
+                    <div class="product-card__options-value">
+                        {{ $product->getShapeValue() }}
+                    </div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item" data-option="carat">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_carat'] }}</div>
+                    <div class="product-card__options-value">{{ $product->getWeight() }}</div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item" data-option="price_per_carat">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_price_per_carat_short'] }}</div>
+                    <div class="product-card__options-value">{{ $product->getPricePerCarat() }}</div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item" data-option="color">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_color'] }}</div>
+                    <div class="product-card__options-value">
+                        {!! $product->getDiamondPacketColorValue() !!}
+                    </div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item" data-option="clarity">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_clarity'] }}</div>
+                    <div class="product-card__options-value">
+                        {!! $product->getClarityValue('&mdash;') !!}
+                    </div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item" data-option="cut">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_cut'] }}</div>
+                    <div class="product-card__options-value">
+                        {!!  $product->cut ? $product->cut->getDisplayValue() : '&mdash;' !!}
+                    </div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item product-card__options-item--out-of-range"
+                    data-option="age">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_age'] }}</div>
+                    <div class="product-card__options-value">{!! $product->getAge('&mdash;') !!}</div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item product-card__options-item--out-of-range"
+                    data-option="origin">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_origin'] }}</div>
+                    <div class="product-card__options-value">{!! $product->getOriginValue('&mdash;') !!}</div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item product-card__options-item--out-of-range"
+                    data-option="year">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_year'] }}</div>
+                    <div class="product-card__options-value">{!! $product->getYearMining('&mdash;') !!}</div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item" data-option="lab">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_lab'] }}</div>
+                    <div class="product-card__options-value">{!! $product->getLab('&mdash;') !!}</div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item" data-option="fluorescence">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_fluorescence'] }}</div>
+                    <div class="product-card__options-value">
+                        {!! $product->getFluorValue('&mdash;') !!}
+                    </div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item" data-option="polish">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_polish'] }}</div>
+                    <div class="product-card__options-value">{!! $product->getPolishValue('&mdash;') !!}</div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item" data-option="symmetry">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_symmetry'] }}</div>
+                    <div class="product-card__options-value">{!! $product->getSymmetryValue('&mdash;') !!}</div>
+                </li>
+                <li class="js-sort-field-option product-card__options-item" data-option="table">
+                    <div class="product-card__options-name clipped">{{ $lang['catalog_product_item_table'] }}</div>
+                    <div class="product-card__options-value">
+                        {!! $product->getTable() > 0 ? $product->getTable() . '%' : '&mdash;' !!}
+                    </div>
+                </li>
+                <li class="product-card__options-item" data-option="depth">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_depth'] }}</div>
+                    <div class="product-card__options-value">
+                        {!! $product->getDepth() > 0 ? $product->getDepth() . '%' : '&mdash;' !!}
+                    </div>
+                </li>
+                <li class="product-card__options-item" data-option="culet">
+                    <div class="product-card__options-name">{{ $lang['catalog_product_item_culet'] }}</div>
+                    <div class="product-card__options-value">{!! $product->getCuletValue('&mdash;') !!}</div>
+                </li>
+            </ul>
+        </a>
+
+        <a href="{{ $link }}"
+            class="product-card__options-link product-card__options-link--mobile">
+            @lang('catalog_product_item_watch')
+        </a>
+
+        <button type="button" class="product-card__options-more" aria-label="Show more options">
+            <svg class="icon icon--card-more">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-card_more"></use>
+            </svg>
+        </button>
+    </div>
+</div>

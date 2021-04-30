@@ -1,6 +1,6 @@
 @php
     /** @var App\Core\Sale\View\OrderItemViewModel $orderItem */
-    /** @var \App\Models\Catalog\Diamond $diamond */
+    /** @var \App\Models\Catalog\Catalog $diamond */
     $diamond = $orderItem->getDiamond();
 @endphp
 <div class="js-updateable-by-form" data-product-id="{{ $diamond->getId() }}"

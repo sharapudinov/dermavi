@@ -1,0 +1,99 @@
+@php
+/**
+ * @var bool $frontendSort - Сортировка строго на фронте через js
+ * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+ * @var array $lang - Массив языковых строк
+ * @var string|null $link - Ссылка на элемент
+ */
+@endphp
+
+<div class="page-cart__product page-cart__product--wishlist js-cart-item"
+    data-type="catalog" data-product-id="{{ $product->getID() }}">
+    <div class="page-cart__num page-cart__num--wishlist">
+         {{ $orderNumber }}
+    </div>
+    <div class="page-cart__product-wrapper">
+        <div class="page-cart__product-head">
+            <div class="page-cart__product-head-title">
+
+                <p class="page-cart__product-name page-cart__product-name--wishlist">
+                    <a class="link" href="{{ $link }}">
+                      <span class="page-cart__product-parameter">
+                        {!! $product->getTitleLegal() !!}
+                      </span>
+                    </a>
+                </p>
+
+                <div class="page-cart__product-table page-cart__product-table--wishlist">
+                    <ul class="product-param-table product-param-table-list product-param-table-list--rows product-param-table-list--wishlist">
+                        @if ($product->hasGIACert())
+                            <li class="product-param-table__item product-param-table__item--row product-param-table__item--wishlist">
+                                <p class="product-param-table__item-name product-param-table__item-name--wishlist-cart">GIA</p>
+                                <p class="product-param-table__item-value product-param-table__item-value--wishlist-cart">
+                                    <a class="link" href="{{ $product->getGIACertUrl() }}" target="_blank">
+                                         {{ $product->getGIACert() }}
+                                    </a>
+                                </p>
+                            </li>
+                        @endif
+                        <li class="product-param-table__item product-param-table__item--row product-param-table__item--wishlist">
+                            <p class="product-param-table__item-name product-param-table__item-name--wishlist-cart">Diamond passport</p>
+                            <p class="product-param-table__item-value product-param-table__item-value--wishlist-cart">
+                                @if ($product->hasPassport())
+                                    <a class="link" href="{{ $product->getPassportUrl() }}" target="_blank">
+                                        ID {{ $product->getPacketNumber() }}
+                                    </a>
+                                @else
+                                    ID {{ $product->getPacketNumber() }}
+                                @endif
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="page-cart__product-head-right page-cart__product-head-right--wishlist">
+                <div class="page-cart__product-price-wrap">
+                    <span class="page-cart__product-per-ct">
+                        @if (\App\Helpers\UserHelper::isLegalEntityRequireAuth())
+                            …
+                        @else
+                            @if($currency->getSymCode() == 'RUB')
+                                {{ $product->getPricePerCarat() }}
+                                {!! $currency->getSymbol() !!}
+                            @else
+                                {!! $currency->getSymbol() !!}
+                                {{ $product->getPricePerCarat() }}
+                            @endif
+                        @endif
+                        @lang('catalog_product_item_price_per_carat_short')
+                    </span>
+                    <span class="page-cart__product-price page-cart__product-price--wishlist price">
+                        @if ($product->getPriceValue())
+                            @if (\App\Helpers\UserHelper::isLegalEntityRequireAuth())
+                                …
+                            @else
+                                @if($currency->getSymCode() == 'RUB')
+                                    {!! $product->getPriceValue() !!}
+                                    {!! $currency->getSymbol() !!}
+                                @else
+                                    {!! $currency->getSymbol() !!}
+                                    {!! $product->getPriceValue() !!}
+                                @endif
+                            @endif
+                        @endif
+                    </span>
+                </div>
+
+                <div class="page-cart__interactions">
+                    <button class="page-cart__interactions-btn page-cart__close js-remove-product" type="button"
+                        data-product-id="{{ $product->getID() }}">
+                        <svg class="icon icon--close">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-close"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<?php
+$MESS['catalog_product_list_show'] = '顯示';
+$MESS['catalog_product_list_page_title'] = '无色钻石';
+$MESS['catalog_product_list_nothing_found'] = '什么都没找到';
+$MESS['catalog_product_list_nothing_found_description'] = '找不到合适的钻石，但我们可以为您制作合适的钻石';
+$MESS['catalog_product_list_count_accusative'] = '批量';
+$MESS['catalog_product_list_count_genitive_one'] = '批量';
+$MESS['catalog_product_list_count_genitive_many'] = '地段';
+$MESS['catalog_product_list_manage_columns'] = '管理列';
+$MESS['catalog_product_list_filters_applied_count'] = '过滤器';
+$MESS['catalog_product_list_enable_table_view'] = '启用表视图';
+$MESS['catalog_product_list_enable_cell_view'] = '启用单元格视图';
+$MESS['catalog_product_list_add_to_cart'] = '加入购物车';
+$MESS['catalog_product_list_show_more_options'] = '显示更多选项';
+$MESS['catalog_product_list_you_have_chosen'] = '你选择了';
+$MESS['catalog_product_list_you_have_chosen_item_accusative'] = '产品';
+$MESS['catalog_product_list_you_have_chosen_item_genitive_one'] = '商品';
+$MESS['catalog_product_list_you_have_chosen_item_genitive_many'] = '产品';
+$MESS['catalog_product_list_at_a_total_cost'] = '总费用';
+$MESS['catalog_product_list_cart_response_popup_success_header'] = '选购的钻石已加入购物车';
+$MESS['catalog_product_list_cart_response_popup_error_header'] = '未知错误';
+$MESS['catalog_product_list_cart_response_popup_success_text_part_one'] = '选择更多钻石或';
+$MESS['catalog_product_list_cart_response_popup_success_text_part_two'] = '作出命令';
+$MESS['catalog_product_list_cart_response_popup_error_text'] = '请稍后再试';
+$MESS['catalog_product_list_cart_close'] = '关';
+
+$MESS['catalog_product_list_b2c_we_found'] = '我们找到';
+$MESS['catalog_product_list_b2c_count_accusative'] = '合适的钻石';
+$MESS['catalog_product_list_b2c_count_genitive_one'] = '合适的钻石';
+$MESS['catalog_product_list_b2c_count_genitive_many'] = '合适的钻石';
+$MESS['catalog_product_list_b2c_nothing_found_description'] = '沒有這樣的鑽石，但我們可以為您製作完美的鑽石';

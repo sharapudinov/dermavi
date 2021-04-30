@@ -1,0 +1,22 @@
+@php
+/**
+ * @var string $view - Тип вывода товара
+ * @var bool $frontendSort - Сортировка строго на фронте через js
+ * @var string $mode режим начального отображения: плиткой или таблицей
+ */
+    $productClassViewClass = $mode ? ' product-card--' . $mode : '';
+@endphp
+
+@if ($view === 'carousel')
+    <li class="swiper-slide js-catalog-table-item{{ $frontendSort ? '-frontend' : '' }}">
+        <div class="product-card product-card--carousel product-card--cell" data-type="carousel">
+            @include('include/_product')
+        </div>
+    </li>
+@else
+    <li class="product-card product-card--catalog{{ $productClassViewClass }} catalog__list-item
+        js-catalog-table-item{{ $frontendSort ? '-frontend' : '' }}"
+        data-type="catalog">
+        @include('include/_product')
+    </li>
+@endif

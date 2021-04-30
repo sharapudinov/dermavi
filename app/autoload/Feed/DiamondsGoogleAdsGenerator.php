@@ -2,9 +2,9 @@
 
 namespace App\Feed;
 
-use App\Core\Catalog\FilterFields\DiamondsFilterFields;
-use App\Models\Catalog\Diamond;
-use App\Models\Catalog\DiamondSection;
+use App\Core\Catalog\FilterFields\ProductFilterFields;
+use App\Models\Catalog\Catalog;
+use App\Models\Catalog\CatalogSection;
 use Bitrix\Main\ArgumentNullException;
 use Bitrix\Main\ArgumentOutOfRangeException;
 use Bitrix\Main\Config\Option;
@@ -31,19 +31,19 @@ class DiamondsGoogleAdsGenerator extends BaseGenerator
         $url = 'https://' . Option::get('main', 'server_name');
         $vendor = 'АЛРОСА';
         $shapeSamplePath = frontend()->img('shape_samples/');
-        $sectionCode = DiamondSection::FOR_PHYSIC_PERSONS_SECTION_CODE;
+        $sectionCode = CatalogSection::FOR_PHYSIC_PERSONS_SECTION_CODE;
 
-        /** @var DiamondSection $section Модель раздела бриллиантов для физ лиц */
-        $section = DiamondSection::filter(['CODE' => $sectionCode])->first();
+        /** @var CatalogSection $section Модель раздела бриллиантов для физ лиц */
+        $section = CatalogSection::filter(['CODE' => $sectionCode])->first();
 
-        if (!$section instanceof DiamondSection) {
+        if (!$section instanceof CatalogSection) {
             throw new RuntimeException(
                 sprintf('Not fond section with code %s', $sectionCode)
             );
         }
 
         /** @var array|mixed[] $filter - Фильтр */
-        $filter = DiamondsFilterFields::getFilterForCatalogDiamonds();
+        $filter = ProductFilterFields::getFilterForCatalog();
 
         /** @var Diamond $diamonds - Коллекция бриллиантов */
         $resProducts = Diamond::query()

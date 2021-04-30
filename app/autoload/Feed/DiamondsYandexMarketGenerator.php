@@ -2,13 +2,13 @@
 
 namespace App\Feed;
 
-use App\Core\Catalog\FilterFields\DiamondsFilterFields;
+use App\Core\Catalog\FilterFields\ProductFilterFields;
 use App\Core\Currency\Currency;
 use App\Helpers\Market\YmlDocument;
 use App\Helpers\Market\YmlOffer;
 use App\Helpers\PriceHelper;
-use App\Models\Catalog\Diamond;
-use App\Models\Catalog\DiamondSection;
+use App\Models\Catalog\Catalog;
+use App\Models\Catalog\CatalogSection;
 use Arrilot\BitrixModels\Queries\ElementQuery;
 use Bitrix\Main\ArgumentNullException;
 use Bitrix\Main\ArgumentOutOfRangeException;
@@ -29,20 +29,20 @@ class DiamondsYandexMarketGenerator extends BaseGenerator
      */
     public function run(): void
     {
-        $sectionCode = DiamondSection::FOR_PHYSIC_PERSONS_SECTION_CODE;
+        $sectionCode = CatalogSection::FOR_PHYSIC_PERSONS_SECTION_CODE;
         $shapeSamplePath = frontend()->img('shape_samples/');
 
-        /** @var DiamondSection $section Модель раздела бриллиантов для физ лиц */
-        $section = DiamondSection::filter(['CODE' => $sectionCode])->first();
+        /** @var CatalogSection $section Модель раздела бриллиантов для физ лиц */
+        $section = CatalogSection::filter(['CODE' => $sectionCode])->first();
 
-        if (!$section instanceof DiamondSection) {
+        if (!$section instanceof CatalogSection) {
             throw new RuntimeException(
                 sprintf('Not fond section with code %s', $sectionCode)
             );
         }
 
         /** @var array|mixed[] $filter - Фильтр */
-        $filter = DiamondsFilterFields::getFilterForCatalogDiamonds();
+        $filter = ProductFilterFields::getFilterForCatalog();
 
         /** @var ElementQuery $resProducts - Объект, описывающий запрос */
         $resProducts = Diamond::query()

@@ -1,0 +1,18 @@
+@php
+    /** Шаблон кнопки "Показать еще" в блоке бриллиантов на странице оправы в конструкторе ЮБИ */
+@endphp
+
+@if ($arParams['current_page'] * $arParams['per_page'] < $arParams['items_count'])
+    <p class="mb-0 text-c js-pagination-section"
+        data-ajax-load-component="{{ $arParams['ajax_load_component'] }}"
+        data-items-block="{{ $arParams['items_block'] }}" data-scroll-to="{{ $arParams['scroll_to'] }}"
+        data-per-page="{{ $arParams['per_page'] }}" data-items-count="{{ $arParams['items_count'] }}"
+        data-component-params="{!! $arParams['componentParams'] !!}"
+        data-template="{{$arParams['template']}}" data-is-need-update-url="{{$arParams['is_need_update_url']}}"
+        data-type="{{ $arParams['type'] }}">
+        <button class="mb-0 btn btn--lg btn--transparent js-show-more-button" type="button"
+            data-page="{{ $arParams['current_page'] + 1 }}">
+            Показать больше
+        </button>
+    </p>
+@endif

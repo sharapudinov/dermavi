@@ -143,7 +143,7 @@ if (!is_directory('/auth')): ?>
                         </div>
                     </div>
                     <div class="header-top__center">
-                        <a href="/" class="header__logo"><img src="img/logo.svg" alt="" class="header__logo-img"></a>
+                        <a href="/" class="header__logo"><img src="/img/logo.svg" alt="" class="header__logo-img"></a>
                     </div>
                     <div class="header-top__right">
                         <a href="#" class="header__search header-link">

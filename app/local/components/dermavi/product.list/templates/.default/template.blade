@@ -1,0 +1,93 @@
+@php
+/**
+ * Шаблон для каталога товаров
+ * @var string $view начальное представление списка table/cell
+ * @var string $containerClass класс стилей контейнера списка
+ * @var bool $isB2c определяет текущий режим вывода для B2C каталога
+ */
+@endphp
+@bxComponent('main:criteo.tag','catalog', [
+'diamonds'=>$products->all()
+])
+<section class="js-catalog-section">
+    <section class="catalog-section">
+        <div data-view="{{ $view }}" class="catalog catalog--catalog loading loading--white {{$isB2c ? '' :'catalog--catalog_b2b'}}" id="catalog-catalog">
+            <div class="catalog__head ">
+                <h2 class="catalog__title">
+                    @if ($isB2c)
+                        @lang('catalog_product_list_b2c_we_found')
+                        {{ $productsCount }}
+                        {{ \App\Helpers\StringHelper::getMultiLanguagePluralForm(
+                            $productsCount,
+                            'catalog_product_list_b2c_count_accusative',
+                            'catalog_product_list_b2c_count_genitive_one',
+                            'catalog_product_list_b2c_count_genitive_many'
+                        ) }}
+                    @else
+                        {{ $productsCount }}
+                        {{ \App\Helpers\StringHelper::getMultiLanguagePluralForm(
+                            $productsCount,
+                            'catalog_product_list_count_accusative',
+                            'catalog_product_list_count_genitive_one',
+                            'catalog_product_list_count_genitive_many'
+                        ) }}
+                    @endif
+                </h2>
+
+                <div class="catalog__controls">
+                    <button type="button" class="catalog__controls-manage-btn btn btn--transparent"
+                            data-href="#popup-manage-columns" data-popup="open">
+                        @lang('catalog_product_list_manage_columns')
+                    </button>
+
+                    @if(!$isB2c)
+                    <button class="catalog__controls-filters-btn btn btn--xs mb-0" type="button" data-href="#filters-popup" data-popup="open">
+                        @lang('catalog_product_list_filters_applied_count') <!-- span class="btn__text">{{ $filterCount }}</span -->
+                    </button>
+                    @endif
+
+                    <div class="catalog__controls-view">
+                        <button type="button"
+                                class="catalog__controls-view-btn catalog__controls-view-btn--table js-view-button"
+                                aria-label="@lang('catalog_product_list_enable_table_view')">
+                            <svg class="catalog__controls-view-icon icon icon--view-table">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-view_table"></use>
+                            </svg>
+                        </button>
+                        <button type="button"
+                                class="catalog__controls-view-btn catalog__controls-view-btn--cell js-view-button"
+                                aria-label="@lang('catalog_product_list_enable_cell_view')">
+                            <svg class="catalog__controls-view-icon icon icon--view-cell">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-view_cell"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            @bxComponent('catalog:product.catalog.table.header', '', [
+                'show_price' => true,
+                'is_b2c' => $isB2c,
+            ])
+            <ul class="catalog__list js-products-list-ul" id="js-products-list-anchor">
+                @include('include/_products')
+            </ul>
+        </div>
+    </section>
+
+    @bxComponent('main:pagination', '', [
+        'items_count' => $productsCount,
+        'per_page' => $pageSize,
+        'current_page' => $_GET['p'] ?? 1,
+        'ajax_load_component' => 'catalog:product.list',
+        'items_block' => '.js-products-list-ul',
+        'scroll_to' => '#catalog-catalog'
+    ])
+</section>
+<div class="page-catalog__observable js-observable-api"></div>
+@bxComponent('catalog:product.chosen.bar', '', [
+       'productsCount'=>$productsCount,
+       'checkedProductsInfo'=>$checkedProductsInfo,
+   ])
+
+

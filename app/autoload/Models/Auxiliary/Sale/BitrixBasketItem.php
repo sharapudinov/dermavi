@@ -1,7 +1,7 @@
 <?php
 namespace App\Models\Auxiliary\Sale;
 
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\Catalog\PaidService;
 use App\Models\Catalog\ProductInterface;
 use App\Models\Jewelry\JewelryConstructorReadyProduct;

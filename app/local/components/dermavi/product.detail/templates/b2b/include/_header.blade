@@ -1,0 +1,83 @@
+@php
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var bool $isInCart - Находится ли товар в корзине
+    * @var \App\Core\Currency\Entity\CurrencyEntity $currency - Текущая валюта
+    * @var bool $isInternetExplorer - Является ли браузер IE
+    */
+@endphp
+
+<h1 class="is-hidden">{{ $product->getTitleLegal() }}</h1>
+
+<!-- title and basket btn -->
+<section class="page-product__sect page-product__sect-header">
+    <div class="container">
+        <div class="page-product__row">
+            <div class="page-product__col">
+                <h2 class="page-product__title page-product__title--main text-l">
+                    <span class="page-product__title--color">
+                        {!! $product->getTitleLegal('firstPart') !!}
+                    </span>
+                    {!! $product->getTitleLegal('lastPart') !!}
+                </h2>
+            </div>
+
+            <div class="page-product__col-auto">
+                <div class="page-product__flex page-product__sect-price-container">
+                    <div class="page-product__price-new-container text-r">
+                        <p class="page-product__price-new">
+                            @if ($product->getPriceValue())
+                                @if ($currency->getSymCode() !== 'RUB')
+                                    {!! $currency->getSymbol() !!}
+                                @endif
+                                @if (\App\Helpers\UserHelper::isLegalEntityRequireAuth())
+                                    …
+                                @else
+                                    {!! $product->getPriceValue() !!}
+                                @endif
+                                @if ($currency->getSymCode() === 'RUB')
+                                    {!! $currency->getSymbol() !!}
+                                @endif
+                            @endif
+                        </p>
+                        <p class="page-product__price-new-secondary">
+                            @if ($product->getPricePerCarat())
+                                @if ($currency->getSymCode() !== 'RUB')
+                                    {!! $currency->getSymbol() !!}
+                                @endif
+                                @if (\App\Helpers\UserHelper::isLegalEntityRequireAuth())
+                                    …
+                                @else
+                                    {!! $product->getPricePerCarat() !!}
+                                @endif
+                                @if ($currency->getSymCode() === 'RUB')
+                                    {!! $currency->getSymbol() !!}
+                                @endif
+                                @lang('catalog_product_detail_price_per_carat_short')
+                            @endif
+                        </p>
+                    </div>
+                    <a
+                        href="javascript:"
+                        class="btn btn--transparent page-product__btn-wish
+                        {{ $isInCart ? 'js-remove-product-from-cart' : 'js-add-product-to-cart' }}"
+                        data-product-id="{{ $product->getId() }}"
+                        {{ !$product->isAvailableForSelling() ? 'disabled' : '' }}>
+                        <span class="js-added-to-cart-text {{ $isInCart ? '' : 'hidden' }}">
+                            <span class="page-product__btn-mobile-hidden-text">
+                                @lang('catalog_product_detail_remove_from_cart_b2b_begin')
+                            </span>
+                            @lang('catalog_product_detail_remove_from_cart_b2b_end')
+                        </span>
+                        <span class="js-add-to-cart-text {{ $isInCart ? 'hidden' : '' }}">
+                            <span class="page-product__btn-mobile-hidden-text">
+                                @lang('catalog_product_detail_add_to_cart_b2b_begin')
+                            </span>
+                            @lang('catalog_product_detail_add_to_cart_b2b_end')
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

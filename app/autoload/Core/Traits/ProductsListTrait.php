@@ -2,7 +2,7 @@
 
 namespace App\Core\Traits;
 
-use App\Core\Catalog\FilterFields\DiamondsFilterFields;
+use App\Core\Catalog\FilterFields\ProductFilterFields;
 
 /**
  * Трейт для работы со спиком товаров
@@ -15,21 +15,21 @@ trait ProductsListTrait
     private $emptyTemplate = 'empty';
 
     /** @var int $page - Номер страницы */
-    private $page;
+    private $page = null;
 
     /** @var string $sortBy - Поле для сортировки */
-    private $sortBy;
+    private $sortBy = null;
 
     /** @var string $order - Порядок сортировки */
-    private $order;
+    private $order=null;
 
     /** @var int $isShowMore -  идентификатор кнопки показать больше */
-    private $isShowMore;
+    private $isShowMore=null;
 
     /** @var array|int[] $sortTypes - Массив, описывающий константы для типов сортировок для полей */
     private $sortTypes = [
         'lot' => SORT_NATURAL,
-        'id' => SORT_NATURAL
+        'id'  => SORT_NATURAL
     ];
 
     /** @var string $propertyPrefix Префикс свойства (в зависимости от того, происходит ли работа с ИБ или ХЛ) */
@@ -42,10 +42,18 @@ trait ProductsListTrait
      */
     protected function loadParams(): void
     {
-        $this->page = (int) $this->request->get('p');
-        $this->sortBy = (string) $this->request->get('sortBy');
-        $this->order = (string) $this->request->get('order');
-        $this->isShowMore = $this->request->get('isShowMore');
+        if ($this->request->get('p')) {
+            $this->page = (int)$this->request->get('p');
+        }
+        if ($this->request->get('sortBy')) {
+            $this->sortBy = (string)$this->request->get('sortBy');
+        }
+        if ($this->request->get('order')) {
+            $this->order = (string)$this->request->get('order');
+        }
+        if ($this->request->get('isShowMore')) {
+            $this->isShowMore = $this->request->get('isShowMore');
+        }
 
         if (!$this->page) {
             $this->page = 1;
@@ -57,7 +65,7 @@ trait ProductsListTrait
      *
      * @return int
      */
-    protected function getPage(): int
+    protected function getPage(): ?int
     {
         return $this->page;
     }
@@ -67,7 +75,7 @@ trait ProductsListTrait
      *
      * @return string
      */
-    protected function getSortBy(): string
+    protected function getSortBy(): ?string
     {
         return $this->sortBy;
     }
@@ -77,7 +85,7 @@ trait ProductsListTrait
      *
      * @return string
      */
-    protected function getOrder(): string
+    protected function getOrder(): ?string
     {
         return $this->order;
     }
@@ -91,7 +99,7 @@ trait ProductsListTrait
      */
     protected function getFilterHash(array $filter = null): string
     {
-        return md5(json_encode($filter ?? DiamondsFilterFields::getFilterForCatalogDiamonds()));
+        return md5(json_encode($filter ?? ProductFilterFields::getFilterForCatalog()));
     }
 
     /**
@@ -124,28 +132,9 @@ trait ProductsListTrait
     protected function getSortField(string $param): ?string
     {
         $data = [
-            "shape" => "PROPERTY_SHAPE_SORT",
-            "size"  => "PROPERTY_CATALOG_SIZE_SORT",
-            "carat" => "PROPERTY_WEIGHT",
-            "color" => "PROPERTY_COLOR_SORT",
-            "clarity" => "PROPERTY_CLARITY_SORT",
-            "cut" => "PROPERTY_CUT_SORT",
-            "age" => "PROPERTY_AGE",
-            "origin" => "PROPERTY_ORIGIN",
-            "year" => "PROPERTY_YEAR_MINING",
-            "fluorescence" => "PROPERTY_FLUOR_SORT",
-            "polish" => "PROPERTY_POLISH_SORT",
-            "symmetry" => "PROPERTY_SYMMETRY_SORT",
-            "table" => "PROPERTY_TABLE",
-            "depth" => "PROPERTY_DEPTH",
-            "culet" => "PROPERTY_CULET_SORT",
             "price" => 'PROPERTY_PRICE',
-            "lab" => "PROPERTY_LAB",
-            'gia' => "PROPERTY_GIA_CERT",
             "added" => "DATE_CREATE",
-            "packet_id" => "CODE",
-            "id" => "CODE",
-            'price_per_carat' => 'PROPERTY_PRICE_CARAT',
+            "id"    => "CODE",
         ];
 
         return $data[$param];

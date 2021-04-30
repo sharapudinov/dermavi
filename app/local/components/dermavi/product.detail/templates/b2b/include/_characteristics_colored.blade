@@ -1,0 +1,517 @@
+@php
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var bool $isInCart - Находится ли товар в корзине
+    * @var \App\Core\Currency\Currency $currency - Текущая валюта
+    * @var bool $isInternetExplorer - Является ли браузер IE
+    */
+@endphp
+
+<div class="page-product__col">
+    <div class="page-product__flex">
+        <!-- template/product-param-table.html -->
+
+        <table class="product-param-new__table product-param-new__table--desktop">
+            <tbody>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_shape')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($shape = $product->shape)
+                            {{ $shape->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_carat_weight')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($weight = $product->getWeight())
+                            {{ $weight }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_color')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        {!! $product->getDiamondPacketColorValue() !!}
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_overtone')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        {{-- @todo это новое поле, будет реализация в следующем релизе --}}
+                        &mdash;
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_intensity')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        {{-- @todo это новое поле, будет реализация в следующем релизе --}}
+                        &mdash;
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_clarity')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->clarity)
+                            {{ $product->clarity->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_cut')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->cut)
+                            {{ $product->cut->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="product-param-new__table product-param-new__table--desktop">
+            <tbody>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_polish')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($polish = $product->polish)
+                        {{ $polish->getDisplayValue() }}
+                        @else
+                        &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_symmetry')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($symmetry = $product->symmetry)
+                        {{ $symmetry->getDisplayValue() }}
+                        @else
+                        &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_fluorescence')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($fluorescence = $product->fluorescence)
+                            {{ $fluorescence->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_table')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($table = $product->getTable())
+                            {{ $table }}%
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_depth')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($depth = $product->getDepth())
+                            {{ $depth }}%
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_culet')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($culet = $product->getCulet())
+                            {{ $culet->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_origin')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        {{ $origin->getName() }}
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="product-param-new__table product-param-new__table--desktop">
+            <tbody>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_origin_date')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        {!! $product->getYearMining('&mdash;') !!}
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">
+                        @if ($product->getCutLocation() && $product->diamondPacket)
+                            @lang('catalog_product_detail_polished_in')
+                            @php
+                                $value = $product->getCutLocation()->getNameRod();
+                            @endphp
+                            {{ $value }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->getCutLocation() && $product->diamondPacket)
+                            {{$product->diamondPacket->getYearOfPolishingTracing()}}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_origin_weight')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->diamondPacket)
+                            {!! $product->diamondPacket->getRoughDiamondCaratsTracing() ?? '&mdash;' !!}
+                            @lang('catalog_product_detail_carat')
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_origin_cut_time')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->diamondPacket && $value = $product->diamondPacket->getCuttingDurationTracing())
+                            {{ $value . ' '. plural_form($value, [
+                                get_lang_phrase('catalog_detail_filter_cut_polisher_experience_days_accusative'),
+                                get_lang_phrase('catalog_detail_filter_cut_polisher_experience_days_genitive_one'),
+                                get_lang_phrase('catalog_detail_filter_cut_polisher_experience_days_genitive_two'),
+                            ])}}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_origin_cutter')</div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->diamondPacket)
+                            {!! $product->diamondPacket->getPolisherTracing() ?? '&mdash;' !!}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                </td>
+                <td class="product-param-new__table-col">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="product-param-new__table product-param-new__table--tablet">
+            <tbody>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_shape')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($shape = $product->shape)
+                            {{ $shape->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+                <td class="">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_carat_weight')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($weight = $product->getWeight())
+                            {{ $weight }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_color')</div>
+                    <div class="product-param-new__val uppercase">
+                        {!! $product->getDiamondPacketColorValue() !!}
+                    </div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_clarity')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->clarity)
+                            {{ $product->clarity->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_overtone')</div>
+                    <div class="product-param-new__val uppercase">
+                        {{-- @todo это новое поле, будет реализация в следующем релизе --}}
+                        &mdash;
+                    </div>
+                </td>
+                {{-- @todo это новое поле, будет реализация в следующем релизе --}}
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_intensity')</div>
+                    <div class="product-param-new__val uppercase">
+                        {{-- @todo это новое поле, будет реализация в следующем релизе --}}
+                        &mdash;
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_cut')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->cut)
+                            {{ $product->cut->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_polish')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($polish = $product->polish)
+                            {{ $polish->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_symmetry')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($symmetry = $product->symmetry)
+                            {{ $symmetry->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_fluorescence')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($fluorescence = $product->fluorescence)
+                            {{ $fluorescence->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_table')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($table = $product->getTable())
+                            {{ $table }}%
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_depth')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($depth = $product->getDepth())
+                            {{ $depth }}%
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_culet')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($culet = $product->getCulet())
+                            {{ $culet->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_origin')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($origin = $product->origin)
+                            {{ $origin->getDisplayValue() }}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_origin_date')</div>
+                    <div class="product-param-new__val uppercase">
+                        {!! $product->getYearMining('&mdash;') !!}
+                    </div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">
+                        @lang('catalog_product_detail_polished_in')
+                        @if ($product->getCutLocation() && $product->diamondPacket)
+                            @php
+                                $value = $product->getCutLocation()->getNameRod();
+                            @endphp
+                            {{ $value }}
+                        @endif
+                    </div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->getCutLocation() && $product->diamondPacket)
+                            {{$product->diamondPacket->getYearOfPolishingTracing()}}
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_origin_weight')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->diamondPacket)
+                            {!! $product->diamondPacket->getRoughDiamondCaratsTracing() ?? '&mdash;' !!}
+                            @lang('catalog_product_detail_carat')
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_origin_cut_time')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->diamondPacket && $value = $product->diamondPacket->getCuttingDurationTracing())
+                            {{ $value . ' '. plural_form($value, [
+                                get_lang_phrase('catalog_detail_filter_cut_polisher_experience_days_accusative'),
+                                get_lang_phrase('catalog_detail_filter_cut_polisher_experience_days_genitive_one'),
+                                get_lang_phrase('catalog_detail_filter_cut_polisher_experience_days_genitive_two'),
+                            ])}}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-param-new__table-row">
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name">@lang('catalog_product_detail_origin_cutter')</div>
+                    <div class="product-param-new__val uppercase">
+                        @if ($product->diamondPacket)
+                            {!! $product->diamondPacket->getPolisherTracing() ?? '&mdash;' !!}
+                        @else
+                            &mdash;
+                        @endif
+                    </div>
+                </td>
+                <td class="product-param-new__table-col">
+                    <div class="product-param-new__name"></div>
+                    <div class="product-param-new__val uppercase"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- template/product-param-table.html -->
+    </div>
+</div>

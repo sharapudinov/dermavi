@@ -1,0 +1,16 @@
+@php
+    /**
+     * Шаблон для пустой товарной выдачи
+     */
+@endphp
+<section class="catalog-section js-catalog-section">
+    <section class="container page-catalog__get-in-touch">
+        <div class="js-product-catalog-table-header" data-template="/b2c">
+        </div>
+        @bxComponent('main:get.in.touch.form', 'no_theme', [
+        'form_id' => 'get-in-touch-form',
+        'show_title' => true,
+        'title' => get_lang_phrase('catalog_product_list_b2c_nothing_found_description')
+        ])
+    </section>
+</section>

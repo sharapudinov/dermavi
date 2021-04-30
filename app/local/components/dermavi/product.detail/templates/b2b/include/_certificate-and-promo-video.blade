@@ -1,0 +1,43 @@
+@php
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var bool $isInCart - Находится ли товар в корзине
+    * @var \App\Core\Currency\Currency $currency - Текущая валюта
+    * @var bool $isInternetExplorer - Является ли браузер IE
+    */
+@endphp
+
+<!-- certificate and promo video -->
+<section class="page-product__sect page-product__sect-diamond-story-block no-print">
+    <div class="page-product__page-container page-product__sect-diamond-story-block__container">
+        <div
+            @if (!$product->isValidTracing())
+                style="margin-right: auto;"
+            @endif
+            class="container page-product__sect-diamond-story-block__certificate text-c">
+            <h2 class="page-product__title page-product__title-main">
+                @lang('catalog_product_detail_generate_alrosa_certificate_title')
+            </h2>
+            <img src="/assets/build/img/product/product-passport.png" alt="" class="page-product__sect-diamond-story-block__certificate-passport">
+            <div class="page-product__desc page-product__sect-diamond-story-block__certificate-desc">
+                @lang('catalog_product_detail_generate_alrosa_certificate_desc')
+            </div>
+            <div class="page-product__btn">
+                <a
+                    class="btn btn--sm btn--transparent js-alrosa-product-certificate-pdf"
+                    data-product-id="{{ $product->getPacketNumber() }}">
+                    @lang('catalog_product_detail_generate')
+                    <span class="page-product__btn-mobile-hidden-text">
+                        @lang('catalog_product_detail_generate_alrosa_certificate')
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        @if ($product->isValidTracing())
+            @bxComponent('tracing:diamond.story.block', 'section_winter_new', [
+                'packet_id' => $product->getPacketNumber()
+            ])
+        @endif
+    </div>
+</section>

@@ -216,22 +216,6 @@ class OrderHelper
         }
     }
 
-    /**
-     * Удаляет в инфоблоке Имя бриллианта и Сообщение
-     * @param OrderItemViewModel $basketItem
-     */
-    public static function removeDiamondNameAndMessage(OrderItemViewModel $basketItem): void
-    {
-        $diamond = $basketItem->getDiamond();
-        if ($diamond) {
-            $diamond->update(
-                [
-                    'PROPERTY_DIAMOND_NAME_VALUE'    => '',
-                    'PROPERTY_TRACING_MESSAGE_VALUE' => ''
-                ]
-            );
-        }
-    }
 
     /**
      * Возвращает класс типа обработчика письма о заказе

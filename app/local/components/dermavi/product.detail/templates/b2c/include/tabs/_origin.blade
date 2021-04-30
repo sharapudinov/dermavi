@@ -1,0 +1,137 @@
+@php
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var \App\Core\Currency\Currency $currency - Текущая валюта
+    * @var \App\Models\Catalog\HL\StoneLocation $origin Модель месторождения
+    */
+@endphp
+<div id="product-origin" class="tabs-body__item--product-b2c">
+    <div class="product-origin">
+        <div class="container">
+            <h2 class="product-origin__title">@lang('catalog_product_detail_tab_origin_title')</h2>
+            <p class="product-origin__location">{!! $origin->getName() !!}</p>
+            @if ($distanceToYakutia = $userLocation->getDistanceToYakutia())
+                <p class="product-origin__distance">
+                @lang('catalog_detail_filter_this_region')
+                @lang('catalog_detail_filter_in')
+                <span class="custom-text-black">
+                    {{ $distanceToYakutia }}
+                    @lang('catalog_detail_filter_km')
+                </span>
+                @lang('catalog_detail_filter_from_you')
+                </p>
+            @endif
+
+            <div class="product-origin__cols">
+                <svg class="icon icon--map product-origin__map">
+                    <use xlink:href="{{ SPRITE_SVG }}#icon-map_{!! strtolower($origin->getName('EN')) !!}_no_text"></use>
+                </svg>
+                <div id="origin-text" class="product-origin__text" style="display: none;">
+                    <p>
+                        @lang('catalog_product_detail_tab_origin_text_1')
+                    </p>
+                    <p>
+                        @lang('catalog_product_detail_tab_origin_text_2')
+                    </p>
+                    <p>
+                        @lang('catalog_product_detail_tab_origin_text_3')
+                    </p>
+                </div>
+            </div>
+
+            <div id="origin-table" class="product-origin__desktop-visible" style="display: none;">
+                <ul class="product-param-list product-origin__table">
+                    <li class="product-param-list__item product-param-list__item--origin">
+                        <div class="product-param">
+                            <p class="product-param__name product-param__name--feature">
+                                @lang('catalog_product_detail_tab_origin_age')
+                            </p>
+                            <p class="product-param__val product-param__val--feature">
+                                {!! $product->getAge('&mdash;') !!} {!! $product->getAge() ? get_lang_phrase('catalog_detail_filter_age_mln_years') : '' !!}
+                            </p>
+                        </div>
+                    </li>
+                    @if ($product->diamondPacket)
+                        <li class="product-param-list__item product-param-list__item--origin">
+                            <div class="product-param">
+                                <p class="product-param__name product-param__name--feature">
+                                    @lang('catalog_product_detail_tab_origin_weight')
+                                </p>
+                                <p class="product-param__val product-param__val--feature">
+                                    {!! $product->diamondPacket->getRoughDiamondCaratsTracing() ?? '&mdash;' !!} @lang('catalog_product_detail_carat')
+                                </p>
+                            </div>
+                        </li>
+                    @endif
+                    <li class="product-param-list__item product-param-list__item--origin">
+                        <div class="product-param">
+                            <p class="product-param__name product-param__name--feature">
+                                @lang('catalog_product_detail_tab_origin_year_mining')
+                            </p>
+                            <p class="product-param__val product-param__val--feature">{!! $product->getYearMining('&mdash;') !!}</p>
+                        </div>
+                    </li>
+                    @if ($product->getCutLocation() && $product->diamondPacket)
+                    @php
+                        $value = $product->getCutLocation()->getNameRod();
+                    @endphp
+                    <li class="product-param-list__item product-param-list__item--origin">
+                        <div class="product-param">
+                            <p class="product-param__name product-param__name--feature">
+                                @lang('catalog_product_detail_tab_origin_cut_in') {!! $value !!}
+                            </p>
+                            <p class="product-param__val product-param__val--feature">{!! $product->diamondPacket->getYearOfPolishingTracing() !!}</p>
+                        </div>
+                    </li>
+                    @endif
+
+                    @if ($product->diamondPacket && $value = $product->diamondPacket->getCuttingDurationTracing())
+                    <li class="product-param-list__item product-param-list__item--origin">
+                        <div class="product-param">
+                            <p class="product-param__name product-param__name--feature">
+                                @lang('catalog_product_detail_tab_origin_cut_time')
+                            </p>
+                            <p class="product-param__val product-param__val--feature">{!! $value. ' '. plural_form($value, [
+                                get_lang_phrase('catalog_detail_filter_cut_polisher_experience_days_accusative'),
+                                get_lang_phrase('catalog_detail_filter_cut_polisher_experience_days_genitive_one'),
+                                get_lang_phrase('catalog_detail_filter_cut_polisher_experience_days_genitive_two'),
+                            ]) !!}</p>
+                        </div>
+                    </li>
+                    @endif
+
+                    @if ($polisher = $product->polisher)
+                        <li class="product-param-list__item product-param-list__item--origin">
+                            <div class="product-param">
+                                <p class="product-param__name product-param__name--feature">
+                                    @lang('catalog_product_detail_tab_origin_cutter')
+                                </p>
+                                <p class="product-param__val product-param__val--feature">
+                                    @if ($polisher->getWorkingYears())
+                                        {!! $polisher->getName() !!}
+                                    @else
+                                        &mdash;
+                                    @endif
+                                </p>
+                            </div>
+                        </li>
+                    @endif
+                </ul>
+            </div>
+
+            <p class="mb-0 text-c">
+                <button id="origin-show" type="button" class="product-origin__toggle-btn
+                    product-origin__toggle-btn--show link link--italic" data-visibility="show"
+                    data-show="#origin-text|#origin-table|#origin-hide" data-visibility="hide" data-hide="#origin-show">
+                    @lang('catalog_product_detail_tab_origin_show_more')
+                </button>
+                <button id="origin-hide" type="button" class="product-origin__toggle-btn
+                    product-origin__toggle-btn--hide link link--italic" data-visibility="hide"
+                    data-hide="#origin-text|#origin-table|#origin-hide" data-visibility="show" data-show="#origin-show"
+                    style="display: none;">
+                    @lang('catalog_product_detail_tab_origin_hide')
+                </button>
+            </p>
+        </div>
+    </div>
+</div>

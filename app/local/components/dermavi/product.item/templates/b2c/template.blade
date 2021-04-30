@@ -1,0 +1,15 @@
+@php
+/**
+ * @var string $view - Тип вывода товара
+ * @var bool $isB2c вывод для физ лиц
+ * @var string $button заголовок кнопки, если она должна выводиться
+ * @var string $buttonClass класс дополнительной кнопки
+ * @var bool $onlyDesktop только для декстопа
+ * @var string $mode режим начального отображения: плиткой или таблицей
+ */
+@endphp
+
+<li class="product-card product-card--carousel product-card--cell product-similar__list-item"
+    data-type="carousel">
+        @include('common/include/_product')
+    </li>

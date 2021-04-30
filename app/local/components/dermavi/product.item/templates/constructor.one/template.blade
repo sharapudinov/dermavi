@@ -1,0 +1,8 @@
+@php
+    /** Шаблон одного бриллианта в конструкторе */
+    /** @var \App\Models\Catalog\Catalog $product Модель бриллианта */
+@endphp
+
+<li class="product-card product-card--cell product-card--redesign catalog__list-item" data-type="catalog-redesign">
+    @include('common/include/_product_redesign', ['constructor' => true])
+</li>

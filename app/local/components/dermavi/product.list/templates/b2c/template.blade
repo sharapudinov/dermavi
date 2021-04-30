@@ -1,0 +1,48 @@
+@php
+    /**
+     * Шаблон для каталога товаров b2c redesign
+     * @var string $view начальное представление списка table/cell
+     * @var string $containerClass класс стилей контейнера списка
+     * @var bool $isB2c определяет текущий режим вывода для B2C каталога
+     */
+
+@endphp
+@bxComponent('main:criteo.tag','catalog', [
+'diamonds'=>$products->all()
+])
+<section class="catalog-section js-catalog-section">
+    <div data-view="{{ $view }}" class="js-catalog-b2c-hider catalog catalog--catalog catalog--redesign js-scrollbar js-product-catalog-table-header loading loading--white"
+         id="catalog-catalog" data-template="/b2c">
+
+        <div class="catalog__sort catalog__sort--table">
+            @bxComponent('catalog:product.catalog.table.header', 'b2c', [
+            'show_price' => true,
+            ])
+
+        </div>
+
+        <ul class="catalog__list js-products-list-ul" id="js-products-list-anchor">
+            @include('include/_products')
+        </ul>
+        <div class="catalog__swipe-overlay js-swipe-overlay is-invisible">
+            <svg class="icon icon--hand-swipe">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-hand_swipe"></use>
+            </svg>
+        </div>
+    </div>
+
+    @bxComponent('main:pagination', '', [
+    'items_count' => $productsCount,
+    'per_page' => $pageSize,
+    'current_page' => $_GET['p'] ?? 1,
+    'ajax_load_component' => 'catalog:product.list',
+    'ajax_component_template' => 'b2c',
+    'items_block' => '.js-products-list-ul',
+    'scroll_to' => '#catalog-catalog',
+    ])
+</section>
+<div class="page-catalog__observable js-observable-api"></div>
+@bxComponent('catalog:product.chosen.bar', 'b2c', [
+'productsCount'=>$productsCount,
+'checkedProductsInfo'=>$checkedProductsInfo,
+])

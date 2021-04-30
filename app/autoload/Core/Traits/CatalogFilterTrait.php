@@ -10,7 +10,7 @@ use App\Helpers\PriceHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\TTL;
 use App\Helpers\UserHelper;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\Catalog\HL\CatalogClarity;
 use App\Models\Catalog\HL\CatalogFluorescence;
 use App\Models\Catalog\HL\CatalogShape;

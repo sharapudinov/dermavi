@@ -11,7 +11,7 @@ use App\EventHandlers\CartHandlers;
 use App\Helpers\LanguageHelper;
 use App\Helpers\TTL;
 use App\Helpers\UserCartHelper;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\Jewelry\JewelryConstructorReadyProduct;
 use App\Models\Jewelry\JewelrySku;
 use App\Seo\GlobalSiteTag\GlobalSiteTagCartEventAdder;

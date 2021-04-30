@@ -1,0 +1,49 @@
+@php
+/** @var array|string[] $colors - Массив существующих цветов */
+/** @var App\Filtration\Dto\FieldDto $color - DTO фильтра "Цвет" */
+
+if ($color->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $color->getCode();
+
+$fancyVariants = $color->getVariants()->filter(
+    function ($variantItem) {
+        /** @var App\Filtration\Dto\FieldVariantDto $variantItem */
+        return $variantItem->getExtra()['isFancy'] ?? false;
+    }
+);
+@endphp
+<div class="js-filters-box-item filters-box__item filters-box-color">
+    <div class="js-filters-box-head filters-box__title">
+        @lang('catalog_main_filter_facet_parameter_color')
+    </div>
+    <div class="js-filters-box-body filters-box__parameters filters-box-color__parameters">
+        <ul class="js-tabs-head tabs-radio filters-box__tabs">
+            <li class="tabs-radio__item radio radio--btns radio--btns-sm">
+                <input class="radio__input" type="radio" name="radio_btns_2" id="filter-color-colorless-radio" value="1"
+                    data-tab-target="#filter-color-colorless" checked>
+                <label class="radio__label m-0" for="filter-color-colorless-radio">
+                    @lang('catalog_main_filter_facet_parameter_color_colorless')
+                </label>
+            </li>
+            @if($fancyVariants)
+                <li class="tabs-radio__item radio radio--btns radio--btns-sm">
+                    <input class="radio__input" type="radio" name="radio_btns_2" id="filter-color-fancy-radio" value="2"
+                        data-tab-target="#filter-color-fancy">
+                    <label class="radio__label m-0" for="filter-color-fancy-radio">
+                        @lang('catalog_main_filter_facet_parameter_color_fancy')
+                    </label>
+                </li>
+            @endif
+        </ul>
+        <div class="js-tabs-body tabs-body">
+            @includeWhen($color, 'include/_color/_colorless', [
+                'colors' => $color
+            ])
+            @includeWhen($fancyVariants, 'include/_color/_fancy', [
+                'color' => $color
+            ])
+        </div>
+    </div>
+</div>

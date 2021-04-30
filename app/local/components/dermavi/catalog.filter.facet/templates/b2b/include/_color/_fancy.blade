@@ -1,0 +1,77 @@
+@php
+/** Шаблон для вывода цветных оттенков бриллиантов */
+/** @var App\Filtration\Dto\FieldDto $color - DTO фильтра "Цвет" */
+
+if ($color->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $color->getCode();
+$htmlIdPrefix = 'filter_box_';
+
+/**
+ * Коллекция цветов, доступных для вывода в фильтрах
+ */
+$filterableVariants = $color->getVariants()->filter(
+    /** @var App\Filtration\Dto\FieldVariantDto $variantItem */
+    function ($variantItem) {
+        // Исключаем цвета не из основной группы цветов
+        return $variantItem->getExtra()['isMainGroupColor'] ?? false;
+    }
+);
+
+/**
+ * Цветные
+ */
+$fancyVariants = $filterableVariants->filter(
+    /** @var App\Filtration\Dto\FieldVariantDto $variantItem */
+    function ($variantItem) {
+        // Исключаем цвета не из группы фантазийных цветов
+        return $variantItem->getExtra()['isFancy'] ?? false;
+    }
+);
+@endphp
+
+<div class="tabs-body__item" id="filter-color-fancy">
+    @if(!$fancyVariants->isEmpty())
+        <div class="filters-box__item filters-box__inside-item">
+            <div class="filters-box__inside-title">
+                @lang('catalog_main_filter_facet_parameter_color_fancy_color')
+            </div>
+            <div class="filters-box__parameters filters-box__parameters--inside">
+                <ul class="filters-box__checklist filters-box__checklist-simple filters-box-clarity__checklist
+                    filters-box-fancy">
+                    @foreach ($fancyVariants as $variantItem)
+                        @php
+                            $filterValue = $variantItem->getValue();
+                            $displayValue = $variantItem->getName();
+                            $fieldId = $variantItem->getHtmlSelector();
+                            $fieldName = $variantItem->getRequestName();
+                            $isChecked = $variantItem->isSelected();
+                            $isEnabled = $isChecked || ($variantItem->getDocCount() ?? 1) > 0;
+
+                            $colorCode = $variantItem->getExtra()['fancyColorHex'] ?? '';
+                        @endphp
+
+                        <li class="filters-box-fancy__item filters-box__checkbox checkbox-underline checkbox-underline--sm filters-box-clarity__item
+                            js-filter-value{{ !$isEnabled ? ' js-disabled' : '' }}"
+                            data-id="{{ $fieldId }}">
+                            <input class="checkbox-underline__input js-filter-checkbox"
+                                   type="checkbox"
+                                   data-field="{{ $typeCode }}"
+                                   name="{{ $fieldName }}"
+                                   id="{{ $htmlIdPrefix . $fieldId }}"
+                                   value="{{ $filterValue }}"
+                                    {{ $isChecked ? 'checked' : '' }}
+                                    {{ !$isEnabled ? 'disabled="disabled"' : '' }}
+                            >
+                            <label class="checkbox-underline__label checkbox-underline__label--color" for="{{ $htmlIdPrefix . $fieldId }}">
+                                <span class="checkbox-underline__label-color-circle" style="background: {{ $colorCode }};"></span>
+                                @lang('catalog_main_filter_facet_parameter_color_fancy_color_' . $filterValue)
+                            </label>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
+</div>

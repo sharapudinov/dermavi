@@ -5,8 +5,8 @@ require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 ?>
 <?
 $APPLICATION->IncludeComponent(
-	"bitrix:catalog",
-	"bootstrap_v4",
+	"dermavi:catalog.index",
+	"dermavi",
 	[
 		"IBLOCK_TYPE"                     => "catalog",
 		"IBLOCK_ID"                       => "2",
@@ -176,8 +176,8 @@ $APPLICATION->IncludeComponent(
 		"SIDEBAR_PATH"                    => "/catalog/sidebar.php",
 		"SEF_URL_TEMPLATES"               => [
 			"sections" => "",
-			"section"  => "#SECTION_CODE#/",
-			"element"  => "#SECTION_CODE#/#ELEMENT_CODE#/",
+			"section"  => "#SECTION_CODE_PATH#/",
+			"element"  => "product/#ELEMENT_CODE#/",
 			"compare"  => "compare/",
 		]
 	],

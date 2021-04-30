@@ -1,0 +1,10 @@
+@php
+    /** Шаблон описания чистоты бриллианта */
+    /** @var \App\Models\Catalog\Catalog $product Модель бриллианта */
+@endphp
+
+@if ($product->diamondPacket && $product->diamondPacket->getRFQual())
+    @lang('catalog_product_detail_corresponds_to_russian')
+    {{ $product->diamondPacket->getRFQual()->getValue() }}.
+    @lang('catalog_product_detail_clarity_desc')
+@endif

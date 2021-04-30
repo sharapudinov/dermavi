@@ -1,0 +1,42 @@
+@php
+/** @var string $current */
+
+$colorList = \App\Helpers\ColorHelper::init()->getColorlessList();
+@endphp
+
+<p class="product-filters-b2c__content-desc-individual is-hidden js-product-filters-b2c-desc"
+   data-value="{{ $current }}">
+    @if(in_array($current, $colorList, true))
+        @lang('catalog_main_filter_facet_color_description_this_diamond_has_a')
+    @endif
+
+    @if ($current === 'd')
+        @lang('catalog_main_filter_facet_color_description_this_diamond_has_a_highest_grade')
+        {{ mb_strtoupper($current) }}
+        @lang('catalog_main_filter_facet_color_description_this_diamond_has_a_highest_grade_part_two').
+    @elseif (in_array($current, $colorList, true))
+        @lang('catalog_main_filter_facet_color_description_this_diamond_has_a_grade')
+        {{ mb_strtoupper($current) }}.
+        @if ($current === 'e')
+            @lang('catalog_main_filter_facet_color_description_this_diamond_has_a_very_high_grade').
+        @elseif ($current === 'f')
+            @lang('catalog_main_filter_facet_color_description_more_or_less_colorless').
+        @elseif ($current === 'g' || $current === 'h')
+            @lang('catalog_main_filter_facet_color_description_has_a_minor_yellowish').
+        @elseif ($current === 'i')
+            @lang('catalog_main_filter_facet_color_description_barely_noticable_yellowish').
+        @elseif ($current === 'j')
+            @lang('catalog_main_filter_facet_color_description_light_yellowish').
+        @elseif ($current === 'k')
+            @lang('catalog_main_filter_facet_color_description_light_yellow').
+        @elseif ($current === 'l')
+            @lang('catalog_main_filter_facet_color_description_obvious_yellow').
+        @elseif ($current === 'm')
+            @lang('catalog_main_filter_facet_color_description_yellow').
+        @endif
+    @else
+        @lang('catalog_main_filter_facet_color_description_fancy_this_diamond_is')
+        @lang('catalog_main_filter_facet_parameter_color_fancy_color_' . $current)
+    @endif
+</p>
+

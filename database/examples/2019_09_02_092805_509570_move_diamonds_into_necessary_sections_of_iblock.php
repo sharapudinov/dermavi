@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Catalog\Diamond;
-use App\Models\Catalog\DiamondSection;
+use App\Models\Catalog\Catalog;
+use App\Models\Catalog\CatalogSection;
 use Arrilot\BitrixMigrations\BaseMigrations\BitrixMigration;
 
 /**
@@ -23,7 +23,7 @@ class MoveDiamondsIntoNecessarySectionsOfIblock20190902092805509570 extends Bitr
     {
         $this->diamonds = Diamond::getList();
 
-        $sections = DiamondSection::getList();
+        $sections = CatalogSection::getList();
         foreach ($sections as $section) {
             $this->sections[$section['CODE']] = $section['ID'];
         }

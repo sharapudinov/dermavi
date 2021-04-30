@@ -1,0 +1,73 @@
+@php
+/** Шаблон для вывода качеств огранки в фильтре b2c (мобильный вьюпорт) */
+/** @var App\Filtration\Dto\FieldDto $cut - DTO фильтра "Качество огранки" */
+
+if ($cut->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $cut->getCode();
+$htmlIdPrefix = 'filter_box_'; // должен совпадать с десктопным
+@endphp
+
+<h3 class="js-accordion-head">@lang('catalog_main_filter_facet_cut')</h3>
+<div>
+    <div class="product-filters-b2c__content js-product-filters-b2c-content product-filters-b2c__content--cut">
+        <ul class="product-filters-b2c__content-values product-filters-b2c__content-values--mobile">
+            @foreach ($cut->getVariants() as $variantItem)
+                @php
+                    $icon = $variantItem->getExtra()['iconCode'] ?? '';
+                    $filterValue = $variantItem->getValue();
+                    $displayValue = $variantItem->getName();
+                    $fieldId = $variantItem->getHtmlSelector();
+                    $fieldName = $variantItem->getRequestName();
+                    $isChecked = $variantItem->isSelected();
+                    $isEnabled = $isChecked || ($variantItem->getDocCount() ?? 1) > 0;
+                @endphp
+                <li class="product-filters-b2c__content-values-item">
+                    <div class="checkbox-underline-icon
+                         js-filter-value{{ !$isEnabled ? ' js-disabled' : '' }}"
+                         data-id="{{ $fieldId }}">
+                        <input class="checkbox-underline-icon__input js-filter-checkbox"
+                               type="checkbox"
+                               data-field="{{ $typeCode }}"
+                               name="{{ $fieldName }}"
+                               id="{{ $htmlIdPrefix . $fieldId }}"
+                               value="{{ $filterValue }}"
+                               {{ $isChecked ? 'checked' : '' }}
+                               {{ !$isEnabled ? 'disabled="disabled"' : '' }}
+                               data-value="{{ $filterValue }}"
+                        >
+                        <label class="checkbox-underline-icon__label js-product-filters-b2c-label"
+                               data-value="{{ $filterValue }}"
+                               for="{{ $htmlIdPrefix . $fieldId }}">
+                            <svg class="icon icon--cut-ex-sm checkbox-underline-icon__icon-diamond">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-diamond_cut_{{ $icon }}"></use>
+                            </svg>
+                            <span class="checkbox-underline-icon__label-text">{!! $displayValue !!}</span>
+                            <svg class="icon icon--close-m checkbox-underline-icon__icon-close">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-close_lg"></use>
+                            </svg>
+                        </label>
+                    </div>
+                </li>
+            @endforeach
+        </ul>
+        <div class="product-filters-b2c__content-view product-filters-b2c__content-view--cut js-content-view-cut">
+            @foreach ($cut->getVariants() as $variantItem)
+                @php
+                    $icon = $variantItem->getExtra()['iconCode'] ?? '';
+                    $filterValue = $variantItem->getValue();
+                @endphp
+                @continue($icon === '')
+
+                <svg class="icon icon--cut-lg product-filters-b2c__content-view-icon is-invisible js-product-filters-b2c-icon"
+                     data-value="{{ $filterValue }}">
+                    <use xlink:href="{{ SPRITE_SVG }}#icon-cut_{{ $icon }}"></use>
+                </svg>
+            @endforeach
+        </div>
+        <p class="product-filters-b2c__content-desc">
+            @lang('catalog_main_filter_facet_cut_description')
+        </p>
+    </div>
+</div>

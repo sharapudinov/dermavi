@@ -1,0 +1,17 @@
+@php
+/**
+ * @var \Illuminate\Support\Collection $products - Товары
+ * @var array $checkedProductsInfo - Информация о выбранных товарах
+ * @var \App\Core\Currency\Currency $currency - Информация о текущей валюте
+ * @var string $view режим начального отображения: table, cell
+ * @var bool $isB2c определяет текущий режим вывода для B2C каталога
+ */
+@endphp
+
+@foreach ($products as $product)
+    @bxComponent('catalog:product.item', '', [
+        'product' => $product,
+        'checked_products_info' => $checkedProductsInfo,
+        'b2c' => $isB2c,
+    ])
+@endforeach

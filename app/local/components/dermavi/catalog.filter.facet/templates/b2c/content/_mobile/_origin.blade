@@ -1,0 +1,50 @@
+@php
+/** Шаблон для вывода месторождений бриллиантов в фильтре b2c (мобильный вьюпорт) */
+/** @var App\Filtration\Dto\FieldDto $origin - DTO фильтра "Регион" */
+
+if ($origin->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $origin->getCode();
+$htmlIdPrefix = 'filter_box_'; // должен совпадать с десктопным
+@endphp
+
+<h3 class="js-accordion-head">@lang('catalog_main_filter_facet_origin')</h3>
+<div class="product-filters-b2c__content-category-cnt">
+    <ul class="product-filters-b2c__content-values--mobile product-filters-b2c__content-values--additionally">
+        @foreach ($origin->getVariants() as $variantItem)
+            @php
+                $filterValue = $variantItem->getValue();
+                $displayValue = $variantItem->getName();
+                $fieldId = $variantItem->getHtmlSelector();
+                $fieldName = $variantItem->getRequestName();
+                $isChecked = $variantItem->isSelected();
+                $isEnabled = $isChecked || ($variantItem->getDocCount() ?? 1) > 0;
+            @endphp
+            <li class="product-filters-b2c__content-values-item">
+                <div class="checkbox-underline-icon
+                     js-filter-value{{ !$isEnabled ? ' js-disabled' : '' }}"
+                     data-id="{{ $fieldId }}">
+                    <input class="checkbox-underline-icon__input js-filter-checkbox"
+                           type="checkbox"
+                           data-field="{{ $typeCode }}"
+                           name="{{ $fieldName }}"
+                           id="{{ $htmlIdPrefix . $fieldId }}"
+                           value="{{ $filterValue }}"
+                           data-value="{{ $filterValue }}"
+                            {{ $isChecked ? 'checked' : '' }}
+                            {{ !$isEnabled ? 'disabled="disabled"' : '' }}
+                    >
+                    <label class="checkbox-underline-icon__label js-product-filters-b2c-label"
+                           for="{{ $htmlIdPrefix . $fieldId }}">
+                        <span class="checkbox-underline-icon__label-text">{!! $displayValue !!}</span>
+                    </label>
+                </div>
+            </li>
+        @endforeach
+    </ul>
+
+    <div class="product-filters-b2c__content-category-desc">
+        @lang('catalog_main_filter_facet_origin_description')
+    </div>
+</div>

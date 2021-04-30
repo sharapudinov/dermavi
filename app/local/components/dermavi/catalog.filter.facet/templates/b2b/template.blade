@@ -1,0 +1,198 @@
+@php
+/** Шаблон для фасетного фильтра b2b */
+/** @var array|mixed[] $arParams - Массив параметров компонента */
+/** @var App\Filtration\Dto\FieldDto[] $filterFields - Массив, описывающий поля фильтров */
+/** @var App\Core\Currency\Entity\CurrencyEntity $currency - Объект, описывающий текущую валюту */
+/** @var array $filterBaseParams - Общие параметры для отправки в ajax-запросе обновления фильтра */
+@endphp
+
+@if ($arParams['is_auction'])
+    <div id="auction-filters" class="page-auctions__filters">
+@endif
+
+<section id="filters-popup"
+         class="filters popup popup--filters{{ $arParams['is_auction'] ? ' js-auction-lots-filter' : '' }}"
+         data-animation="zoom" data-fullscreen="true" data-breakpoint-hide="768" style="display: none">
+
+    <div class="container">
+        <h2 class="filters__title page-catalog__section-title">
+            <span class="filters__title-text">
+                @lang('catalog_main_filter_facet_filters_applied_count')
+            </span>
+
+            <button class="link filters__toggle-visibility js-fade-toggle"
+                {{-- title="@lang('catalog_main_filter_facet_hide_filter_popup')" --}} type="button"
+                data-toggle="@lang('catalog_main_filter_facet_hide_filter_popup')" data-target="#filter-block"
+                data-breakpoint="breakpointMobile"
+                data-container="#filters__wrapper">
+                @lang('catalog_main_filter_facet_show_filter_popup')
+            </button>
+            <button class="tags-button filters__clear-mobile"
+                title="@lang('catalog_main_filter_facet_clear_all_filters')" type="button">
+                @lang('catalog_main_filter_facet_clear_all_filters')
+            </button>
+        </h2>
+    </div>
+
+    <div class="filters__wrapper" id="filters__wrapper">
+        <div class="container filters__header">
+            <div class="tags filters__tags">
+                <ul class="tags__items-list">
+                    <li class="tags__item tags__item--clear filters__clear">
+                        <button class="tags__clear-all" title="@lang('catalog_main_filter_facet_clear_all_filters')"
+                            type="button">
+                            @lang('catalog_main_filter_facet_clear_all_filters')
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="filters__save-block">
+                <button class="link filters__save-btn js-save-filter js-tooltip" type="button"
+                    data-content="@lang('catalog_main_filter_facet_save_filter_tooltip_message')"
+                    data-tippy-animation="perspective" data-tippy-trigger="click">
+                    @lang('catalog_main_filter_facet_save_current_filter')
+                </button>
+                <button class="link filters__save-btn js-load-filter" type="button">
+                    @lang('catalog_main_filter_facet_use_saved_filter')
+                </button>
+            </div>
+        </div>
+
+        <div id="filter-block" class="container filters__container filters-popup js-jewerly-filter"
+             data-params="{{ json_encode($filterBaseParams, JSON_THROW_ON_ERROR) }}"
+             style="display: none">
+            <div class="filters-box filters-box--no-flex">
+                @includeWhen($filterFields['shape'], 'include/_shape', ['shape' => $filterFields['shape']])
+                <div class="filters-box__columns">
+                    <div class="filters-box__col">
+                        @includeWhen($filterFields['weight'], 'include/_carat', [
+                            'weight' => $filterFields['weight']
+                        ])
+
+                        @includeWhen(
+                            ($filterFields['price'] && !$arParams['is_auction'])
+                            && !in_array('price', $arParams['hide_fields'], true),
+                            'include/_price',
+                            [
+                                'price' => $filterFields['price']
+                            ]
+                        )
+
+                        @includeWhen($filterFields['cut'] && !$arParams['is_auction'], 'include/_cut', [
+                            'cut' => $filterFields['cut']
+                        ])
+
+                        @includeWhen($filterFields['polish'], 'include/_polish', [
+                            'polish' => $filterFields['polish']
+                        ])
+
+                        @includeWhen($filterFields['symmetry'], 'include/_symmetry', [
+                            'symmetry' => $filterFields['symmetry']
+                        ])
+                    </div>
+
+                    <div class="filters-box__col">
+                        @includeWhen($filterFields['color'], 'include/_color/_color', [
+                            'color' => $filterFields['color']
+                        ])
+
+                        @includeWhen($filterFields['clarity'], 'include/_clarity', [
+                            'clarity' => $filterFields['clarity']
+                        ])
+
+                        @includeWhen($filterFields['fluorescence'], 'include/_fluorescence', [
+                            'fluorescence' => $filterFields['fluorescence']
+                        ])
+
+                        <?php
+                        /** @todo Закомментировал дубли. Если в них была какая-то задумка, то вернуть. */
+                        /*
+                        ?>
+                        @includeWhen($filterFields['cut'] && !$arParams['is_auction'], 'include/_cut', [
+                            'cut' => $filterFields['cut']
+                        ])
+                        <?php
+                        */
+                        ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filters__advanced-btn-block">
+                <button class="btn btn--sm btn--transparent m-0 js-fade-toggle js-scroll-into-view catalog__filters-btn" type="button"
+                    data-scroll-into-view-speed="0"
+                    title="@lang('catalog_main_filter_facet_advanced_filter_hide')"
+                    data-toggle="@lang('catalog_main_filter_facet_advanced_filter_hide')" data-target="#filter-advanced">
+                    @lang('catalog_main_filter_facet_advanced_filter')
+                </button>
+            </div>
+
+            <div id="filter-advanced" class="filters__container filters__advanced">
+                <div class="filters-box__columns">
+                    <div class="filters-box__col">
+                        <?php
+                        /** @todo Закомментировал дубли. Если в них была какая-то задумка, то вернуть. */
+                        /*
+                        ?>
+                        @includeWhen($filterFields['fluorescence'], 'include/_fluorescence', [
+                            'fluorescence' => $filterFields['fluorescence']
+                        ])
+
+                        @includeWhen($filterFields['polish'], 'include/_polish', [
+                            'polish' => $filterFields['polish']
+                        ])
+
+                        @includeWhen($filterFields['symmetry'], 'include/_symmetry', [
+                            'symmetry' => $filterFields['symmetry']
+                        ])
+                        <?php
+                        */
+                        ?>
+
+                        @includeWhen($filterFields['culet'], 'include/_culet', [
+                            'culet' => $filterFields['culet']
+                        ])
+
+                        @includeWhen($filterFields['year_mining'], 'include/_year_of_mining', [
+                            'yearMining' => $filterFields['year_mining']
+                        ])
+
+                        @includeWhen($filterFields['origin'], 'include/_origin', [
+                            'origin' => $filterFields['origin']
+                        ])
+                    </div>
+
+                    <div class="filters-box__col">
+                        @includeWhen($filterFields['table'], 'include/_depth', [
+                            'depth' => $filterFields['depth']
+                        ])
+
+                        @includeWhen($filterFields['table'], 'include/_table', [
+                            'table' => $filterFields['table']
+                        ])
+                        @includeWhen(($filterFields['price_carat'] && !$arParams['is_auction']),
+                            'include/_price_per_carat',
+                            [
+                                'priceCarat' => $filterFields['price_carat']
+                            ]
+                        )
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="popup__close" data-popup="close" type="button"
+        title="@lang('catalog_main_filter_facet_close_filter_popup')">
+        <svg class="icon icon--cross"><use xlink:href="{{ SPRITE_SVG }}#icon-cross"></use></svg>
+    </button>
+</section>
+@if ($arParams['is_auction'])
+    </div>
+@endif
+
+<script type="text/javascript">
+    var sectionTitleTemplate = "{!! $titleTemplate ?? '' !!}";
+    var shapeString = "{!! $shapeString ?? '' !!}";
+</script>

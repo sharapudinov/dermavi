@@ -3,11 +3,11 @@
 namespace App\Api\Internal\Sale;
 
 use App\Api\BaseController;
-use App\Core\Catalog\FilterFields\DiamondsFilterFields;
+use App\Core\Catalog\FilterFields\ProductFilterFields;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PriceHelper;
 use App\Helpers\StringHelper;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\Catalog\HL\Quality;
 use App\Models\Catalog\HL\StoneLocation;
 use Psr\Http\Message\ResponseInterface;
@@ -131,7 +131,7 @@ class FilterController extends BaseController
             $filteredCatalogUri = get_language_version_href_prefix() . '/diamonds/?enter=true';
             if ($diamonds->isNotEmpty()) {
                 /** @var array $filterProperties - Массив свойств фильтра */
-                $filterProperties = (new DiamondsFilterFields())->getFilter();
+                $filterProperties = (new ProductFilterFields())->getFilter();
                 foreach ($filter as $key => $value) {
                     if ($value['LOGIC']) {
                         foreach ($value as $subKey => $subValue) {

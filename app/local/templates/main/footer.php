@@ -9,7 +9,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
 if (!is_directory('/auth')): ?>
     <footer class="footer">
         <div class="footer__logo-wrap">
-            <a href="/" class="footer__logo"><img src="img/logo_footer.svg" alt="" class="footer__logo-img"></a>
+            <a href="/" class="footer__logo"><img src="/img/logo_footer.svg" alt="" class="footer__logo-img"></a>
             <a href="#" class="footer__copy">DERMAVI © Copyright 2020</a>
         </div>
         <div class="footer__content">
@@ -75,7 +75,7 @@ if (!is_directory('/auth')): ?>
                 <div class="drop-menu__close js-drop-menu-close"><i class="icon icon-close"></i></div>
             </div>
             <div class="header-top__center">
-                <a href="/" class="header__logo"><img src="img/logo.svg" alt="" class="header__logo-img"></a>
+                <a href="/" class="header__logo"><img src="/img/logo.svg" alt="" class="header__logo-img"></a>
             </div>
             <div class="header-top__right">
                 <a href="#" class="header__cart header-link">

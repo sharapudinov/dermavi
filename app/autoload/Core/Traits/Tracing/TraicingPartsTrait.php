@@ -2,7 +2,7 @@
 
 namespace App\Core\Traits\Tracing;
 
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\Tracing\HL\AudioPart;
 use Illuminate\Support\Collection;
 

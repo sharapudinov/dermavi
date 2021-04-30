@@ -14,7 +14,7 @@ use App\Helpers\JewelryConstructorHelper;
 use App\Helpers\JewelryHelper;
 use App\Helpers\SiteHelper;
 use App\Models\Auxiliary\Sale\BitrixOrder;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\Catalog\ProductInterface;
 use App\Models\Jewelry\HL\JewelryBlankDiamonds;
 use App\Models\Jewelry\JewelryConstructorReadyProduct;

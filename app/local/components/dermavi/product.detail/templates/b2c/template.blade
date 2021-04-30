@@ -1,0 +1,306 @@
+@php
+    use Bitrix\Main\Localization\Loc;
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var int $basketItemId - Id элемента корзины
+    * @var \App\Core\Currency\Currency $currency - Текущая валюта
+    * @var bool $isInternetExplorer - Является ли браузер IE
+    * @var \App\Models\Catalog\PaidService $giaService
+    * @var \App\Models\Catalog\PaidService $engravingService
+    * @var array|mixed[] $arParams Массив параметров компонента
+    * @var bool $needToSignIn Флаг необходимости авторизации, чтобы просматривать страницу
+    * @var App\Core\Sale\View\OrderItemViewModel|null $cartItem Объект, описывающий товар в корзине
+    * @var App\Core\Sale\View\OrderItemViewModel|null $engraving Объект, описывающий сертификат в корзине
+    * @var App\Core\Sale\View\OrderItemViewModel|null $certificate Объект, описывающий сертификат в корзине
+    */
+    $engraving = $cartItem ? $cartItem->getAttachedService('engraving') : null;
+    $certificate = $cartItem ? $cartItem->getAttachedService('certificate') : null;
+@endphp
+@bxComponent('main:criteo.tag','product_detail', [
+'currentProductId'=>$product->getCode()
+])
+<main class="wrap-main page-product page-product--b2c js-ec-detail js-fbq-detail"
+      data-ec-id="{{$product->getID()}}"
+      data-ec-name="{{ $product->shape ? $product->shape->getDisplayValue() : '' }} {{$product->getWeight()}}"
+      data-ec-price="{!! str_replace(' ', '', $product->getPriceValue()) !!}"
+      data-ec-category="{{$product->shape->getDisplayValue()}}"
+>
+    @if($arParams['type'] == 'constructor')
+        <section class="container mb-s">
+            @component('jewelry.constructor:progress.bar', '', [
+                'from_frame' => $arParams['from'] == 'frame',
+                'step' => $arParams['step'],
+                'frame_sku' => $arParams['frame_sku'],
+                'currency' => $currency
+            ])
+        </section>
+    @endif
+
+    <div class="container">
+        <h1 class="page-product__name">
+            @lang('catalog_product_detail_diamond') {{ $product->shape ? $product->shape->getDisplayValue() : '' }} {{$product->getWeight()}}&nbsp;@lang('catalog_product_detail_carat')
+        </h1>
+    </div>
+
+    <!-- Главный экран -->
+    <section class="page-product__sect page-product__sect--pt0">
+        <div class="container">
+            <div class="product-view product-view--b2c page-product__product-view page-product__product-view--b2c js-updateable-by-form js-diamond-detail"
+                 data-product-id="{{$product->getID()}}"
+                 data-cart-product-id="{{$basketItemId}}"
+                 data-shape="{{ $product->getShapeID() }}"
+                 data-number="{{ $product->getPacketNumber() }}"
+            >
+                <div class="product-view__b2c-left">
+
+                    @include('include/_main_info')
+                    <div class="product-view__services">
+                        @if ($arParams['type'] != 'constructor')
+                            @include('include/services/_name')
+                            @if ($engravingService)
+                                @include('include/services/_engraving')
+                            @endif
+                            @include('include/services/_gia')
+                        @endif
+                    </div>
+                </div>
+
+                <div class="product-view__b2c-center text-c">
+                    @include('include/_carousel')
+                </div>
+
+                <div class="product-view__b2c-right">
+                    <div class="product-view__b2c-right-wrapper">
+                        <div class="product-view__wrapper-price product-view__wrapper-price--b2c">
+                            <!-- product-view__price--mb, если есть старая цена -->
+                            <p class="product-view__price product-view__price--b2c">
+                                {!! $product->getPriceValue() !!}&nbsp;{!! $currency->getSymbol() !!}</p>
+                            <?/**
+                            <div class="product-view__old product-view__old--b2c">
+                                <p class="product-view__old-price mb-0">
+                                    <span class="product-view__old-price-line">112 490</span>
+                                    <span>&nbsp;₽</span>
+                                </p>
+                                <span class="product-view__old-sale-percent">-10%</span>
+                            </div>
+                            **/?>
+                        </div>
+
+                        <!-- Цены за доп. услуги -->
+                        @if ($engravingService)
+                        <p class="js-updateable-engraving-price {{ $engraving ? '' : 'is-hidden' }} product-view__service-price"
+                           data-engraving-symbol-price="{{ $engravingService->getPriceForProduct($product)}}"
+                        >
+                            <span class="product-view__service-price-name">@lang('catalog_product_detail_engraving'):</span>
+                            + <span class="js-engraving-price">{{ $engraving ? \App\Helpers\NumberHelper::addThousandsSeparatorToNumber($engraving->getPrice()) : '' }}</span> {!! $currency->getSymbol() !!}
+
+                            @if ($engravingService->getDeliveryDays())
+                                 <span class="js-paid-service-delivery-days">
+                                 <br>
+                                 @lang('delivery_time_is_longer_by'){{ decl($engravingService->getDeliveryDays(), [Loc::getMessage('one_day'),Loc::getMessage('two_days'),Loc::getMessage('more_days')]) }}
+                                 </span>
+                            @endif
+                        </p>
+                        @endif
+
+                        @if ($arParams['type'] != 'constructor' && $giaService)
+                            <p class="js-updateable-gia js-updateable-gia-price {{ $certificate ? '' : 'is-hidden' }} product-view__service-price" data-gia="false">
+                                <span class="product-view__service-price-name">@lang('catalog_product_detail_gia_certificate'):</span>
+                                + {{ \App\Helpers\NumberHelper::addThousandsSeparatorToNumber($giaService->getPriceForProduct($product)) }} {!! $currency->getSymbol() !!}
+
+                                @if ($giaService->getDeliveryDays())
+                                     <span class="js-paid-service-delivery-days">
+                                     <br>
+                                     @lang('delivery_time_is_longer_by'){{ decl($giaService->getDeliveryDays(), [Loc::getMessage('one_day'),Loc::getMessage('two_days'),Loc::getMessage('more_days')]) }}
+                                     </span>
+                                @endif
+                            </p>
+                        @endif
+
+                        <div class="page-product__btn-wrap page-product__btn-wrap--b2c">
+                            <div class="page-product__btn page-product__fixed-price">
+                                <p class="product-view__price product-view__price--b2c product-view__price--mobile-visible">{!! $product->getPriceValue() !!} {!! $currency->getSymbol() !!}</p>
+                                @if (!$arParams['complect_diamond'] && !$foundInOther)
+                                    <button class="product-view__to-cart btn btn--sm {{ $basketItemId ? 'is-added' : '' }} {{ $arParams['type'] == 'constructor' ? ($replace ? 'js-move-to-ready-product-from-diamond' : 'js-move-to-next-step') : '' }}
+                                        {{ $arParams['type'] != 'constructor' ? ($basketItemId ? 'js-remove-product-from-cart' : 'js-add-product-to-cart') : '' }}"
+                                        type="button" data-product-id="{{ $product->getId() }}"
+                                        {{ !$product->isAvailableForSelling() ? 'disabled' : '' }}
+                                        data-show-popup="true" {!! $arParams['type'] == 'constructor' ? 'data-cart-type="constructor"' : '' !!}
+                                        data-frame-sku-id="{{ $arParams['frame_sku'] ? $arParams['frame_sku']->getId() : '' }}"
+                                        {!! $arParams['type'] == 'constructor' ? 'data-from="' . $arParams['from'] . '"' : '' !!}
+                                        {!! $arParams['type'] == 'constructor' ? 'data-step="' . $arParams['step'] . '"' : '' !!}
+                                        {!! $arParams['type'] == 'constructor' && $arParams['frame_sku'] ? ($arParams['frame_sku']->blank->getDiamondsCount() > 1 ? ($arParams['frame_sku']->blank->isTrilogy() ? 'data-diamonds-part="side"' : '') : '') : '' !!}
+                                        {!! $replace ? 'data-replace="true"' : '' !!}>
+                                        @if ($arParams['type'] == 'constructor')
+                                            Выбрать
+                                            <span class="product-view__to-cart-desktop-visible"> и продолжить</span>
+                                        @else
+                                            <svg class="icon icon--cart product-view__to-cart-icon">
+                                                <use xlink:href="{{ SPRITE_SVG }}#icon-cart"></use>
+                                            </svg>
+                                            <span class="js-added-to-cart-text {{ $basketItemId ? '' : 'hidden' }}">
+                                                @lang('catalog_product_detail_remove_from_cart')
+                                            </span>
+                                            <span class="js-add-to-cart-text {{ $basketItemId ? 'hidden' : '' }}">
+                                                <span class="product-view__to-cart-desktop-visible">
+                                                    @lang('catalog_product_detail_add_to')
+                                                </span>
+                                                @lang('catalog_product_detail_add_to_cart')
+                                            </span>
+                                        @endif
+                                    </button>
+                                @endif
+                            </div>
+                            @if ($arParams['type'] == 'default' && \App\Helpers\UserHelper::isLegalEntity())
+                                <div class="page-product__btn">
+                                    <button class="product-view__request btn btn--transparent btn--sm js-toggle-btn" data-map="true" type="button" data-id="#request-a-viewing" data-scroll>
+                                        @lang('catalog_product_detail_request_a_viewing')
+                                        <svg class="product-view__request-icon icon icon--close-sm">
+                                            <use xlink:href="{{ SPRITE_SVG }}#icon-close_sm"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!--
+                        <button class="product-view__choose-frame js-scroll-btn" type="button" data-id="#product-frames">
+                            <svg class="icon icon--ring-frame product-view__choose-frame-icon">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-ring_frame"></use>
+                            </svg>
+
+                            <span class="link link--italic">@lang('catalog_product_detail_find_clip')</span>
+
+                        </button>
+                        -->
+                        <div class="product-view__icons product-view__icons--b2c">
+                            <div class="product-view__icon-wrap">
+                                <button type="button" class="wishlist-btn js-wishlist-btn js-tooltip js-select-wishlist-button {{\App\Core\Catalog\Wishlist::getInstance()->has($product->getID()) ? 'is-active' : ''}}"
+                                        data-content="{{ get_lang_phrase('catalog_product_detail_add_to_wishlist') }}"
+                                        data-product-id="{{ $product->getID() }}">
+                                    <svg class="icon icon--card-wishlist wishlist-btn__icon">
+                                        <use xlink:href="{{ SPRITE_SVG }}#icon-card_wishlist"></use>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="product-view__icon-wrap">
+                                @bxComponent('main:social.share', 'tooltip', [
+                                'diamond_id' => $product->getPacketNumber()
+                            ])
+
+                            </div>
+                            <div class="product-view__icon-wrap">
+                                <button type="button" class="js-print-diamond-card-pdf" data-content="Распечатать страницу"
+                                        data-product-id="{{ $product->getPacketNumber() }}">
+                                    <svg class="icon icon--print product-view__icon">
+                                        <use xlink:href="{{ SPRITE_SVG }}#icon-print"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        @if ($arParams['type'] == 'default')
+                            <div class="product-view__conditions">
+                                <button data-href="#popup-delivery-terms" class="link link--italic" data-popup="open">
+                                    @lang('catalog_product_detail_delivery_condition')
+                                </button>
+                            </div>
+                        @endif
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        @if ($arParams['type'] == 'default')
+            @component('popup:request.viewing', 'b2c', [
+                'diamond_packet_numbers' => [$product->getPacketNumber()],
+                'type' => 'diamond',
+                'info_getter' => '\App\Core\Forms\ViewingRequest\ViewingRequestPhysicPerson'
+            ])
+        @endif
+    </section>
+
+    <!-- Табы с контентом -->
+    <div class="tabs page-product__tabs">
+{{--        <div class="container">--}}
+{{--            <div class="js-tabs-head tabs-head tabs-head--center tabs-head--mb tabs-head--product-b2c tabs-head--bottom-line">--}}
+{{--                <button class="tabs-head__item tabs-head__item--product-b2c link is-tab-active"--}}
+{{--                        data-tab-target="#tab-history" type="button">@lang('catalog_product_detail_tab_history_title')--}}
+{{--                </button>--}}
+{{--                <button class="tabs-head__item tabs-head__item--product-b2c link js-dragscroll"--}}
+{{--                        data-tab-target="#tab-properties" type="button">@lang('catalog_product_detail_tab_properties_title')--}}
+{{--                </button>--}}
+{{--                <button class="tabs-head__item tabs-head__item--product-b2c link"--}}
+{{--                        data-tab-target="#tab-origin" type="button">@lang('catalog_product_detail_tab_origin_title')--}}
+{{--                </button>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+
+        <div class="container">
+            <div class="tabs-head tabs-head--center tabs-head--mb tabs-head--product-b2c tabs-head--bottom-line">
+                <button class="tabs-head__item tabs-head__item--product-b2c link js-scroll-btn"
+                        type="button" data-id="#product-history">@lang('catalog_product_detail_tab_history_title')
+                </button>
+                <button class="tabs-head__item tabs-head__item--product-b2c link js-scroll-btn"
+                        type="button" data-id="#product-properties">@lang('catalog_product_detail_tab_properties_title')
+                </button>
+                <button class="tabs-head__item tabs-head__item--product-b2c link js-scroll-btn"
+                        type="button" data-id="#product-origin">@lang('catalog_product_detail_tab_origin_title')
+                </button>
+            </div>
+        </div>
+
+        <div class="js-tabs-body tabs-body">
+            <!-- История бриллианта -->
+            <div id="product-history" class="tabs-body__item--product-b2c page-product__history">
+                <div class="container">
+                    @if ($product->getTrasingData()->isValid())
+                        @bxComponent('tracing:diamond.story.block', 'section_winter_b2c', [
+                            'packet_id' => $product->getPacketNumber()
+                        ])
+                    @endif
+                </div>
+            </div>
+
+            <!-- Характеристики -->
+            @include('include/tabs/_properties')
+
+            <!-- Происхождение -->
+            @include('include/tabs/_origin')
+        </div>
+    </div>
+
+    <!-- Сертификат -->
+    @component('catalog:alrosa.diamond.certificate', '', ['diamond' => $product])
+
+    <!-- Оправы -->
+    <? /*
+    @include('include/_clips')
+    */?>
+
+    <!-- Похожие бриллианты -->
+    @include('include/_products_similar')
+
+    <!-- Просмотренные бриллианты -->
+    @include('include/_products_watched')
+</main>
+
+@bxComponent('popup:paid.services', '', [])
+
+@include('include/popups/_buy')
+@component('popup:delivery.terms', '', [])
+
+<script defer src="https://maps.googleapis.com/maps/api/js?key={{ config('google.mapsApiKey') }}" type="text/javascript"></script>
+
+<script>
+    @if ($needToSignIn)
+        $(document).ready(function () {
+            $(() => {
+                checkAuthNeed();
+                $('#popup-login').attr('data-not-auth-redirect', 'diamonds');
+            });
+        });
+    @endif
+</script>

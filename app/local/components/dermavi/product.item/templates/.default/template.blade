@@ -1,0 +1,28 @@
+@php
+/**
+ * @var string $view - Тип вывода товара
+ * @var bool $isB2c вывод для физ лиц
+ * @var string $button заголовок кнопки, если она должна выводиться
+ * @var string $buttonClass класс дополнительной кнопки
+ * @var bool $onlyDesktop только для декстопа
+ * @var string $mode режим начального отображения: плиткой или таблицей
+ */
+    $productClassViewClass = $mode ? ' product-card--' . $mode : '';
+@endphp
+
+@if ($view === 'carousel')
+    <li class="swiper-slide js-catalog-table-item @if ($onlyDesktop) swiper-slide--only-desktop @endif">
+        <div class="product-card product-card--carousel product-card--cell @if ($isB2c) product-card--b2c  @endif @if(semitransparent === true) product-card__options--semitransparent @endif" data-type="carousel">
+            @include('common/include/_product')
+            @if (!blank($button))
+                <div class="product-card__layer"></div>
+                <a class="btn product-card__layer-btn" href="#catalog-catalog">{{ $button }}</a>
+            @endif
+        </div>
+    </li>
+@else
+    <li class="product-card product-card--catalog{{ $productClassViewClass }} catalog__list-item @if($isB2c) product-card--b2c @endif js-catalog-table-item"
+        data-type="catalog">
+        @include('common/include/_product')
+    </li>
+@endif

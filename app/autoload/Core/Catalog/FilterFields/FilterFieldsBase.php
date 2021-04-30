@@ -35,7 +35,6 @@ class FilterFieldsBase
         $filter = [];
         if (static::$checkActive) {
             $filter['ACTIVE'] = 'Y';
-            $filter['=PROPERTY_SELLING_AVAILABLE_VALUE'] = 'Y';
         }
 
         return $filter;

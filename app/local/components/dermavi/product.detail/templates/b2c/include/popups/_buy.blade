@@ -1,0 +1,62 @@
+@php
+    use Bitrix\Main\Localization\Loc;
+    /**
+    * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+    * @var int $basketItemId - Id элемента корзины
+    * @var \App\Core\Currency\Currency $currency - Текущая валюта
+    * @var bool $isInternetExplorer - Является ли браузер IE
+    * @var \App\Models\Catalog\PaidService $giaService
+    */
+@endphp
+<div id="popup-add-to-cart-b2c" class="popup popup-add-to-cart" data-wrap-class="fancybox-wrap--add-to-cart"
+     data-animation="zoom" style="display: none;">
+    <div class="popup__body popup-add-to-cart__body">
+        <div class="popup-add-to-cart__container">
+            <h2 class="popup-add-to-cart__title">@lang('catalog_product_detail_added_to_cart')</h2>
+
+            <div class="popup-add-to-cart__cols popup-add-to-cart__cols--b2c">
+                <div class="popup-add-to-cart__col popup-add-to-cart__col--left-b2c">
+                    <div class="popup-add-to-cart__pic popup-add-to-cart__pic--b2c">
+                        @if ($product->getPhotos()[0])
+                            <img src="{{ $product->getPhotos()[0] }}" alt="Фото бриллианта">
+                        @else
+                            <svg class="icon icon--card-{{ $product->getShapeID() }}">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-card_{{ $product->getShapeID() }}"></use>
+                            </svg>
+                        @endif
+                    </div>
+                    <div class="popup-add-to-cart__wrapper popup-add-to-cart__wrapper--b2c">
+                        <p class="popup-add-to-cart__wrapper-title popup-add-to-cart__wrapper-title--b2c">@lang('catalog_product_detail_diamond') {{$product->shape->getDisplayValue()}} {{$product->getWeight()}}&nbsp;@lang('catalog_product_carat')</p>
+                        <p class="popup-add-to-cart__wrapper-price popup-add-to-cart__wrapper-price--b2c">{!! $product->getPriceValue() !!} {!! $currency->getSymbol() !!}</p>
+
+                        <p class="popup-add-to-cart__service js-updateable-engraving-price is-hidden">
+                            <span class="popup-add-to-cart__service-name">@lang('catalog_product_detail_engraving')</span> + <span class="js-engraving-price"></span> {!! $currency->getSymbol() !!}
+                            @if ($engravingService && $engravingService->getDeliveryDays())
+                                <span class="js-paid-service-delivery-days">
+                                <br>
+                                @lang('delivery_time_is_longer_by')
+                                {{ decl($engravingService->getDeliveryDays(), [Loc::getMessage('one_day'),Loc::getMessage('two_days'),Loc::getMessage('more_days')]) }}
+                                </span>
+                            @endif
+                        </p>
+                        @if ($arParams['type'] != 'constructor' && $giaService)
+                            <p class="popup-add-to-cart__service js-updateable-gia is-hidden">
+                                <span class="popup-add-to-cart__service-name">@lang('catalog_product_detail_gia_certificate')</span> + {{ \App\Helpers\NumberHelper::addThousandsSeparatorToNumber($giaService->getPriceForProduct($product)) }} {!! $currency->getSymbol() !!}
+                            </p>
+                        @endif
+                    </div>
+                </div>
+                <div class="popup-add-to-cart__col popup-add-to-cart__col--right-b2c">
+                    <a href="{{get_language_version_href_prefix().'/cart/'}}" class="btn btn--sm btn--w100">@lang('catalog_product_detail_cart_button')</a>
+                    <a data-popup="close" href="javascript:;" class="js-close-popup btn btn--transparent btn--sm btn--w100 mb-0">@lang('catalog_product_detail_cart_continue')</a>
+                </div>
+            </div>
+        </div>
+        <button class="popup__close popup__close--add-to-cart" data-popup="close" type="button" title="Закрыть">
+            <svg class="icon icon--cross">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-cross"></use>
+            </svg>
+        </button>
+    </div>
+</div>
+

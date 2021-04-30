@@ -1,0 +1,178 @@
+@php
+/**
+ * @var \Illuminate\Support\Collection $countriesList - Список стран мира
+ * @var \Illuminate\Support\Collection $companyActivities - Список сфер деятельностей
+ */
+@endphp
+
+<div id="request-a-viewing" class="page-product__request-a-viewing no-print">
+    <div class="container container--narrow">
+        <h2 class="page-product__title">
+            @lang('catalog_product_detail_request_a_viewing')
+        </h2>
+        <form name="request-a-viewing-form" id="request-a-viewing-form" action="" data-validate="true">
+            {!! get_csrf_hidden() !!}
+            <div class="form-cols">
+                <div class="form-cols__col">
+                    <div class="field js-label-animation">
+                        <label class="label" for="request-a-viewing-form__name">
+                            @lang('catalog_product_detail_request_a_viewing_name')
+                        </label>
+                        <input class="js-placeholder-input js-capitalize" id="request-a-viewing-form__name" type="text"
+                            name="request-a-viewing-form_name" value="" data-parsley-name-all required>
+                    </div>
+                </div>
+
+                <div class="form-cols__col">
+                    <div class="field js-label-animation">
+                        <label class="label" for="request-a-viewing-form__surname">
+                            @lang('catalog_product_detail_request_a_viewing_surname')
+                        </label>
+                        <input class="js-placeholder-input js-capitalize" id="request-a-viewing-form__surname"
+                            type="text" name="request-a-viewing-form_surname" value="" data-parsley-name-all required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-cols">
+                <div class="form-cols__col">
+                    <div class="field js-label-animation">
+                        <label class="label" for="request-a-viewing-form__email">E-mail</label>
+                        <input id="request-a-viewing-form__email" type="email" name="request-a-viewing-form_email"
+                            value="" data-parsley-email required>
+                    </div>
+                </div>
+
+                <div class="form-cols__col">
+                    <div class="field js-label-animation">
+                        <label class="label" for="request-a-viewing-form__tel">
+                            @lang('catalog_product_detail_request_a_viewing_phone')
+                        </label>
+                        <input id="request-a-viewing-form__tel" type="tel" name="request-a-viewing-form_tel" value=""
+                            data-parsley-phone>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-cols">
+                <div class="form-cols__col">
+                    <div class="field js-label-animation">
+                        <label class="label" for="request-a-viewing-form__company-name">
+                            @lang('catalog_product_detail_request_a_viewing_company_name')
+                        </label>
+                        <input class="js-placeholder-input js-capitalize" id="request-a-viewing-form_company-name"
+                            type="text" name="request-a-viewing-form_company-name" value="" required>
+                    </div>
+                </div>
+
+                <div class="form-cols__col">
+                    <div class="field">
+                        <label class="label p-events-none" for="request-a-viewing-form__country">
+                            @lang('catalog_product_detail_request_a_viewing_your_country')
+                        </label>
+                        <select name="request-a-viewing-form_country" id="request-a-viewing-form__country"
+                            data-search="true" data-placeholder="" required>
+                            <option value=""></option>
+                            @foreach ($countriesList as $country)
+                                <option value="{{ $country->getName() }}">
+                                    {{ $country->getName() }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-cols form-cols--flex-end">
+                <div class="form-cols__col">
+                    <div class="field">
+                        <label class="label p-events-none" for="request-a-viewing-form__activity">
+                            @lang('catalog_product_detail_request_a_viewing_activity_of_company')
+                        </label>
+                        <select name="request-a-viewing-form_activity[]" id="request-a-viewing-form__activity"
+                            data-search="false" multiple data-placeholder="">
+                            <option value=""></option>
+                            @foreach ($companyActivities as $activity)
+                                <option value="{{ $activity->getName() }}">{{ $activity->getName() }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-cols__col">
+                    <div class="field js-label-animation">
+                        <label class="label" for="request-a-viewing-form__tax">
+                            @lang('catalog_product_detail_request_a_viewing_tax_id')
+                        </label>
+                        <input class="js-placeholder-input" id="request-a-viewing-form__tax" type="text"
+                            name="request-a-viewing-form_tax" value="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-cols">
+                <div class="form-cols__col">
+                    <div class="field datepicker js-label-animation">
+                        <label class="label" for="request-a-viewing__date">
+                            @lang('catalog_product_detail_request_a_viewing_date_of_viewing')
+                        </label>
+                        <input id="request-a-viewing__date" class="js-datepicker" type="text"
+                            name="request-a-viewing-form_date" value="" data-parsley-date
+                            data-date-min="{{ date('d.m.Y') }}" readonly>
+                        <svg class="icon icon--calendar">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-calendar"></use>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="form-cols__col">
+                    <div class="field">
+                        <label class="label p-events-none" for="request-a-viewing-form__time">
+                            @lang('catalog_product_detail_request_a_viewing_time_of_viewing')
+                        </label>
+                        <select name="request-a-viewing-form_time" id="request-a-viewing-form__time"
+                            data-search="false" data-placeholder="" required>
+                            <option value=""></option>
+                            <option value="9:00 - 12:00 AM">9:00 - 12:00 AM</option>
+                            <option value="12:00 - 6:00 PM">12:00 - 6:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label label--static" for="request-a-viewing-form__textarea">
+                    @lang('catalog_product_detail_request_a_viewing_your_comment')
+                </label>
+                <textarea name="request-a-viewing-form_comment" id="request-a-viewing-form__textarea" rows="12"
+                    class="js-capitalize" required></textarea>
+            </div>
+
+            <div class="text-c">
+                <div class="checkbox display-iblock">
+                    <input class="checkbox__input" type="checkbox" name="validation-form__agree"
+                        id="request-a-viewing-form-agree" value="1" required>
+                    <label class="checkbox__label" for="request-a-viewing-form-agree">
+                        @lang('catalog_product_detail_request_a_viewing_i_agree_with')
+                        <a href="{{ get_language_version_href_prefix() }}/privacy-policy/" class="link" target="_blank">
+                            @lang('catalog_product_detail_request_a_viewing_i_agree_with_terms_of_use')
+                        </a>
+                    </label>
+                </div>
+            </div>
+
+            <div class="page-product__btn">
+                <button class="btn btn--lg btn--transparent js-request-a-viewing-form-submit-button"
+                    type="submit">
+                    @lang('catalog_product_detail_send_a_request')
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@bxComponent('popup:action.status', 'wide', [
+    'form_id' => 'request-a-viewing',
+    'success_header' => get_lang_phrase('catalog_product_detail_request_a_viewing_status_popup_success_header'),
+    'success_text' => get_lang_phrase('catalog_product_detail_request_a_viewing_status_popup_success_text')
+])

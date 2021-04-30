@@ -1,0 +1,18 @@
+@php
+    /** Шаблон кнопки "Показать еще" в разделе результатов помощника по стилю */
+@endphp
+
+@if ($arParams['current_page'] * $arParams['per_page'] < $arParams['items_count'])
+    <p class="page-assistant__more text-c mb-0 js-pagination-section"
+        data-ajax-load-component="{{ $arParams['ajax_load_component'] }}"
+        data-items-block="{{ $arParams['items_block'] }}" data-scroll-to="{{ $arParams['scroll_to'] }}"
+        data-per-page="{{ $arParams['per_page'] }}" data-items-count="{{ $arParams['items_count'] }}"
+        data-component-params="{!! $arParams['componentParams'] !!}"
+        data-template="{{ $arParams['template']}}" data-is-need-update-url="{{$arParams['is_need_update_url']}}"
+        data-type="{{ $arParams['type'] }}" data-reinit-photos="true">
+        <button class="page-assistant__more-btn btn btn--lg btn--transparent mb-0 js-show-more-button" type="button"
+            data-page="{{ $arParams['current_page'] + 1 }}">
+            Показать больше
+        </button>
+    </p>
+@endif

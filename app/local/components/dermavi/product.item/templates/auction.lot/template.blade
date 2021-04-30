@@ -1,0 +1,25 @@
+@php
+/**
+ * @var string $view - Тип вывода товара
+ * @var bool $isB2c вывод для физ лиц
+ * @var string $button заголовок кнопки, если она должна выводиться
+ * @var string $buttonClass класс дополнительной кнопки
+ * @var bool $onlyDesktop только для декстопа
+ * @var string $mode режим начального отображения: плиткой или таблицей
+ */
+    $productClassViewClass = $mode ? ' product-card--' . $mode : '';
+@endphp
+
+@if ($view === 'carousel')
+    <li class="product-card product-card--catalog product-card--auction catalog__list-item
+        {{ $frontendSort ? 'js-catalog-table-item-frontend' : '' }} product-card--total">
+        <div class="product-card product-card--carousel product-card--cell" data-type="carousel">
+            @include('include/_product')
+        </div>
+    </li>
+@else
+    <li class="product-card product-card--catalog{{ $productClassViewClass }} product-card--auction catalog__list-item
+        js-catalog-table-item" data-type="catalog">
+        @include('include/_product')
+    </li>
+@endif

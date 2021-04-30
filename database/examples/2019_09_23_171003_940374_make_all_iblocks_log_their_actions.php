@@ -15,7 +15,7 @@ use App\Models\Auctions\AuctionRuleFile;
 use App\Models\Blog\Article;
 use App\Models\Blog\Category;
 use App\Models\Blog\GridElement;
-use App\Models\Catalog\Diamond;
+use App\Models\Catalog\Catalog;
 use App\Models\Catalog\PaidService;
 use App\Models\Client\PersonalSectionDocumentKind;
 use App\Models\ForPartners\FAQ;

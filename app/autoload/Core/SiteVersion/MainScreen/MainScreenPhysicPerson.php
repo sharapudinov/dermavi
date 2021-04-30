@@ -3,8 +3,8 @@
 namespace App\Core\SiteVersion\MainScreen;
 
 use App\Helpers\LanguageHelper;
-use App\Models\Catalog\Diamond;
-use App\Models\Catalog\DiamondSection;
+use App\Models\Catalog\Catalog;
+use App\Models\Catalog\CatalogSection;
 
 /**
  * Класс, описывающий логику получения данных для главной страницы для нужного физ лица
@@ -24,7 +24,7 @@ class MainScreenPhysicPerson extends MainScreenAbstract
         return [
             'isRussian' => LanguageHelper::isRussianVersion()
 //            'recommendedDiamonds' => Diamond::active()
-//                ->fromSectionWithCode(DiamondSection::FOR_PHYSIC_PERSONS_SECTION_CODE)
+//                ->fromSectionWithCode(CatalogSection::FOR_PHYSIC_PERSONS_SECTION_CODE)
 //                ->limit(6)
 //                ->getList() //todo пока непонятно какая логика получения
         ];

@@ -1,0 +1,43 @@
+@php
+/**
+ * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+ * @var \App\Models\Catalog\HL\CatalogShape|null $productShape - Форма бриллианта
+ * @var array $lang - Массив языковых строк
+ */
+@endphp
+<li class="swiper-slide">
+    <div class="watched-diamond ">
+        <a href="{{ $product->getDetailPageUrl() }}">
+            @if ($product->getPhotos()[0])
+                <div class="watched-diamond__pic" style="background-image: url({{ $product->getPhotos()[0] }});"></div>
+            @else
+                <div class="watched-diamond__pic">
+                    @if ($productShape)
+                        <svg class="watched-diamond__icon">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-diamond_view_top_{{ $productShape->getExternalID() }}"></use>
+                        </svg>
+                    @endif
+                </div>
+            @endif
+        </a>
+
+        <p class="watched-diamond__name">
+            <a class="watched-diamond__name-link" href="{{ $product->getDetailPageUrl() }}">
+                {{ $product->getShapeValue() }}  {{ $product->getWeight() }} @lang('catalog_product_item_carat')
+            </a>
+        </p>
+        <p class="watched-diamond__features">
+            <a class="watched-diamond__features-link" href="{{ $product->getDetailPageUrl() }}">
+                @lang('catalog_product_item_color') {{ $product->getColorValue() }}, @lang('catalog_product_item_clarity') {{ $product->getClarityValue() }}, @lang('catalog_product_item_cut') {!! $product->getCutValue('&mdash;') !!}
+            </a>
+        </p>
+        <p class="watched-diamond__price">
+            @if ($product->getPriceValueWithoutTransforming() > 0)
+                <a class="watched-diamond__price-link" href="{{ $product->getDetailPageUrl() }}">
+                    <span class="watched-diamond__price-num">{!! $product->getPriceValue() !!}</span>&nbsp;{!! $currency->getSymbol() !!}
+                </a>
+            @endif
+        </p>
+    </div>
+</li>
+

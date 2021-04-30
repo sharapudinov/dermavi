@@ -1,0 +1,96 @@
+@php
+/** Шаблон для отображения слайдера цен в b2c фильтре */
+/** @var App\Core\Currency\Entity\CurrencyEntity $currency - Объект, описывающий текущую валюту */
+/** @var App\Filtration\Dto\FieldDto $price - DTO фильтра "Диапазон цен бриллиантов" */
+
+if ($price->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $price->getCode();
+$htmlIdPrefix = 'filter_box_';
+
+$currencySymbol = $currency->getSymbol();
+$fieldNameMin = '';
+$fieldIdMin = '';
+$fieldNameMax = '';
+$fieldIdMax = '';
+$stepValue = 1;
+$minValue = 0;
+$maxValue = 0;
+$fromValue = null;
+$toValue = null;
+$isDisabled = true;
+foreach ($price->getVariants() as $variantItem) {
+    if ($variantItem->isEnabled()) {
+        $isDisabled = false;
+    }
+    switch ($variantItem->getRangeCode()) {
+        case $variantItem::RANGE_CODE_MIN:
+            $minValue = ceil($variantItem->getValue());
+            $fieldNameMin = $variantItem->getRequestName();
+            $fieldIdMin = $variantItem->getHtmlSelector();
+            break;
+
+        case $variantItem::RANGE_CODE_MAX:
+            $maxValue = ceil($variantItem->getValue());
+            $fieldNameMax = $variantItem->getRequestName();
+            $fieldIdMax = $variantItem->getHtmlSelector();
+            break;
+
+        case $variantItem::RANGE_CODE_FROM:
+            $fromValue = ceil($variantItem->getValue());
+            break;
+
+        case $variantItem::RANGE_CODE_TO:
+            $toValue = ceil($variantItem->getValue());
+            break;
+    }
+}
+if ($maxValue <= 0) {
+    return;
+}
+@endphp
+
+<li class="product-filters-b2c__item js-product-filters-b2c-item">
+    <span class="product-filters-b2c__item-text">@lang('catalog_main_filter_facet_price')</span>
+    <svg class="icon icon--arrow-tiny-sm product-filters-b2c__item-icon">
+        <use xlink:href="{{ SPRITE_SVG }}#icon-arrow_tiny"></use>
+    </svg>
+    <div class="product-filters-b2c__dropdown is-invisible js-product-filters-b2c-dropdown">
+        <div class="product-filters-b2c__content js-product-filters-b2c-content product-filters-b2c__content--price">
+            <div class="product-filters-b2c__content-range js-range-slider-container">
+                @rangeSlider([
+                'fieldIdMin' => $htmlIdPrefix . $fieldIdMin,
+                'fieldNameMin' => $fieldNameMin,
+                'fieldIdMax' => $htmlIdPrefix . $fieldIdMax,
+                'fieldNameMax' => $fieldNameMax,
+                'isDisabled' => $isDisabled,
+
+                'name' => 'slider-' . $typeCode,
+                'start' => ($fromValue ?? $minValue) . ', ' . ($toValue ?? $maxValue),
+                'min' => $minValue,
+                'max' => $maxValue,
+                'step' => $stepValue,
+                'fieldName' => $typeCode,
+                'type' => $typeCode,
+
+                'input' => true,
+                'format' => 'price',
+                'aside' => false,
+                'labelFrom' => get_lang_phrase('catalog_main_filter_facet_from'),
+                'labelTo' => get_lang_phrase('catalog_main_filter_facet_to'),
+                'className' => 'product-filters-b2c__content-range-slider-price js-filter-slider js-combine-slider',
+                'currency' => $currency,
+                'text' => $currencySymbol
+                ])
+                @endrangeSlider
+
+                @component('catalog:diamonds.prices.filter', 'main.filter.b2c', ['maxPrice' => $maxValue])
+            </div>
+            <p class="product-filters-b2c__content-desc product-filters-b2c__content-desc--2-cols">
+                @lang('catalog_main_filter_facet_price_description_1')
+                @lang('catalog_main_filter_facet_price_description_2')
+            </p>
+        </div>
+    </div>
+</li>

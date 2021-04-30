@@ -1,0 +1,90 @@
+@php
+/** Шаблон для отображения слайдера весов бриллиантов в b2c фильтре (мобильный вьюпорт) */
+/** @var App\Filtration\Dto\FieldDto $weight - DTO фильтра "Диапазон весов бриллиантов" */
+
+if ($weight->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $weight->getCode();
+$htmlIdPrefix = 'filter_box_'; // должен совпадать с десктопным
+
+$fieldNameMin = '';
+$fieldIdMin = '';
+$fieldNameMax = '';
+$fieldIdMax = '';
+$stepValue = 0.01;
+$minValue = 0;
+$maxValue = 0;
+$fromValue = null;
+$toValue = null;
+$isDisabled = true;
+foreach ($weight->getVariants() as $variantItem) {
+    if ($variantItem->isEnabled()) {
+        $isDisabled = false;
+    }
+    switch ($variantItem->getRangeCode()) {
+        case $variantItem::RANGE_CODE_MIN:
+            $minValue = round((float)$variantItem->getValue(), 2);
+            $fieldNameMin = $variantItem->getRequestName();
+            $fieldIdMin = $variantItem->getHtmlSelector();
+            break;
+
+        case $variantItem::RANGE_CODE_MAX:
+            $maxValue = round((float)$variantItem->getValue(), 2);
+            $fieldNameMax = $variantItem->getRequestName();
+            $fieldIdMax = $variantItem->getHtmlSelector();
+            break;
+
+        case $variantItem::RANGE_CODE_FROM:
+            $fromValue = (float)$variantItem->getValue();
+            break;
+
+        case $variantItem::RANGE_CODE_TO:
+            $toValue = (float)$variantItem->getValue();
+            break;
+    }
+}
+@endphp
+
+<h3 class="js-accordion-head">@lang('catalog_main_filter_facet_carat')</h3>
+<div>
+    <div class="product-filters-b2c__content js-product-filters-b2c-content product-filters-b2c__content--carat">
+        <div class="product-filters-b2c__content-range">
+            @rangeSlider([
+            'fieldIdMin' => $htmlIdPrefix . $fieldIdMin,
+            'fieldNameMin' => $fieldNameMin,
+            'fieldIdMax' => $htmlIdPrefix . $fieldIdMax,
+            'fieldNameMax' => $fieldNameMax,
+            'isDisabled' => $isDisabled,
+
+            'name' => 'slider-' . $typeCode,
+            'start' => ($fromValue ?? $minValue) . ', ' . ($toValue ?? $maxValue),
+            'min' => $minValue,
+            'max' => $maxValue,
+            'step' => $stepValue,
+            'fieldName' => $typeCode,
+            'type' => $typeCode,
+
+            'input' => true,
+            'format' => 'number',
+            'aside' => false,
+            'tooltips' => true,
+            'labelFrom' => get_lang_phrase('catalog_main_filter_facet_from'),
+            'labelTo' => get_lang_phrase('catalog_main_filter_facet_to'),
+            'className' => 'js-hand-slider js-filter-slider js-combine-slider',
+            'text' => get_lang_phrase('catalog_main_filter_facet_tag_carat_text'),
+            ])
+            @endrangeSlider
+        </div>
+        <div class="product-filters-b2c__content-view product-filters-b2c__content-view--carat">
+            <svg class="icon icon--hand-sm">
+                <use xlink:href="{{ SPRITE_SVG }}#icon-hand"></use>
+            </svg>
+            <img alt="" src="{{ frontend()->img('ring.png') }}" class="product-filters-b2c__content-view-img-ring">
+            <div class="product-filters-b2c__content-view-img-diamond js-hand-diamond"></div>
+        </div>
+        <p class="product-filters-b2c__content-desc">
+            @lang('catalog_main_filter_facet_carat_description')
+        </p>
+    </div>
+</div>

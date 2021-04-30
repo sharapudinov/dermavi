@@ -247,7 +247,7 @@ class UserCart extends Basket
     ): int {
         $cart = static::getUserCart($cartType);
         $price = $price ?? PriceHelper::getFinalPriceInCurrency($productId)['FINAL_PRICE'];
-        $item = $cart->getExistsItem('catalog', $productId, $properties);
+        $item = $cart->getExistsItem('catalog', $productId,(array) $properties);
         if (!$item) {
             $item = $cart->createItem('catalog', $productId);
         }

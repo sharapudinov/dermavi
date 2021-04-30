@@ -1,0 +1,18 @@
+@php
+    /**
+     * @var string $view - Тип вывода товара
+     * @var string $button заголовок кнопки, если она должна выводиться
+     * @var string $buttonClass класс дополнительной кнопки
+     * @var bool $onlyDesktop только для декстопа
+     * @var string $mode режим начального отображения: плиткой или таблицей
+     */
+$productClassViewClass = $mode ? ' product-card--' . $mode : '';
+@endphp
+<li class="product-card{{ $productClassViewClass }} product-card--redesign catalog__list-item js-ec-item" data-type="catalog-redesign"
+    data-ec-id="{{ $product->getID() }}"
+    data-ec-name="{{ $product->shape ? $product->shape->getDisplayValue() : '' }} {{$product->getWeight()}}"
+    data-ec-price="{!! str_replace(' ', '', $product->getPriceValue()) !!}"
+    data-ec-category="{{ $product->shape ? $product->shape->getDisplayValue() : '' }}"
+>
+    @include('common/include/_product_redesign')
+</li>

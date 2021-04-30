@@ -1,0 +1,47 @@
+@php
+/** Шаблон для вывода годов добычи в шаблоне b2b */
+/** @var App\Filtration\Dto\FieldDto $yearMining - DTO фильтра "Год добычи" */
+
+if ($yearMining->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $yearMining->getCode();
+$htmlIdPrefix = 'filter_box_';
+@endphp
+
+<div class="js-filters-box-item filters-box__item filters-box-mining">
+    <div class="js-filters-box-head filters-box__title">
+        @lang('catalog_main_filter_facet_advanced_filter_parameter_year_of_mining')
+    </div>
+
+    <div class="js-filters-box-body filters-box__parameters">
+        <ul class="filters-box__checklist filters-box__checklist-simple filters-box-mining__checklist">
+            @foreach ($yearMining->getVariants() as $variantItem)
+                @php
+                    $filterValue = $variantItem->getValue();
+                    $displayValue = $variantItem->getName();
+                    $fieldId = $variantItem->getHtmlSelector();
+                    $fieldName = $variantItem->getRequestName();
+                    $isChecked = $variantItem->isSelected();
+                    $isEnabled = $isChecked || ($variantItem->getDocCount() ?? 1) > 0;
+                @endphp
+                <li class="filters-box__checkbox checkbox-underline checkbox-underline--sm filters-box-mining__item
+                    js-filter-value{{ !$isEnabled ? ' js-disabled' : '' }}"
+                    data-id="{{ $fieldId }}">
+                    <input class="checkbox-underline__input js-filter-checkbox"
+                           type="checkbox"
+                           data-field="{{ $typeCode }}"
+                           name="{{ $fieldName }}"
+                           id="{{ $htmlIdPrefix . $fieldId }}"
+                           value="{{ $filterValue }}"
+                            {{ $isChecked ? 'checked' : '' }}
+                            {{ !$isEnabled ? 'disabled="disabled"' : '' }}
+                    >
+                    <label class="checkbox-underline__label" for="{{ $htmlIdPrefix . $fieldId }}">
+                        {!! $displayValue !!}
+                    </label>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+</div>

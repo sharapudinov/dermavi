@@ -4,8 +4,8 @@ namespace App\Seo\Sitemap;
 
 use App\Helpers\JewelryHelper;
 use App\Models\Blog\Article;
-use App\Models\Catalog\Diamond;
-use App\Models\Catalog\DiamondSection;
+use App\Models\Catalog\Catalog;
+use App\Models\Catalog\CatalogSection;
 use App\Models\Jewelry\Jewelry;
 use App\Models\Jewelry\JewelrySection;
 use App\Models\Seo\SitemapUrl;
@@ -101,7 +101,7 @@ class SitemapGenerator
 
         /** @var ElementQuery $resProducts - Объект, описывающий запрос */
         $diamondProducts = Diamond::query()
-            ->fromSectionWithCode(DiamondSection::FOR_PHYSIC_PERSONS_SECTION_CODE)
+            ->fromSectionWithCode(CatalogSection::FOR_PHYSIC_PERSONS_SECTION_CODE)
             ->filter(
                 [
                   'ACTIVE'                            => 'Y',

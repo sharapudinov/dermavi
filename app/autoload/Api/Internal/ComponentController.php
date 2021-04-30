@@ -15,6 +15,7 @@ class ComponentController extends BaseController
     protected $whiteList = [
         'dermavi:order.history',
         'dermavi:cart',
+        "dermavi:product.list"
     ];
 
     /**

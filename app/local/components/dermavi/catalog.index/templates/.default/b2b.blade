@@ -1,0 +1,30 @@
+@php
+    /** @var string $langPrefix Префикс для языковых фраз */
+@endphp
+
+<main class="wrap-main page-catalog">
+    <section class="page-catalog__header">
+        @bxComponent('main:picture', '', [
+            'path' => frontend()->img('diamonds.png'),
+            'pathWebp' => frontend()->img('diamonds.webp'),
+            'pathThumbnailWebp' => frontend()->img('diamonds_thumbnail.webp'),
+            'classNameImg' => 'page-catalog__header-bg-img',
+        ])
+
+        <h1 class="page-catalog__caption">@lang($langPrefix . 'page_title')</h1>
+    </section>
+    <?php
+    /*
+    ?>
+    @bxComponent('catalog:main.filter', '', [])
+    <?php
+    /*/
+    ?>
+    @bxComponent('catalog:main.filter.facet', 'b2b', [])
+    <?php
+    //*/
+    ?>
+    @bxComponent('catalog:product.list', '', [])
+</main>
+
+@bxComponent('popup:manage.column', 'catalog.b2b', ['IS_B2C' => false])

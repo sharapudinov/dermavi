@@ -1,0 +1,56 @@
+@php
+/** Шаблон для вывода форм в фильтре b2b */
+/** @var App\Filtration\Dto\FieldDto $shape - DTO фильтра "Формы" */
+
+if ($shape->getVariants()->isEmpty()) {
+    return;
+}
+$typeCode = $shape->getCode();
+$htmlIdPrefix = 'filter_box_';
+@endphp
+
+<div class="js-filters-box-item filters-box__item filters-box__item--full filters-box-shape"
+     data-mobile-default="open">
+    <div class="js-filters-box-head filters-box__title filters-box-shape__title">
+        @lang('catalog_main_filter_facet_parameter_shape')
+    </div>
+
+    <div class="js-filters-box-body filters-box__parameters filters-box-shape__parameters">
+        <ul class="filters-box__shapes-list">
+            @foreach ($shape->getVariants() as $variantItem)
+                @php
+                    $icon = $variantItem->getExtra()['iconCode'] ?? '';
+                    $filterValue = $variantItem->getValue();
+                    $displayValue = $variantItem->getName();
+                    $fieldId = $variantItem->getHtmlSelector();
+                    $fieldName = $variantItem->getRequestName();
+                    $isChecked = $variantItem->isSelected();
+                    $isEnabled = $isChecked || ($variantItem->getDocCount() ?? 1) > 0;
+                @endphp
+                <li class="filters-box__shapes-list-item checkbox-diamond checkbox-diamond--sm
+                    js-filter-value{{ !$isEnabled ? ' js-disabled' : '' }}"
+                    data-id="{{ $fieldId }}">
+                    <input class="checkbox-diamond__input js-filter-checkbox"
+                           type="checkbox"
+                           data-field="{{ $typeCode }}"
+                           name="{{ $fieldName }}"
+                           id="{{ $htmlIdPrefix . $fieldId }}"
+                           value="{{ $filterValue }}"
+                            {{ $isChecked ? 'checked' : '' }}
+                            {{ !$isEnabled ? 'disabled="disabled"' : '' }}
+                    >
+                    <label class="checkbox-diamond__label"
+                        for="{{ $htmlIdPrefix . $fieldId }}">
+                        <span class="checkbox-diamond__label-img">
+                            <svg class="icon icon--diamond-{{ $icon }}-sm checkbox-diamond__icon">
+                                <use xlink:href="{{ SPRITE_SVG }}#icon-diamond_{{ $icon }}_sm">
+                                </use>
+                            </svg>
+                        </span>
+                        <span class="checkbox-diamond__label-text">{!! $displayValue !!}</span>
+                    </label>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+</div>

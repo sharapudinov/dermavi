@@ -1,0 +1,16 @@
+<li class="product-card__options-item js-sort-field-option" data-option="fluorescence">
+    <div class="product-card__options-name">
+        {{ $lang['catalog_product_item_fluorescence'] }}
+    </div>
+    <div class="product-card__options-value js-sort-field-option-value">
+        @if ($isAuction)
+            @if (($product->auctionLot && $product->auctionLot->showFluorescence()) || ($product->auctionPBLot && $product->auctionPBLot->showFluorescence()))
+             {!! $product->fluorescence ? $product->fluorescence->getDisplayValue() : '&mdash;' !!}
+            @else
+                &mdash;
+            @endif
+        @else
+            {!! $product->getFluorValue('&mdash;') !!}
+        @endif
+    </div>
+</li>

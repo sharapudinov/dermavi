@@ -1,0 +1,108 @@
+@php
+/**
+ * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+ * @var array $lang - Массив языковых строк
+ */
+@endphp
+
+<li class="swiper-slide">
+    <div class="product-card product-card--mini product-card--cell " data-type="mini">
+        <div class="product-card__main">
+            <div class="product-card__quantity product-card__quantity--single"
+                {!! $product->getPhotos() ? 'style="background-image: url(' . $product->getPhotos()[0] . ');"' : '' !!}>
+                <a href="{{ $product->getDetailPageUrl() }}" class="product-card__quantity-link">
+                    @if (!$product->getPhotos())
+                        <svg class="product-card__quantity-pic icon icon--card-{{ $product->getShapeID() }}">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-card_{{ $product->getShapeID() }}"></use>
+                        </svg>
+                    @endif
+                    <span class="product-card__quantity-count ">
+                        @if (!$product->getPhotos())
+                            {{ $product->getWeight() }}
+                        @endif
+                    </span>
+                    <svg class="product-card__quantity-icon icon icon--diamond-{{ $product->getShapeID() }}">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-diamond_{{ $product->getShapeID() }}"></use>
+                    </svg>
+                </a>
+            </div>
+            <div class="product-card__options product-card__options--main">
+                <a href="{{ $product->getDetailPageUrl() }}" class="product-card__options-link">
+                    <ul class="product-card__options-list">
+                        <li class="product-card__options-item product-card__options-item--shape"
+                            data-option="shape">
+                            <div class="product-card__options-name">
+                                {{ $lang['catalog_product_item_shape'] }}
+                            </div>
+                            <div class="product-card__options-value">
+                                {{ $product->getShapeValue() }}
+                            </div>
+                        </li>
+                        <li class="product-card__options-item" data-option="carat">
+                            <div class="product-card__options-name">
+                                {{ $lang['catalog_product_item_carat'] }}
+                            </div>
+                            <div class="product-card__options-value">
+                                {{ $product->getWeight() }}
+                            </div>
+                        </li>
+                        <li class="product-card__options-item" data-option="price_per_carat">
+                            <div class="product-card__options-name">
+                                {{ $lang['catalog_product_item_price_per_carat_short'] }}
+                            </div>
+                            <div class="product-card__options-value">
+                                {{ $product->getPricePerCarat() }}
+                            </div>
+                        </li>
+                        <li class="product-card__options-item" data-option="color">
+                            <div class="product-card__options-name">
+                                {{ $lang['catalog_product_item_color'] }}
+                            </div>
+                            <div class="product-card__options-value">
+                                {{ $product->getDiamondPacketColorValue() }}
+                            </div>
+                        </li>
+                        <li class="product-card__options-item" data-option="clarity">
+                            <div class="product-card__options-name">
+                                {{ $lang['catalog_product_item_clarity'] }}
+                            </div>
+                            <div class="product-card__options-value">
+                                @if ($product->auctionLot)
+                                    {!! $product->auctionLot->showClarity() ? $product->getClarityValue('&mdash;') : '&mdash;' !!}
+                                @else
+                                    {!! $product->getClarityValue('&mdash;') !!}
+                                @endif
+                            </div>
+                        </li>
+                        <li class="product-card__options-item" data-option="cut">
+                            <div class="product-card__options-name">
+                                {{ $lang['catalog_product_item_cut'] }}
+                            </div>
+                            <div class="product-card__options-value">
+                                {!! $product->cut ? $product->cut->getDisplayValue() : '&mdash;' !!}
+                            </div>
+                        </li>
+                    </ul>
+                </a>
+            </div>
+            @if (!\App\Helpers\UserHelper::isLegalEntityRequireAuth())
+                <div class="product-card__total">
+                    <div class="product-card__price">
+                        <span class="product-card__price-value price product-card__price--violet">
+                            @if ($product->auctionLot)
+                                <svg class="icon icon--place-bid">
+                                    <use xlink:href="{{ SPRITE_SVG }}#icon-place_bid"></use>
+                                </svg>
+                            @else
+                                @if ($product->getPriceValueWithoutTransforming() > 0)
+                                    {!! $currency->getSymbol() !!}
+                                    {!! $product->getPriceValue() !!}
+                                @endif
+                            @endif
+                        </span>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+</li>

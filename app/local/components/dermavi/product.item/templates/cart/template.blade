@@ -1,0 +1,113 @@
+@php
+/**
+ * @var bool $frontendSort - Сортировка строго на фронте через js
+ * @var \App\Models\Catalog\Catalog $product - Пакет бриллиантов
+ * @var array $lang - Массив языковых строк
+ * @var array $checkedProductsInfo - Информация о выбранных для корзины товарах
+ * @var bool $showDiamondsCount - Показывать ли количество бриллиантов
+ * @var string|null $link - Ссылка на элемент
+ */
+@endphp
+
+<li class="product-card product-card--catalog product-card--table catalog__list-item
+    js-catalog-table-item{{ $frontendSort ? '-frontend' : '' }} js-cart-item"
+    data-type="catalog" data-product-id="{{ $product->getID() }}">
+    <div class="product-card__main">
+        <div class="product-card__quantity product-card__quantity--single">
+            <a href="javascript:;" data-id="{{$lot->getId()}}"
+               class="product-card__quantity-popup product-card__quantity-popup_single js-popup-fast-see">
+                <svg class="product-card__quantity-pic icon icon--card-{{ $product->getShapeID() }}">
+                    <use xlink:href="{{ SPRITE_SVG }}#icon-card_{{ $product->getShapeID() }}"></use>
+                </svg>
+
+                <span class="product-card__quantity-count ">
+                @if ($showDiamondsCount)
+                    x{{ $product->getCount() }}
+                @endif
+            </span>
+
+                <svg class="product-card__quantity-icon icon icon--diamond-{{ $product->getShapeID() }}">
+                    <use xlink:href="{{ SPRITE_SVG }}#icon-diamond_{{ $product->getShapeID() }}"></use>
+                </svg>
+
+                <span class="product-card__quantity-text">
+                    @if ($showDiamondsCount)
+                        x{{ $product->getCount() }}
+                    @endif
+                </span>
+                <div class="product-card__quantity-shape">{{ $product->getShapeValue() }}</div>
+            </a>
+        </div>
+        <div class="product-card__options product-card__options--main">
+            <a href="{{ $link }}" data-href="{{ $link }}" class="product-card__options-link">
+                <ul class="product-card__options-list">
+                    <li class="product-card__options-item product-card__options-item--shape js-sort-field-option"
+                        data-option="shape">
+                        <div class="product-card__options-name">
+                            {{ $lang['catalog_product_item_shape'] }}
+                        </div>
+                        <div class="product-card__options-value js-sort-field-option-value">
+                            {{ $product->getShapeValue() }}
+                        </div>
+                    </li>
+                    <li class="product-card__options-item js-sort-field-option" data-option="carat">
+                        <div class="product-card__options-name">
+                            {{ $lang['catalog_product_item_carat'] }}
+                        </div>
+                        <div class="product-card__options-value js-sort-field-option-value">
+                            {{ $product->getWeight() }}
+                        </div>
+                    </li>
+                    <li class="product-card__options-item js-sort-field-option" data-option="color">
+                        <div class="product-card__options-name">
+                            {{ $lang['catalog_product_item_color'] }}
+                        </div>
+                        <div class="product-card__options-value js-sort-field-option-value">
+                            {!! $product->getDiamondPacketColorValue() !!}
+                        </div>
+                    </li>
+                    <li class="product-card__options-item js-sort-field-option" data-option="clarity">
+                        <div class="product-card__options-name">
+                            {{ $lang['catalog_product_item_clarity'] }}
+                        </div>
+                        <div class="product-card__options-value js-sort-field-option-value">
+                            {!! $product->getClarityValue('&mdash;') !!}
+                        </div>
+                    </li>
+                    <li class="product-card__options-item js-sort-field-option" data-option="cut">
+                        <div class="product-card__options-name">
+                            {{ $lang['catalog_product_item_cut'] }}
+                        </div>
+                        <div class="product-card__options-value js-sort-field-option-value">
+                            {!! $product->cut ? $product->cut->getDisplayValue() : '&mdash;' !!}
+                        </div>
+                    </li>
+                </ul>
+            </a>
+        </div>
+        <div class="product-card__total">
+            <div class="product-card__price">
+                <span class="product-card__price-value price js-sort-field-option" data-option="price">
+                    {!! $currency->getSymbol() !!}
+                    <span class="js-product-price js-sort-field-option-value">{!! $product->getPriceValue() !!}</span>
+                </span>
+            </div>
+            <div class="product-card__controls">
+                <div class="product-card__wishlist">
+                    <button type="button" class="product-card__wishlist-btn js-select-wishlist-button {{\App\Core\Catalog\Wishlist::getInstance()->has($product->getID()) ? 'is-active' : ''}}" data-product-id="{{ $product->getID() }}">
+                        <svg class="product-card__wishlist-icon icon icon--card-wishlist">
+                            <use xlink:href="{{ SPRITE_SVG }}#icon-card_wishlist"></use>
+                        </svg>
+                    </button>
+                </div>
+                <button type="button" class="product-card__clear js-remove-product"
+                    data-product-id="{{ $product->getID() }}">
+                    <svg class="product-card__clear-icon icon icon--close">
+                        <use xlink:href="{{ SPRITE_SVG }}#icon-close"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="product-card__set-trigger">&nbsp;</div>
+    </div>
+</li>
