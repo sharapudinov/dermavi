@@ -2,6 +2,8 @@
 
 define("HIDE_SIDEBAR", true);
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "косметика");
+$APPLICATION->SetTitle("косметика");
 ?>
 <?
 $APPLICATION->IncludeComponent(

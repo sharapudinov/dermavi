@@ -150,17 +150,28 @@ if (!is_directory('/auth')): ?>
                             <i class="icon icon-search"></i>
                         </a>
                         <div class="header-profile__wrap js-open-wrap">
-                            <div class="header__profile header-link js-open">
-                                <i class="icon icon-profile"></i>
-                                <span>User5656</span>
-                                <i class="icon icon-arrow_down"></i>
-                            </div>
-                            <div class="profile-drop js-drop">
-                                <a href="#" class="profile-drop__item">Мои данные</a>
-                                <a href="#" class="profile-drop__item">Бонусный счёт</a>
-                                <a href="#" class="profile-drop__item">Мои заказы</a>
-                                <a href="#" class="profile-drop__item exit">Выход</a>
-                            </div>
+                            <?
+                            if (user()): ?>
+                                <div class="header__profile header-link js-open">
+                                    <i class="icon icon-profile"></i>
+                                    <span><?= user()->getName() ?></span>
+                                    <i class="icon icon-arrow_down"></i>
+                                </div>
+                                <div class="profile-drop js-drop">
+                                    <a href="/personal/" class="profile-drop__item">Мои данные</a>
+                                    <a href="/personal/bonus/" class="profile-drop__item">Бонусный счёт</a>
+                                    <a href="/personal/order/" class="profile-drop__item">Мои заказы</a>
+                                    <a href="?logout=yes" class="profile-drop__item exit">Выход</a>
+                                </div>
+                            <?
+                            else: ?>
+                                <div class="header__profile header-link js-open">
+                                    <i class="icon icon-profile"></i>
+                                    <span><a href="/auth/">Вход</a> </span>
+                                    <i class="icon icon-arrow_down"></i>
+                                </div>
+                            <?
+                            endif; ?>
                         </div>
                         <a href="#" class="header__favorite header-link">
                             <i class="icon icon-heart"></i>
@@ -174,20 +185,21 @@ if (!is_directory('/auth')): ?>
                 </div>
             </div>
             <div class="header-nav-wrap">
-                <? app()->IncludeComponent(
+                <?
+                app()->IncludeComponent(
                     'bitrix:menu',
                     'dermavi.catalog',
                     [
-                        "ROOT_MENU_TYPE" => "left",
-                        "MAX_LEVEL" => "1",
-                        "CHILD_MENU_TYPE" => "top",
-                        "USE_EXT" => "Y",
-                        "DELAY" => "N",
-                        "ALLOW_MULTI_SELECT" => "Y",
-                        "MENU_CACHE_TYPE" => "N",
-                        "MENU_CACHE_TIME" => "3600",
+                        "ROOT_MENU_TYPE"        => "left",
+                        "MAX_LEVEL"             => "1",
+                        "CHILD_MENU_TYPE"       => "top",
+                        "USE_EXT"               => "Y",
+                        "DELAY"                 => "N",
+                        "ALLOW_MULTI_SELECT"    => "Y",
+                        "MENU_CACHE_TYPE"       => "N",
+                        "MENU_CACHE_TIME"       => "3600",
                         "MENU_CACHE_USE_GROUPS" => "Y",
-                        "MENU_CACHE_GET_VARS" => ""
+                        "MENU_CACHE_GET_VARS"   => ""
                     ]
                 ) ?>
                 <div class="header-nav__search">
@@ -200,8 +212,6 @@ if (!is_directory('/auth')): ?>
                 <a href="#" class="header-nav__search-mini">
                     <i class="icon icon-search"></i>
                     <div class="header-nav__search-mini__label">Поиск</div>
-                    <!--<input type="search" placeholder="Поиск" class="input input-normal input-full_width input-no_border">-->
-                    <!--<button class="form__btn form__btn-search" type="submit"><div class="form__icon"><i class="icon icon-search"></i></div></button>-->
                 </a>
             </div>
         </div>
@@ -209,4 +219,27 @@ if (!is_directory('/auth')): ?>
 <?
 endif; ?>
 <div class="content">
+    <?
+    $curPage = $APPLICATION->GetCurPage(true); ?>
+    <?
+    if ($curPage != SITE_DIR . "index.php"): ?>
+        <div class="breadcrumbs padding-80">
+            <?
+            $APPLICATION->IncludeComponent(
+                "bitrix:breadcrumb",
+                "dermavi",
+                [
+                    "START_FROM" => "0",
+                    "PATH"       => "",
+                    "SITE_ID"    => "-"
+                ],
+                false,
+                ['HIDE_ICONS' => 'Y']
+            ); ?>
+        </div>
+        <h1 class="office__title head-1 padding-80"><?
+            $APPLICATION->ShowTitle(false); ?></h1>
+
+    <?
+    endif ?>
 

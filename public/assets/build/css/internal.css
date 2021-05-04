@@ -3322,7 +3322,7 @@ h1:not([class]) {
     line-height: 17px;
     color: #333333;
 }
-.breadcrumbs span {
+.breadcrumbs span.pagetitle {
     font-weight: 500;
     font-size: 14px;
     line-height: 17px;

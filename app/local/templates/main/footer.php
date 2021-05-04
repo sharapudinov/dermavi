@@ -16,39 +16,62 @@ if (!is_directory('/auth')): ?>
             <div class="footer__menu-wrap">
                 <div class="footer__menu js-open-wrap">
                     <div class="footer__menu-title js-open">Главное меню <i class="icon icon-arrow_down"></i></div>
-                    <div class="footer__menu-list js-drop">
-                        <a href="#" class="footer__menu-item footer-link">О магазине</a>
-                        <a href="#" class="footer__menu-item footer-link">Оптала и доставка</a>
-                        <a href="#" class="footer__menu-item footer-link">Публичная оферта</a>
-                        <a href="#" class="footer__menu-item footer-link">Партнерам</a>
-                        <a href="#" class="footer__menu-item footer-link">Напишите нам</a>
-                        <a href="#" class="footer__menu-item footer-link">Нужна помощь</a>
-                        <a href="#" class="footer__menu-item footer-link">Контакты</a>
-                    </div>
+                    <? app()->IncludeComponent(
+                        'bitrix:menu',
+                        'dermavi.bottom',
+                        [
+                            "ROOT_MENU_TYPE" => "bottom",
+                            "MAX_LEVEL" => "1",
+                            "CHILD_MENU_TYPE" => "top",
+                            "USE_EXT" => "Y",
+                            "DELAY" => "N",
+                            "ALLOW_MULTI_SELECT" => "Y",
+                            "MENU_CACHE_TYPE" => "N",
+                            "MENU_CACHE_TIME" => "3600",
+                            "MENU_CACHE_USE_GROUPS" => "Y",
+                            "MENU_CACHE_GET_VARS" => ""
+                        ]
+                    ) ?>
+
+
                 </div>
                 <div class="footer__menu js-open-wrap">
                     <div class="footer__menu-title js-open">Справка <i class="icon icon-arrow_down"></i></div>
-                    <div class="footer__menu-list js-drop">
-                        <a href="#" class="footer__menu-item footer-link">Личный кабинет</a>
-                        <a href="#" class="footer__menu-item footer-link">История заказов</a>
-                        <a href="#" class="footer__menu-item footer-link">Возврат заказа</a>
-                        <a href="#" class="footer__menu-item footer-link">Клиентам</a>
-                        <a href="#" class="footer__menu-item footer-link">Вакансии</a>
-                        <a href="#" class="footer__menu-item footer-link">Регистрация/Вход</a>
-                        <a href="#" class="footer__menu-item footer-link">Информация</a>
-                    </div>
+                    <? app()->IncludeComponent(
+                        'bitrix:menu',
+                        'dermavi.bottom',
+                        [
+                            "ROOT_MENU_TYPE" => "help",
+                            "MAX_LEVEL" => "1",
+                            "CHILD_MENU_TYPE" => "top",
+                            "USE_EXT" => "Y",
+                            "DELAY" => "N",
+                            "ALLOW_MULTI_SELECT" => "Y",
+                            "MENU_CACHE_TYPE" => "N",
+                            "MENU_CACHE_TIME" => "3600",
+                            "MENU_CACHE_USE_GROUPS" => "Y",
+                            "MENU_CACHE_GET_VARS" => ""
+                        ]
+                    ) ?>
                 </div>
                 <div class="footer__menu js-open-wrap">
                     <div class="footer__menu-title js-open">Каталог <i class="icon icon-arrow_down"></i></div>
-                    <div class="footer__menu-list js-drop">
-                        <a href="#" class="footer__menu-item footer-link">Для лица</a>
-                        <a href="#" class="footer__menu-item footer-link">Для тела</a>
-                        <a href="#" class="footer__menu-item footer-link">Для волос</a>
-                        <a href="#" class="footer__menu-item footer-link">Для мужчин</a>
-                        <a href="#" class="footer__menu-item footer-link">Для ногтей</a>
-                        <a href="#" class="footer__menu-item footer-link">Beauty-гаджеты</a>
-                        <a href="#" class="footer__menu-item footer-link">Organic</a>
-                    </div>
+                    <? app()->IncludeComponent(
+                        'bitrix:menu',
+                        'dermavi.bottom.catalog',
+                        [
+                            "ROOT_MENU_TYPE" => "left",
+                            "MAX_LEVEL" => "0",
+                            "CHILD_MENU_TYPE" => "top",
+                            "USE_EXT" => "Y",
+                            "DELAY" => "N",
+                            "ALLOW_MULTI_SELECT" => "Y",
+                            "MENU_CACHE_TYPE" => "N",
+                            "MENU_CACHE_TIME" => "3600",
+                            "MENU_CACHE_USE_GROUPS" => "Y",
+                            "MENU_CACHE_GET_VARS" => ""
+                        ]
+                    ) ?>
                 </div>
             </div>
             <div class="footer__contact">

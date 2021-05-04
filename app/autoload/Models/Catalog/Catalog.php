@@ -165,7 +165,8 @@ class Catalog
             'PREVIEW_TEXT',
             'PREVIEW_PICTURE',
             'DETAIL_TEXT',
-            'DETAIL_PICTURE'
+            'DETAIL_PICTURE',
+            'IBLOCK_SECTION.ID'
         ];
     }
 

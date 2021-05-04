@@ -44,7 +44,7 @@ class CatalogProductDetail extends BaseComponent
                 'CODE',
                 'NAME',
                 'PREVIEW_PICTURE',
-                'DETAIL_PICTURE'
+                'DETAIL_PICTURE',
             ]
         ],
 
@@ -106,6 +106,12 @@ class CatalogProductDetail extends BaseComponent
 
                 $objCatalog = $catalogQuery->fetchObject();
                 $arCatalog = $catalogQuery->fetch();
+                $nav_chain = \CIBlockSection::GetNavChain(0, $objCatalog->getIblockSection()->getId(), false, true);
+                $link='/catalog/';
+                foreach ($nav_chain as $key => $node) {
+                    $link.=$node['CODE'].'/';
+                    app()->AddChainItem($node['NAME'],$link);
+                }
 
                 if (!$arCatalog) {
                     throw new AbortCacheException();
@@ -116,6 +122,7 @@ class CatalogProductDetail extends BaseComponent
                 }
                 $isSku = $arCatalog['TYPE'] == ProductTable::TYPE_SKU;
 
+                app()->SetTitle($objCatalog->getName());
 
                 if ($isSku) {
                     /** @var \Bitrix\Main\ORM\Query\Query $offersQuery */
