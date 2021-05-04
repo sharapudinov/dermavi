@@ -1,5 +1,3 @@
-@dump($arResult)
-
 <div id="product_detail">
     <bx-catalog-element serialized_data='@json($arResult)'></bx-catalog-element>
     @bxComponent('dermavi:product.list','recommend',['FILTER' => ['ID' => $recommend]])
